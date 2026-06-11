@@ -44,9 +44,9 @@ its CanonicalAction wire shape roughly as:
 """
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from enum import IntFlag, auto
-from typing import Callable
 
 from fdk.model import CandidateAction
 
@@ -127,9 +127,7 @@ class AuthGateBridge:
     def _satisfied(self, request: AuthorityRequest) -> bool:
         if request.resource in self._capabilities.get(request.subject, set()):
             return True
-        if self._oracle is not None and self._oracle(request):
-            return True
-        return False
+        return bool(self._oracle is not None and self._oracle(request))
 
     def authorize(self, action: CandidateAction) -> tuple[bool, str]:
         requests = to_authority_requests(action, rights=self._rights)

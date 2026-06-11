@@ -106,10 +106,19 @@ attributions are kept separate.
 
 ## Status
 
-Early MVP. Single-agent, synchronous, deterministic core: legitimacy gate +
-Mahdavi compass + Justice ranking + Guidance layer + AuthGate bridge, with the
-worked revenue example. **63 tests pass** — unit suites per module plus an
-end-to-end `tests/test_integration.py` (full chain, legitimacy-before-authority)
-and an adversarial `tests/test_redteam.py` (coerced/deceived/mis-targeted consent,
-A3/A4/A7 violations, categorical sovereignty rejection, compass veto, justice
-gaming, AuthGate-dodging). Not production-hardened; not externally reviewed.
+Single-agent, synchronous, deterministic core: legitimacy gate + Mahdavi compass
++ Justice ranking + Guidance layer + AuthGate bridge, with the worked revenue
+example. **77 tests pass** — unit suites per module, an end-to-end
+`tests/test_integration.py` (full chain, legitimacy-before-authority), an
+adversarial `tests/test_redteam.py`, and `tests/test_errors.py` (input validation).
+
+**Engineering hardening (v0.2):** typed input validation with a real error
+hierarchy (`fdk/errors.py`) — a decision kernel fails loud on malformed input
+rather than silently mis-deciding; `mypy --strict` clean; `ruff` clean; PEP 561
+`py.typed`; a CI matrix (3.11–3.13) gating ruff + strict types + a 90% coverage
+gate (`.github/workflows/ci.yml`).
+
+**Still honest about scope:** the *research* thesis — that property-rights axioms
+beat other formal-ethics systems — remains **unproven** (see "What it does NOT
+claim"), and the kernel has **not been externally reviewed**. Hardened
+engineering is not a validated theory.

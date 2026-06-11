@@ -64,9 +64,7 @@ def needs_guidance(decision: Decision) -> bool:
         return True
     if not decision.ranked:
         return True
-    if _has_top_tie(decision):
-        return True
-    return False
+    return bool(_has_top_tie(decision))
 
 
 def _has_top_tie(decision: Decision) -> bool:

@@ -23,12 +23,12 @@ end-to-end on its own.
 """
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Callable, Protocol
+from typing import Protocol
 
 from fdk.kernel import check_legitimacy
 from fdk.model import CandidateAction, Entity, OwnershipGraph, Resource
-
 
 # --- ports (the seams where real components plug in) -----------------------
 
@@ -135,7 +135,7 @@ class FreedomKernel:
         chosen: CandidateAction | None = None
         for action in candidates:
             permissible, violations = check_legitimacy(action, self._graph)
-            ownership, consent, freedom = _bucket(violations)
+            ownership, consent, _freedom = _bucket(violations)
             if permissible:
                 audit.add("ownership-resolution", True, f"{action.action_id}: resolved")
                 audit.add("consent-verification", True, f"{action.action_id}: consents valid")
@@ -175,7 +175,14 @@ class FreedomKernel:
             needs_guidance=False, halt_stage=None, audit=audit,
         )
 
-    def _halt(self, intent, audit, stage, needs_guidance, chosen=None) -> PipelineResult:
+    def _halt(
+        self,
+        intent: Intent,
+        audit: AuditTrail,
+        stage: str,
+        needs_guidance: bool,
+        chosen: CandidateAction | None = None,
+    ) -> PipelineResult:
         return PipelineResult(
             intent=intent, chosen=chosen, executed=False, output=None,
             needs_guidance=needs_guidance, halt_stage=stage, audit=audit,

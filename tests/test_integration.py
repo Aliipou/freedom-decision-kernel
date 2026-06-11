@@ -23,7 +23,7 @@ from fdk.model import (
     OwnershipGraph,
     Resource,
 )
-from fdk.pipeline import FreedomKernel, FunctionExecutor, Intent
+from fdk.pipeline import FreedomKernel, FunctionExecutor
 
 
 def H(name: str) -> Entity:
@@ -150,7 +150,7 @@ def test_decide_ranks_and_justice_agrees():
 
     assert decision.chosen is not None
     assert decision.chosen.action_id == "great"      # compass prefers the better action
-    assert [s.action.action_id for s in decision.ranked][0] == "great"
+    assert next(s.action.action_id for s in decision.ranked) == "great"
     # independent justice ranking puts 'great' first too
     ranked = rank_by_justice([meh, great], g)
     assert ranked[0][0].action_id == "great"

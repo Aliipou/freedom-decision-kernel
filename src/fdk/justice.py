@@ -48,7 +48,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from fdk.model import CandidateAction, Consent, Effects, Entity, OwnershipGraph
+from fdk.model import CandidateAction, Effects, Entity, OwnershipGraph
 
 # ---------------------------------------------------------------------------
 # Weights (the *whole* formula — no magic numbers elsewhere).

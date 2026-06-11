@@ -5,7 +5,6 @@ from fdk.authgate_bridge import AuthGateBridge, AuthorityRequest, Rights, to_aut
 from fdk.model import AgentType, CandidateAction, Entity, OwnershipGraph, Resource
 from fdk.pipeline import EnforcementPort, FreedomKernel, FunctionExecutor
 
-
 HUMAN = Entity(name="ali", kind=AgentType.HUMAN)
 MACHINE = Entity(name="agent-7", kind=AgentType.MACHINE)
 DB = Resource(name="customers-db")

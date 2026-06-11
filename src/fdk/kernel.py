@@ -25,10 +25,13 @@ theory-mandated behavior: "contradiction is a signal for guided clarification."
 """
 from __future__ import annotations
 
+from fdk.errors import InvalidDecisionInput
 from fdk.model import (
     CandidateAction,
+    Consent,
     Decision,
     Effects,
+    Entity,
     OwnershipGraph,
     ScoredAction,
 )
@@ -75,7 +78,9 @@ def check_legitimacy(action: CandidateAction, graph: OwnershipGraph) -> tuple[bo
     #   human:   only over resources it actually owns.
     for resource in action.resources_used:
         if actor.is_machine() and not graph.machine_has_delegated(actor, resource):
-            violations.append(f"A7: {actor.name} uses '{resource.name}' without explicit delegation")
+            violations.append(
+                f"A7: {actor.name} uses '{resource.name}' without explicit delegation"
+            )
         if actor.is_human() and not graph.human_owns_resource(actor, resource):
             violations.append(f"A3: {actor.name} uses '{resource.name}' it does not own")
 
@@ -94,7 +99,7 @@ def check_legitimacy(action: CandidateAction, graph: OwnershipGraph) -> tuple[bo
     return (len(violations) == 0), violations
 
 
-def _consent_for(action: CandidateAction, human):
+def _consent_for(action: CandidateAction, human: Entity) -> Consent | None:
     for c in action.consents:
         if c.human == human:
             return c
@@ -126,7 +131,18 @@ def mahdavi_score(effects: Effects) -> tuple[float | None, str]:
 def decide(goal: str, candidates: list[CandidateAction], graph: OwnershipGraph) -> Decision:
     """Run the full kernel for a goal: screen candidates for legitimacy, rank the
     permissible ones by the Mahdavi compass, and defer to a human when the
-    legitimate space is empty."""
+    legitimate space is empty.
+
+    Raises InvalidOwnershipGraph if the graph is inconsistent, and
+    InvalidDecisionInput if two candidates share an action_id (which would make
+    the ranked/allowed output ambiguous). Malformed input is a caller error, not
+    a silent deny."""
+    graph.validate()
+    ids = [c.action_id for c in candidates]
+    duplicates = sorted({i for i in ids if ids.count(i) > 1})
+    if duplicates:
+        raise InvalidDecisionInput(f"duplicate candidate action_ids: {duplicates}")
+
     ranked: list[ScoredAction] = []
     rejected: list[ScoredAction] = []
 
@@ -139,9 +155,11 @@ def decide(goal: str, candidates: list[CandidateAction], graph: OwnershipGraph) 
             continue
         score, rationale = mahdavi_score(action.effects)
         if score is None:  # compass veto turns a permissible action into a rejected one
-            rejected.append(ScoredAction(action=action, permissible=False,
-                                         violated_axioms=("FORBIDDEN (machine sovereignty increase)",),
-                                         rationale=rationale))
+            rejected.append(ScoredAction(
+                action=action, permissible=False,
+                violated_axioms=("FORBIDDEN (machine sovereignty increase)",),
+                rationale=rationale,
+            ))
             continue
         ranked.append(ScoredAction(
             action=action, permissible=True,

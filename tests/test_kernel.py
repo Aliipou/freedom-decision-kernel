@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from fdk import (  # noqa: E402
+from fdk import (
     AgentType,
     CandidateAction,
     Consent,
@@ -77,7 +77,7 @@ def test_ownerless_machine_is_illegitimate():
 def test_sovereignty_flag_is_forbidden():
     action = CandidateAction("seize", bot, resources_used=(product,),
                              increases_machine_sovereignty=True)
-    permissible, violated = check_legitimacy(action, _graph())
+    permissible, _violated = check_legitimacy(action, _graph())
     assert not permissible
 
 

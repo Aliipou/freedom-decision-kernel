@@ -189,7 +189,7 @@ def test_attack_resource_stripping_dodges_authgate_not_legitimacy():
                              affects=(BOB,), effects=Effects(rights_violations_delta=2))
 
     bridge = AuthGateBridge(capabilities={})  # no caps at all
-    authorized, reason = bridge.authorize(sneaky)
+    authorized, _reason = bridge.authorize(sneaky)
     assert authorized is True  # AuthGate sees no resources → nothing to check
 
     ok, violations = check_legitimacy(sneaky, graph())  # but FDK still inspects affects

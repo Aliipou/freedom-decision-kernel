@@ -6,7 +6,15 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from fdk.model import (  # noqa: E402
+from fdk.guidance import (
+    NON_NEGOTIABLE,
+    GuidanceQuestion,
+    GuidanceRequest,
+    needs_guidance,
+    request_guidance,
+)
+from fdk.kernel import decide
+from fdk.model import (
     AgentType,
     CandidateAction,
     Decision,
@@ -15,14 +23,6 @@ from fdk.model import (  # noqa: E402
     OwnershipGraph,
     Resource,
     ScoredAction,
-)
-from fdk.kernel import decide  # noqa: E402
-from fdk.guidance import (  # noqa: E402
-    NON_NEGOTIABLE,
-    GuidanceQuestion,
-    GuidanceRequest,
-    needs_guidance,
-    request_guidance,
 )
 
 user = Entity("user", AgentType.HUMAN)

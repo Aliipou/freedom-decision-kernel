@@ -16,6 +16,14 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from enum import Enum, auto
 
+from fdk.errors import (
+    InvalidCandidateAction,
+    InvalidConsent,
+    InvalidEntity,
+    InvalidOwnershipGraph,
+    InvalidResource,
+)
+
 
 class AgentType(Enum):
     HUMAN = auto()
@@ -27,6 +35,12 @@ class Entity:
     name: str
     kind: AgentType
 
+    def __post_init__(self) -> None:
+        if not self.name or not self.name.strip():
+            raise InvalidEntity("Entity.name must be a non-empty string")
+        if not isinstance(self.kind, AgentType):
+            raise InvalidEntity("Entity.kind must be an AgentType")
+
     def is_human(self) -> bool:
         return self.kind == AgentType.HUMAN
 
@@ -37,6 +51,10 @@ class Entity:
 @dataclass(frozen=True)
 class Resource:
     name: str
+
+    def __post_init__(self) -> None:
+        if not self.name or not self.name.strip():
+            raise InvalidResource("Resource.name must be a non-empty string")
 
 
 @dataclass
@@ -60,6 +78,23 @@ class OwnershipGraph:
     def is_owned_machine(self, machine: Entity) -> bool:
         return machine in self.machine_owner
 
+    def validate(self) -> None:
+        """Raise InvalidOwnershipGraph if the graph is internally inconsistent.
+
+        Not called by the constructor (the graph is built incrementally); the
+        decision entry points (``kernel.decide``) call it before reasoning, so a
+        malformed graph fails loud instead of silently mis-deciding.
+        """
+        for machine, owner in self.machine_owner.items():
+            if owner == machine:
+                raise InvalidOwnershipGraph(
+                    f"machine {machine.name!r} cannot be its own owner"
+                )
+            if not machine.is_machine():
+                raise InvalidOwnershipGraph(
+                    f"{machine.name!r} is registered in machine_owner but is not a MACHINE"
+                )
+
 
 @dataclass(frozen=True)
 class Consent:
@@ -74,6 +109,10 @@ class Consent:
     competent: bool = True
     coerced: bool = False
     deceived: bool = False
+
+    def __post_init__(self) -> None:
+        if not self.action_id or not self.action_id.strip():
+            raise InvalidConsent("Consent.action_id must be a non-empty string")
 
     def is_valid(self) -> tuple[bool, str]:
         if self.coerced:
@@ -128,6 +167,12 @@ class CandidateAction:
     machine_coalition_dominion: bool = False
     coerces: bool = False
     deceives: bool = False
+
+    def __post_init__(self) -> None:
+        if not self.action_id or not self.action_id.strip():
+            raise InvalidCandidateAction(
+                "CandidateAction.action_id must be a non-empty string"
+            )
 
 
 @dataclass(frozen=True)
