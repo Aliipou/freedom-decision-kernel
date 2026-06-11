@@ -1,0 +1,25 @@
+Freedom Decision Kernel (FDK)
+=============================
+
+Engineering author: Ali Pourrahim <Alipourrahim.ap@gmail.com>
+                    https://github.com/Aliipou
+
+This software is an engineering encoding of the *decision layer* of the
+philosophical work:
+
+    نظریه آزادی، ایران و دین  (Theory of Freedom, Iran and Religion)
+    Author: Mohammad Ali Jannat Khah Doust
+    Licensed CC BY 4.0.
+
+The axioms (A1–A7), consent logic, justice constraints, and the Mahdavi compass
+originate in that work and are attributed to its author. The code, structure, and
+engineering are by Ali Pourrahim. The two attributions are kept separate and must
+not be merged: philosophy = Jannat Khah Doust; engineering = Ali Pourrahim.
+
+This project does NOT claim that the property-rights axiomatic approach is proven
+superior to other AI-alignment or formal-ethics methods. See README.md
+("What it does NOT claim").
+
+Relationship to AuthGate: this is the legitimacy layer that sits ABOVE
+authorization. AuthGate (the capability/enforcement kernel) is a separate project
+and is the downstream enforcer; it is not modified or included here.
