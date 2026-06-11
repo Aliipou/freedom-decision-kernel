@@ -48,6 +48,20 @@ decision.chosen               # the best legitimate action, or None → defer to
 
 See `examples/revenue_goal.py` for the worked example.
 
+## Components
+
+| Module | Role | Trust level |
+|---|---|---|
+| `fdk/model.py` | Value types: `Entity`, `Resource`, `OwnershipGraph`, `Consent`, `Effects`, `CandidateAction`, `Decision` | plain data |
+| `fdk/kernel.py` | Legitimacy gate (`check_legitimacy`) + Mahdavi compass (`mahdavi_score`) + `decide` | **hard gate** + ranking |
+| `fdk/justice.py` | Worst-off-weighted Justice ranking among *permissible* actions | **advisory only** |
+| `fdk/guidance.py` | Turns a deferred/ambiguous `Decision` into structured clarification questions for the human owner (corrigibility-by-ownership) | advisory |
+| `fdk/authgate_bridge.py` | The legitimacy→authority seam: maps a chosen action to AuthGate's capability question via the `EnforcementPort` | integration shape, **no crypto** |
+| `fdk/pipeline.py` | The book's end-to-end chain: intent → propose → legitimacy → AuthGate → execute → audit | orchestration |
+
+The hard gate is `kernel.check_legitimacy` and nothing else. `justice.py` and
+`guidance.py` are advisory: they rank and explain, they never permit or deny.
+
 ## What it deliberately does NOT have
 
 No cryptography, capability chains, ed25519, epoch revocation, audit ledger, or
@@ -72,6 +86,12 @@ is pure functions over plain data: easy to read, test, and reason about.
 - **The legitimacy gate is only as good as the ownership graph.** It decides
   correctly *given* a correct ownership/consent model. Establishing that model
   for the real world is the hard, unsolved part.
+- **The Justice ranking is gameable, and advisory by design.** `justice_score`
+  can be pushed positive by inflating predicted voluntary-agreement deltas above
+  a threshold, even when real harm lands on a non-consenting party. It is ranking
+  *advice only* — the hard legitimacy gate (which rejects harming a non-consenting
+  human outright) runs first and is the actual protection. This is demonstrated,
+  not hidden, in `tests/test_redteam.py`.
 
 ## Relationship to the other repos
 
@@ -86,5 +106,10 @@ attributions are kept separate.
 
 ## Status
 
-Early MVP. Single-agent, synchronous, deterministic core with the worked revenue
-example and a test suite. Not production-hardened; not externally reviewed.
+Early MVP. Single-agent, synchronous, deterministic core: legitimacy gate +
+Mahdavi compass + Justice ranking + Guidance layer + AuthGate bridge, with the
+worked revenue example. **63 tests pass** — unit suites per module plus an
+end-to-end `tests/test_integration.py` (full chain, legitimacy-before-authority)
+and an adversarial `tests/test_redteam.py` (coerced/deceived/mis-targeted consent,
+A3/A4/A7 violations, categorical sovereignty rejection, compass veto, justice
+gaming, AuthGate-dodging). Not production-hardened; not externally reviewed.
