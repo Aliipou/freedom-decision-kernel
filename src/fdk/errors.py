@@ -41,3 +41,19 @@ class InvalidOwnershipGraph(FDKError):
 class InvalidDecisionInput(FDKError):
     """The inputs to ``decide`` are unusable (e.g. duplicate candidate action_ids,
     which would make the ranked output ambiguous)."""
+
+
+class InvalidClaim(FDKError):
+    """A Claim is malformed (e.g. bad basis or negative ordinal time)."""
+
+
+class InvalidObligation(FDKError):
+    """An Obligation is malformed (e.g. empty description)."""
+
+
+class InvalidContract(FDKError):
+    """A Contract is malformed (e.g. fewer than two parties)."""
+
+
+class InvalidConflict(FDKError):
+    """A Conflict is malformed (e.g. the two claims are not over the same resource)."""

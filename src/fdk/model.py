@@ -107,6 +107,7 @@ class Consent:
     voluntary: bool = False
     specific: bool = False
     competent: bool = True
+    revocable: bool = True
     coerced: bool = False
     deceived: bool = False
 
@@ -127,6 +128,10 @@ class Consent:
             return False, f"consent of {self.human.name} not specific"
         if not self.competent:
             return False, f"{self.human.name} not competent to consent"
+        # THEORY.md valid_consent requires revocable(H, A): a consent that cannot
+        # be withdrawn is not free consent (it is alienation of an exit right, A3).
+        if not self.revocable:
+            return False, f"consent of {self.human.name} is not revocable"
         return True, "ok"
 
 
