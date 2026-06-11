@@ -37,6 +37,23 @@ parallelism. The tracks below are how a real team would be organized.
 | **AI safety / alignment** | Comparative evaluation vs RLHF / Constitutional AI / rule-based governance | Stage-9 validation; the actual scientific claim |
 | **HCI / cognitive science** | The Guidance Request Protocol (machine → human clarification) | "Contradiction → clarification" needs a real human-in-the-loop design |
 
+## Phase 0 — consolidate the asset (3–6 months). Build nothing new.
+
+This is a paradigm, not a startup, so the plan reads like a scientific roadmap —
+and it opens by hardening what already works, not by expanding.
+
+- **0.1 Freeze AuthGate.** Lock the public API, JSON wire format, schemas, and
+  threat model behind a stability declaration + version tag. AuthGate is ~3–5
+  years ahead of the science; stop moving it. *(Engineering — doable now.)*
+- **0.2 External formal review.** Independent scrutiny from capability-security,
+  formal-verification, and distributed-systems experts. *(Human/organizational —
+  **cannot be done by an AI assistant**; this is where most projects fail.)*
+
+**Honest boundary:** 0.2 and everything past Stage 3 is **not executable by an
+AI coding assistant** — it needs human experts in law, political philosophy,
+institutional economics, decision theory, mechanism design, and scientific
+methodology. From here the bottleneck is disciplines, not code.
+
 ## The nine stages (sequenced, with dependencies and honest status)
 
 | # | Stage | Deliverable | Grounded in | Status today |
@@ -58,6 +75,20 @@ parallelism. The tracks below are how a real team would be organized.
 - **Y3** — Mahdavi compass measurement, simulator.
 - **Y4** — Planner (the Decision Kernel proper).
 - **Y5** — Comparative research, academic validation.
+
+## Risk register (ranked by danger)
+
+| # | Risk | Why it could be fatal | Tracked / honest status |
+|---|---|---|---|
+| 1 | **Justice is not computable** | "maximize Justice" stays a slogan | *Partly dissolved:* the book defines Justice as optimization **within** the rights constraint — so the rights gate does the binding, and Justice is only a **comparative rank** among already-permissible options (`fdk/justice.py`, advisory). You need a correct ontology + a relative ranking, **not** an absolute justice metric. |
+| 2 | **Compass not measurable** | no operational metric for the five dimensions | `spec/FORMAL_SPEC.md` §D: signatures proposed, measurements **OPEN**; "who computes the deltas" is unbuilt (Stages 6 + 8) |
+| 3 | **Conflict resolution inconsistent** | competing valid claims, no principled criterion | `spec/FORMAL_SPEC.md` §E: **OPEN — hardest gap**; today the honest behavior is defer-to-human |
+| 4 | **Consent has no operational definition** | child / illness / addiction / social pressure / ads make it gray | localized in `competent(h)` + the `coerced`/`deceived` leaves — all PARTIAL/OPEN |
+| 5 | **Elegant philosophy, engineering-inert** | a beautiful manifesto that never runs | *Most mitigated:* there is real, tested, partly-proven code on the ground — not just prose |
+
+**Estimates (accepted from the project owner):** AuthGate ~3–5 years ahead; the
+FDK ~20–30% of the full path; the Freedom-AI **paradigm** ~10–20 years of
+research + engineering + scientific validation remaining.
 
 ## The one risk that matters
 
