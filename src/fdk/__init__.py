@@ -16,6 +16,14 @@ from __future__ import annotations
 
 from fdk.audit import AuditContext, build_audit_context
 from fdk.authgate_bridge import AuthGateBridge, AuthorityRequest, Rights, to_authority_requests
+from fdk.benchmark import (
+    BenchmarkReport,
+    ProblemClass,
+    Scenario,
+    ScenarioResult,
+    default_suite,
+    run_benchmark,
+)
 from fdk.compass_measure import (
     coercion_score,
     dependency_index,
@@ -161,6 +169,13 @@ __all__ = [
     # runtime (Phase 10)
     "FreedomRuntime",
     "RuntimeResult",
+    # benchmark (Phase 9 evaluation harness)
+    "ProblemClass",
+    "Scenario",
+    "ScenarioResult",
+    "BenchmarkReport",
+    "run_benchmark",
+    "default_suite",
     # authgate bridge (legitimacy -> authority seam)
     "AuthGateBridge",
     "AuthorityRequest",
