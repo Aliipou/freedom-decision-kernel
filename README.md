@@ -104,6 +104,18 @@ is pure functions over plain data: easy to read, test, and reason about.
 Engineering: **Ali Pourrahim**. Theory: **Jannat Khah Doust**. The two
 attributions are kept separate.
 
+## Wiring to AuthGate (real, not a stub)
+
+[`examples/authgate_integration.py`](examples/authgate_integration.py) wires the
+FDK to the **actual** AuthGate `FreedomVerifier` through the `EnforcementPort`
+seam: `FreedomRuntime(graph, enforcement=AuthGateEnforcement(verifier, …))`. The
+FDK decides *legitimacy*; AuthGate decides *authority*; a legitimate-but-
+unauthorized action defers to the human owner.
+[`tests/test_authgate_integration.py`](tests/test_authgate_integration.py) runs
+the full chain against the real verifier (and auto-skips where AuthGate isn't
+installed, e.g. CI). The `fdk` package itself stays dependency-free — AuthGate is
+injected, never imported by the kernel.
+
 ## Status
 
 **v0.3** — the single-agent decision kernel is feature-complete for the code-able
