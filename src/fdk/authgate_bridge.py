@@ -2,45 +2,15 @@
 FDK → AuthGate bridge: the legitimacy → authority seam.
 
 The Freedom Decision Kernel answers the *prior* question — "should this action
-happen at all?" (legitimacy under the Theory of Freedom's property-rights
-axioms). AuthGate answers a different, downstream question — "does this agent
-actually hold a capability over resource X?" (authority). This module is the
-seam between the two: an `EnforcementPort` implementation that translates a
-chosen `CandidateAction` into AuthGate's authority question and returns
-(authorized, reason).
+happen at all?" (legitimacy). AuthGate answers the downstream one — "does this
+agent hold authority over resource X?". This module is the seam: an
+`EnforcementPort` that maps a chosen `CandidateAction` (actor → subject, each
+resource → an authority request) and checks it against a caller-provided
+authority oracle (a capability table and/or a callable).
 
-HONESTY NOTE — what this bridge is and is not
----------------------------------------------
-The real AuthGate (the `authgate` package / `authgate-kernel` Rust TCB)
-verifies *signed ed25519 capability proofs*, walks *delegation chains*, and
-enforces *epoch-based revocation* inside a small formally checked trusted
-computing base. None of that is reimplemented here — the FDK contains no
-cryptography by design. What this bridge expresses is the *mapping*:
-
-    CandidateAction.actor.name      → AuthGate subject
-    each Resource in resources_used → AuthGate resource + required rights
-
-and it checks that mapping against a caller-provided *authority oracle*
-(a plain capability table and/or a callable). It is the integration shape —
-the wire across the seam — not a stand-in for AuthGate's security guarantees.
-Swap the oracle for the real kernel and the pipeline does not change; that is
-the whole point of the `EnforcementPort` seam.
-
-Mapping onto the real AuthGate wire (documented, not imported)
---------------------------------------------------------------
-If the real `authgate` package is importable, an `AuthorityRequest` maps onto
-its CanonicalAction wire shape roughly as:
-
-    # from authgate import ...   # deliberately NOT imported here
-    # canonical = {
-    #     "subject":  request.subject,          # actor identity (entity name/id)
-    #     "resource": request.resource,         # resource identifier
-    #     "rights":   int(request.rights),      # rights bitmask (READ|WRITE|...)
-    # }
-    # and the verdict would come from the verified engine
-    # (e.g. authgate_kernel.verify_json(registry_wire, canonical)), which checks
-    # the signed capability proof, delegation chain, and revocation epoch —
-    # everything this bridge intentionally does not do.
+The FDK contains **no cryptography by design** — the oracle stands in for
+AuthGate's real verdict. Swap it for the real kernel and nothing else changes;
+that is the point of the seam.
 """
 from __future__ import annotations
 

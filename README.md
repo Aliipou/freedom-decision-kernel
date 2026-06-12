@@ -106,19 +106,53 @@ attributions are kept separate.
 
 ## Status
 
-Single-agent, synchronous, deterministic core: legitimacy gate + Mahdavi compass
-+ Justice ranking + Guidance layer + AuthGate bridge, with the worked revenue
-example. **77 tests pass** — unit suites per module, an end-to-end
-`tests/test_integration.py` (full chain, legitimacy-before-authority), an
-adversarial `tests/test_redteam.py`, and `tests/test_errors.py` (input validation).
-
-**Engineering hardening (v0.2):** typed input validation with a real error
-hierarchy (`fdk/errors.py`) — a decision kernel fails loud on malformed input
-rather than silently mis-deciding; `mypy --strict` clean; `ruff` clean; PEP 561
-`py.typed`; a CI matrix (3.11–3.13) gating ruff + strict types + a 90% coverage
-gate (`.github/workflows/ci.yml`).
+**v0.3** — the single-agent decision kernel is feature-complete for the code-able
+phases of the program (Stages 2–8) plus the runtime loop (Phase 10) and federation
+(Phase 11). **Every module is `mypy --strict` clean, `ruff` clean, and at 100% test
+coverage** (statements + branches), gated in CI across Python 3.11–3.13. The whole
+39,038-line Theory of Freedom was read in full and mapped to code in
+[`spec/BOOK_GAP_ANALYSIS.md`](spec/BOOK_GAP_ANALYSIS.md).
 
 **Still honest about scope:** the *research* thesis — that property-rights axioms
-beat other formal-ethics systems — remains **unproven** (see "What it does NOT
-claim"), and the kernel has **not been externally reviewed**. Hardened
-engineering is not a validated theory.
+beat other formal-ethics systems — remains **unproven**, and the kernel has **not
+been externally reviewed**. Phases 9 & 12 (scientific comparison and proof) are
+research, not code, and are not faked. Hardened engineering is not a validated theory.
+
+## Module & feature reference
+
+Each module maps to a phase of [`PROGRAM.md`](PROGRAM.md):
+
+| Module | Phase | What it does |
+|---|---|---|
+| `fdk/model.py` | — | Value types: `Entity`, `Resource`, `OwnershipGraph`, the 7-condition `Consent`, `Effects`, `CandidateAction` (with the forbidden-flag set), `Decision`. All input-validated. |
+| `fdk/errors.py` | — | Typed `FDKError` hierarchy — the kernel fails loud on malformed input instead of silently mis-deciding. |
+| `fdk/kernel.py` | 1 / 8 | **The hard gate.** `check_legitimacy` (axioms A1–A7, consent, the forbidden set incl. NoConfiscation / exit-right / machine-rights, and owner-bound *with consent-based access*), `mahdavi_score` (compass), `decide` (filter → rank → defer). |
+| `fdk/justice.py` | 5 | Advisory worst-off-weighted Justice ranking — never a gate, only a tiebreak. |
+| `fdk/guidance.py` | 5 | Turns a deferred `Decision` into structured clarification questions for the human owner. |
+| `fdk/guidance_engine.py` | 5 | **VERIFY** — corrigibility *without* blind obedience: a human grant/rule is adopted only if it preserves the axioms; plus `verify_self_update` (the machine self-modification gate). |
+| `fdk/ontology.py` | 2 | Rights ontology: `Claim`, `Obligation`, `Contract`, `Conflict`, `MachineRight` (model integrity / compute domain / contract exit). |
+| `fdk/conflict.py` | 4 | `resolve_conflict` — decides only where the axioms determine it, **DEFERS** the rest (A6: no machine adjudicates between humans). |
+| `fdk/compass_measure.py` | 6 | Advisory, **uncalibrated** estimators: HHI dependency, exit options, structural coercion, ownership-clarity entropy. |
+| `fdk/planner.py` | 7 | **Generate → Filter → Rank → Choose**, with the defer rules C-EMPTY / C-TIE / P-NEG / C-AUTH. |
+| `fdk/simulator.py` | 8 | FreedomSim — runs scenarios through the kernel and asserts the **safety invariant** (no illegitimate action is ever chosen); ships a 200+ brutal red-team sweep. |
+| `fdk/audit.py` | 10 | `AuditContext` — ownership + consent + justification for every decision. |
+| `fdk/runtime.py` | 10 | `FreedomRuntime` — the full **observe → reason → decide → verify → execute → audit** loop on the planner. |
+| `fdk/federation.py` | 11 | Multi-owner governance: jurisdiction routing, cross-domain consent-based access, dispute deferral, the constitutional-update guard (axioms are unalterable). |
+| `fdk/authgate_bridge.py` | — | The legitimacy → authority seam to AuthGate (no crypto here). |
+| `fdk/pipeline.py` | — | The MVP first-legitimate chain; superseded by `runtime.py`'s compass-ranked loop. |
+
+## Branches
+
+- **`master`** — the stable line: every module above, 100% covered, CI-green.
+- **`paradigm/stages-2-9`** — the development branch where the 12-phase build lands
+  before fast-forwarding `master`.
+
+## Changelog
+
+- **v0.3** — Stages 2–8 implemented in code; Phase 10 runtime + Phase 11 federation;
+  the full-book gap analysis and six book-derived constraints (NoConfiscation,
+  exit-right/mukātaba, machine delegated rights, self-modification gate, audit
+  context, owner-bound with consent-based access); **100% coverage**.
+- **v0.2** — Engineering hardening: typed validation + error hierarchy, `mypy
+  --strict`, `ruff`, `py.typed`, CI matrix, coverage gate.
+- **v0.1** — MVP: legitimacy gate + Mahdavi compass + `decide`; the revenue example.

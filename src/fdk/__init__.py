@@ -37,6 +37,12 @@ from fdk.errors import (
     InvalidOwnershipGraph,
     InvalidResource,
 )
+from fdk.federation import (
+    Federation,
+    constitutional_update_allowed,
+    federated_decide,
+    resolve_dispute,
+)
 from fdk.guidance import GuidanceQuestion, GuidanceRequest, needs_guidance, request_guidance
 from fdk.guidance_engine import (
     ConsentGrant,
@@ -77,6 +83,7 @@ from fdk.planner import (
     ProposerPort,
     plan,
 )
+from fdk.runtime import FreedomRuntime, RuntimeResult
 from fdk.simulator import SafetyInvariantViolated, SimReport, StepOutcome, run_scenario
 
 __version__ = "0.3.0"
@@ -146,6 +153,14 @@ __all__ = [
     # audit context (book 38534)
     "AuditContext",
     "build_audit_context",
+    # federation (Phase 11)
+    "Federation",
+    "federated_decide",
+    "resolve_dispute",
+    "constitutional_update_allowed",
+    # runtime (Phase 10)
+    "FreedomRuntime",
+    "RuntimeResult",
     # authgate bridge (legitimacy -> authority seam)
     "AuthGateBridge",
     "AuthorityRequest",

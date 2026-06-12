@@ -21,7 +21,6 @@ from fdk.model import (
     ScoredAction,
 )
 from fdk.ontology import Claim, ClaimBasis, Conflict
-from fdk.pipeline import CapabilityEnforcement, FreedomKernel, FunctionExecutor, Intent
 
 ALICE = Entity("alice", AgentType.HUMAN)
 BOB = Entity("bob", AgentType.HUMAN)
@@ -155,49 +154,3 @@ def test_justice_non_consenting_but_no_harm():
     assert "non-consenting affected" in js.rationale
 
 
-# ── pipeline.py: proposal-empty halt, execution, executor error, ports ───────
-def _graph() -> OwnershipGraph:
-    return OwnershipGraph(human_owns={ALICE: {DOC}}, machine_owner={BOT: ALICE},
-                          delegated={BOT: {DOC}})
-
-
-def test_pipeline_halts_on_empty_proposal():
-    kernel = FreedomKernel(_graph(), CapabilityEnforcement(), FunctionExecutor())
-    result = kernel.run("goal", propose=lambda intent, g: [])
-    assert result.executed is False
-    assert result.halt_stage == "proposal"
-
-
-def test_pipeline_executes_and_handles_executor_error():
-    legit = CandidateAction(action_id="read", actor=BOT, resources_used=(DOC,), effects=Effects())
-    caps = CapabilityEnforcement(capabilities={BOT: {DOC}})
-
-    ran = FunctionExecutor(tools={"read": lambda a: "ok"})
-    ok_result = FreedomKernel(_graph(), caps, ran).run("g", propose=lambda i, g: [legit])
-    assert ok_result.executed is True
-    assert ok_result.output == "ok"
-
-    def boom(_a: CandidateAction) -> object:
-        raise RuntimeError("tool failed")
-
-    crash = FunctionExecutor(tools={"read": boom})
-    crash_result = FreedomKernel(_graph(), caps, crash).run("g", propose=lambda i, g: [legit])
-    assert crash_result.executed is False
-    assert crash_result.halt_stage == "execution"
-
-
-def test_capability_enforcement_and_executor_paths():
-    enf = CapabilityEnforcement(capabilities={BOT: {DOC}})
-    held = CandidateAction(action_id="r", actor=BOT, resources_used=(DOC,))
-    missing = CandidateAction(action_id="r2", actor=BOT, resources_used=(Resource("x"),))
-    assert enf.authorize(held)[0] is True
-    assert enf.authorize(missing)[0] is False
-
-    ex = FunctionExecutor(tools={"r": lambda a: 42})
-    assert ex.execute(held) == 42
-    with pytest.raises(KeyError):
-        ex.execute(CandidateAction(action_id="unregistered", actor=BOT))
-
-
-def test_intent_is_constructible():
-    assert Intent(raw="x", goal="x").goal == "x"

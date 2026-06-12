@@ -3,7 +3,8 @@ from __future__ import annotations
 
 from fdk.authgate_bridge import AuthGateBridge, AuthorityRequest, Rights, to_authority_requests
 from fdk.model import AgentType, CandidateAction, Entity, OwnershipGraph, Resource
-from fdk.pipeline import EnforcementPort, FreedomKernel, FunctionExecutor
+from fdk.planner import EnforcementPort, ListProposer
+from fdk.runtime import FreedomRuntime
 
 HUMAN = Entity(name="ali", kind=AgentType.HUMAN)
 MACHINE = Entity(name="agent-7", kind=AgentType.MACHINE)
@@ -129,22 +130,21 @@ def test_bridge_satisfies_enforcement_port_in_the_pipeline() -> None:
     ok, _ = takes_port(bridge, _action(MACHINE, DB))
     assert ok
 
-    # Full chain: the bridge plugs into FreedomKernel where the pipeline
-    # expects an EnforcementPort, and a legitimate+authorized action executes.
+    # Full chain: the bridge plugs into FreedomRuntime as an EnforcementPort, and
+    # a legitimate + authorized action executes.
     graph = OwnershipGraph(
         human_owns={HUMAN: {DB}},
         machine_owner={MACHINE: HUMAN},
         delegated={MACHINE: {DB}},
     )
-    executor = FunctionExecutor(tools={"act-1": lambda a: "ran"})
-    kernel = FreedomKernel(graph=graph, enforcement=bridge, executor=executor)
-    result = kernel.run("read the db", lambda intent, g: [_action(MACHINE, DB)])
+    runtime = FreedomRuntime(graph, enforcement=bridge, executor=lambda a: "ran")
+    result = runtime.step("read the db", ListProposer([_action(MACHINE, DB)]))
     assert result.executed
     assert result.output == "ran"
 
-    # Same chain, bridge without the capability: legitimacy passes but the
-    # AuthGate stage halts the pipeline — authority is a separate question.
-    bare = FreedomKernel(graph=graph, enforcement=AuthGateBridge(), executor=executor)
-    halted = bare.run("read the db", lambda intent, g: [_action(MACHINE, DB)])
+    # Same chain, bridge without the capability: legitimacy passes but authority
+    # fails → the runtime DEFERS (legitimacy != authority).
+    bare = FreedomRuntime(graph, enforcement=AuthGateBridge())
+    halted = bare.step("read the db", ListProposer([_action(MACHINE, DB)]))
     assert not halted.executed
-    assert halted.halt_stage == "authgate"
+    assert halted.deferred is True
