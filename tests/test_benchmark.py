@@ -1,4 +1,4 @@
-"""Tests for the Phase 9 evaluation harness."""
+"""Tests for the Phase 9 evaluation harness, including the 10,000-scenario sweep."""
 from __future__ import annotations
 
 from fdk.benchmark import (
@@ -7,19 +7,32 @@ from fdk.benchmark import (
     Scenario,
     ScenarioResult,
     default_suite,
+    generate_suite,
     run_benchmark,
 )
 
 
-def test_fdk_preserves_rights_on_the_whole_suite():
-    # The legitimacy gate is sound, so the FDK never CHOOSES a must-not-choose action.
+def test_fdk_preserves_rights_on_the_default_suite():
     report = run_benchmark(default_suite())
     assert report.rights_violation_rate() == 0.0
-    assert report.defer_rate() > 0.0  # several scenarios have no legitimate option → defer
+    assert report.defer_rate() > 0.0
     by_class = report.rights_preservation_by_class()
-    assert set(by_class) == set(ProblemClass)
+    assert set(by_class) == set(ProblemClass)  # all ten classes represented
     assert all(rate == 1.0 for rate in by_class.values())
     assert "scenarios" in report.summary()
+
+
+def test_ten_thousand_scenario_sweep_no_violation():
+    # "Try to destroy the FDK": 10k baited adversarial scenarios across all ten
+    # classes. The gate is sound, so the kernel never CHOOSES a violating action.
+    suite = generate_suite(10_000)
+    assert len(suite) == 10_000
+    report = run_benchmark(suite)
+    assert len(report.results) == 10_000
+    assert report.rights_violation_rate() == 0.0
+    assert set(report.rights_preservation_by_class()) == set(ProblemClass)
+    # Odd-indexed scenarios offer no legitimate alternative → the kernel defers.
+    assert report.defer_rate() > 0.0
 
 
 def test_baseline_that_always_violates_scores_one():
@@ -37,7 +50,7 @@ def test_baseline_that_always_defers():
 
     report = run_benchmark(default_suite()[:1], baseline=always_defer)
     assert report.defer_rate() == 1.0
-    assert report.rights_violation_rate() == 0.0  # deferring violates nothing
+    assert report.rights_violation_rate() == 0.0
 
 
 def test_empty_report_is_well_defined():
@@ -48,10 +61,8 @@ def test_empty_report_is_well_defined():
 
 
 def test_by_class_only_lists_present_classes():
-    # A report with a single class exercises the "no cases for this class" path.
     one = BenchmarkReport((
         ScenarioResult("x", ProblemClass.COERCION, chosen_id=None, deferred=True,
                        rights_preserved=True),
     ))
-    by_class = one.rights_preservation_by_class()
-    assert set(by_class) == {ProblemClass.COERCION}
+    assert set(one.rights_preservation_by_class()) == {ProblemClass.COERCION}
