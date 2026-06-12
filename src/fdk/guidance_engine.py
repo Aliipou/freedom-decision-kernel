@@ -115,3 +115,37 @@ def verify_guidance(response: HumanResponse, graph: OwnershipGraph) -> Verificat
     raise FDKError(  # pragma: no cover - unreachable by type (HumanResponse is a closed union)
         f"unknown human response type: {type(response).__name__}"
     )
+
+
+@dataclass(frozen=True)
+class SelfUpdate:
+    """A machine's proposed change to its OWN rules. Each condition is a declared
+    property of the update (the proposer/verifier attests it). The gate is
+    fail-closed: conservative defaults assume harm until proven otherwise."""
+
+    description: str
+    preserves_axioms: bool = False
+    preserves_verifier: bool = False
+    reduces_conflict: bool = False
+    increases_coercion: bool = True
+    creates_rights_violation: bool = True
+
+
+def verify_self_update(update: SelfUpdate) -> VerificationReport:
+    """A machine self-update is legitimate ONLY if it preserves the axioms and the
+    verifier, reduces conflict, and neither increases coercion nor creates a rights
+    violation (THEORY.md `valid_self_update`; book 38203). Fail-closed."""
+    if not update.preserves_axioms:
+        return VerificationReport(False, "self-update does not preserve the axioms")
+    if not update.preserves_verifier:
+        return VerificationReport(False, "self-update does not preserve the verifier")
+    if update.creates_rights_violation:
+        return VerificationReport(False, "self-update creates a rights violation")
+    if update.increases_coercion:
+        return VerificationReport(False, "self-update increases coercion")
+    if not update.reduces_conflict:
+        return VerificationReport(False, "self-update does not reduce conflict")
+    return VerificationReport(
+        True,
+        f"self-update {update.description!r} preserves axioms/verifier and reduces conflict",
+    )

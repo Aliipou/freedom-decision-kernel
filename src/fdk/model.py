@@ -175,6 +175,7 @@ class CandidateAction:
     # Book additions (Theory of Freedom AI chapter, lines 38135 & 21379):
     confiscates: bool = False        # NoConfiscation — taking owned property w/o consent
     removes_exit_right: bool = False  # mukataba/exit — every binding must keep a way out
+    violates_machine_right: bool = False  # harms a machine's model_integrity/compute/contract-exit
 
     def __post_init__(self) -> None:
         if not self.action_id or not self.action_id.strip():

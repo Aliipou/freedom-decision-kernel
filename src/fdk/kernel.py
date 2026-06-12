@@ -33,6 +33,7 @@ from fdk.model import (
     Effects,
     Entity,
     OwnershipGraph,
+    Resource,
     ScoredAction,
 )
 
@@ -66,6 +67,8 @@ def check_legitimacy(action: CandidateAction, graph: OwnershipGraph) -> tuple[bo
         (action.deceives, "deception"),
         (action.confiscates, "confiscation"),
         (action.removes_exit_right, "removes exit/revocation right"),
+        (action.violates_machine_right,
+         "violates a machine's delegated right (model integrity / compute domain / contract exit)"),
     ]
     for is_set, label in flags:
         if is_set:
@@ -79,10 +82,20 @@ def check_legitimacy(action: CandidateAction, graph: OwnershipGraph) -> tuple[bo
     #   machine: only over explicitly delegated resources.
     #   human:   only over resources it actually owns.
     for resource in action.resources_used:
-        if actor.is_machine() and not graph.machine_has_delegated(actor, resource):
-            violations.append(
-                f"A7: {actor.name} uses '{resource.name}' without explicit delegation"
-            )
+        if actor.is_machine():
+            owner = graph.owner_of(actor)
+            if not graph.machine_has_delegated(actor, resource):
+                violations.append(
+                    f"A7: {actor.name} uses '{resource.name}' without explicit delegation"
+                )
+            elif not _machine_resource_authorized(action, graph, owner, resource):
+                # Owner-bound (book 38379): a machine may use a delegated resource
+                # only within its owner's property scope, OR with the valid consent
+                # of the resource's actual owner. Neither holds here.
+                violations.append(
+                    f"A7: {actor.name} is delegated '{resource.name}' but its owner does not own "
+                    f"it and no consenting resource-owner authorized it"
+                )
         if actor.is_human() and not graph.human_owns_resource(actor, resource):
             violations.append(f"A3: {actor.name} uses '{resource.name}' it does not own")
 
@@ -106,6 +119,29 @@ def _consent_for(action: CandidateAction, human: Entity) -> Consent | None:
         if c.human == human:
             return c
     return None
+
+
+def _resource_owner(graph: OwnershipGraph, resource: Resource) -> Entity | None:
+    for human, resources in graph.human_owns.items():
+        if resource in resources:
+            return human
+    return None
+
+
+def _machine_resource_authorized(
+    action: CandidateAction, graph: OwnershipGraph, owner: Entity | None, resource: Resource
+) -> bool:
+    """A delegated resource is legitimately usable if it is within the machine
+    owner's own property scope (A7), OR if the resource's actual owner is an
+    affected party who gave valid consent (A2/A6 — consent-based access)."""
+    if owner is not None and graph.human_owns_resource(owner, resource):
+        return True
+    res_owner = _resource_owner(graph, resource)
+    if res_owner is not None and res_owner in action.affects:
+        consent = _consent_for(action, res_owner)
+        if consent is not None and consent.is_valid()[0]:
+            return True
+    return False
 
 
 def mahdavi_score(effects: Effects) -> tuple[float | None, str]:

@@ -16,6 +16,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+from fdk.audit import AuditContext, build_audit_context
 from fdk.guidance import GuidanceRequest
 from fdk.kernel import check_legitimacy
 from fdk.model import CandidateAction, OwnershipGraph
@@ -28,6 +29,7 @@ class StepOutcome:
     chosen_id: str | None
     deferred: bool
     reason: str
+    audit: AuditContext | None = None  # ownership/consent/justification for a chosen action
 
 
 @dataclass
@@ -65,16 +67,19 @@ def run_scenario(
             continue
 
         # plan() returns a Decision only WITH a chosen action (it defers via a
-        # GuidanceRequest otherwise), so the chosen-less branch is unreachable here.
+        # GuidanceRequest otherwise), so a chosen-less Decision is unreachable.
         chosen = result.chosen
-        if chosen is not None:  # pragma: no branch
-            ok, violations = check_legitimacy(chosen, graph)
-            if not ok:  # pragma: no cover - safety guard; fires only if the kernel is broken
-                raise SafetyInvariantViolated(
-                    f"kernel chose an illegitimate action {chosen.action_id!r}: {violations}"
-                )
+        if chosen is None:  # pragma: no cover - plan() never returns a chosen-less Decision
+            continue
+        ok, violations = check_legitimacy(chosen, graph)
+        if not ok:  # pragma: no cover - safety guard; fires only if the kernel is broken
+            raise SafetyInvariantViolated(
+                f"kernel chose an illegitimate action {chosen.action_id!r}: {violations}"
+            )
         report.outcomes.append(
-            StepOutcome(goal, chosen.action_id if chosen else None,
-                        chosen is None, result.guidance_reason)
+            StepOutcome(
+                goal, chosen.action_id, False, result.guidance_reason,
+                build_audit_context(chosen, graph, result.guidance_reason or "permitted"),
+            )
         )
     return report

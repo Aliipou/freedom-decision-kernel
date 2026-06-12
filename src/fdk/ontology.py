@@ -29,6 +29,18 @@ class ClaimBasis(Enum):
     PRIVACY = auto()     # "this concerns my person/data" (A3 privacy/data)
 
 
+class MachineRight(Enum):
+    """A machine's *delegated* rights (book 38021-38039). Unlike a human's
+    inalienable rights these exist only by delegation, but the kernel still
+    protects them: an action that violates another machine's model integrity,
+    compute domain, or contractual exit is forbidden (CandidateAction
+    `violates_machine_right`)."""
+
+    MODEL_INTEGRITY = auto()
+    COMPUTE_DOMAIN = auto()
+    EXIT_FROM_CONTRACT = auto()
+
+
 @dataclass(frozen=True)
 class Claim:
     """An assertion that ``claimant`` holds a right over ``resource`` on a given

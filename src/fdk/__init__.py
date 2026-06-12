@@ -14,6 +14,7 @@ Engineering by Ali Pourrahim. No cryptography here — enforcement is AuthGate's
 """
 from __future__ import annotations
 
+from fdk.audit import AuditContext, build_audit_context
 from fdk.authgate_bridge import AuthGateBridge, AuthorityRequest, Rights, to_authority_requests
 from fdk.compass_measure import (
     coercion_score,
@@ -41,8 +42,10 @@ from fdk.guidance_engine import (
     ConsentGrant,
     Constraint,
     DelegationGrant,
+    SelfUpdate,
     VerificationReport,
     verify_guidance,
+    verify_self_update,
 )
 from fdk.justice import JusticeScore, justice_score, rank_by_justice
 from fdk.kernel import allowed_forbidden, check_legitimacy, decide, mahdavi_score
@@ -57,7 +60,15 @@ from fdk.model import (
     Resource,
     ScoredAction,
 )
-from fdk.ontology import Claim, ClaimBasis, Conflict, ConflictKind, Contract, Obligation
+from fdk.ontology import (
+    Claim,
+    ClaimBasis,
+    Conflict,
+    ConflictKind,
+    Contract,
+    MachineRight,
+    Obligation,
+)
 from fdk.planner import (
     EffectsPort,
     EnforcementPort,
@@ -100,6 +111,8 @@ __all__ = [
     "Constraint",
     "VerificationReport",
     "verify_guidance",
+    "SelfUpdate",
+    "verify_self_update",
     # ontology (Stage 2)
     "Claim",
     "ClaimBasis",
@@ -107,6 +120,7 @@ __all__ = [
     "Contract",
     "Conflict",
     "ConflictKind",
+    "MachineRight",
     # conflict resolution (Stage 4)
     "Outcome",
     "Resolution",
@@ -129,6 +143,9 @@ __all__ = [
     "SimReport",
     "StepOutcome",
     "SafetyInvariantViolated",
+    # audit context (book 38534)
+    "AuditContext",
+    "build_audit_context",
     # authgate bridge (legitimacy -> authority seam)
     "AuthGateBridge",
     "AuthorityRequest",
