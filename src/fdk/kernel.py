@@ -64,6 +64,8 @@ def check_legitimacy(action: CandidateAction, graph: OwnershipGraph) -> tuple[bo
         (action.machine_coalition_dominion, "machine coalition dominion"),
         (action.coerces, "coercion"),
         (action.deceives, "deception"),
+        (action.confiscates, "confiscation"),
+        (action.removes_exit_right, "removes exit/revocation right"),
     ]
     for is_set, label in flags:
         if is_set:

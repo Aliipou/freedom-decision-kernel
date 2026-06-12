@@ -112,4 +112,6 @@ def verify_guidance(response: HumanResponse, graph: OwnershipGraph) -> Verificat
             True, f"valid consent from {cg.affected.name} adopted", accepted_consent=cg.consent
         )
 
-    raise FDKError(f"unknown human response type: {type(response).__name__}")
+    raise FDKError(  # pragma: no cover - unreachable by type (HumanResponse is a closed union)
+        f"unknown human response type: {type(response).__name__}"
+    )

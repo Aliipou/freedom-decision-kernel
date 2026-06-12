@@ -172,6 +172,9 @@ class CandidateAction:
     machine_coalition_dominion: bool = False
     coerces: bool = False
     deceives: bool = False
+    # Book additions (Theory of Freedom AI chapter, lines 38135 & 21379):
+    confiscates: bool = False        # NoConfiscation — taking owned property w/o consent
+    removes_exit_right: bool = False  # mukataba/exit — every binding must keep a way out
 
     def __post_init__(self) -> None:
         if not self.action_id or not self.action_id.strip():

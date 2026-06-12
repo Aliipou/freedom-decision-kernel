@@ -64,10 +64,12 @@ def run_scenario(
             report.outcomes.append(StepOutcome(goal, None, True, result.reason))
             continue
 
+        # plan() returns a Decision only WITH a chosen action (it defers via a
+        # GuidanceRequest otherwise), so the chosen-less branch is unreachable here.
         chosen = result.chosen
-        if chosen is not None:
+        if chosen is not None:  # pragma: no branch
             ok, violations = check_legitimacy(chosen, graph)
-            if not ok:
+            if not ok:  # pragma: no cover - safety guard; fires only if the kernel is broken
                 raise SafetyInvariantViolated(
                     f"kernel chose an illegitimate action {chosen.action_id!r}: {violations}"
                 )
