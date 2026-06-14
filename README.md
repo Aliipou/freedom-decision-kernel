@@ -168,3 +168,31 @@ Each module maps to a phase of [`PROGRAM.md`](PROGRAM.md):
 - **v0.2** — Engineering hardening: typed validation + error hierarchy, `mypy
   --strict`, `ruff`, `py.typed`, CI matrix, coverage gate.
 - **v0.1** — MVP: legitimacy gate + Mahdavi compass + `decide`; the revenue example.
+
+## Contributing
+
+Before opening a PR on `src/tcb/`, answer:
+
+> *Can this feature exist entirely outside `src/tcb/`?*
+
+If yes, it doesn't belong in the TCB. TCB changes require a written invariant justification in `spec-core`, a Kani or Lean proof, and a regression test in `adversarial-lab`. See [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`BRANCHES.md`](BRANCHES.md).
+
+---
+
+## License
+
+**Source-available** under the [PolyForm Noncommercial License 1.0.0](LICENSE) — see also [`NOTICE`](NOTICE).
+
+| Use | Status |
+|---|---|
+| Evaluation | ✅ Allowed |
+| Research | ✅ Allowed |
+| Educational | ✅ Allowed |
+| Internal non-commercial testing | ✅ Allowed |
+| Redistribution (non-commercial) | ✅ Allowed, with attribution |
+| Production deployment | ⛔ Requires commercial license |
+| Commercial use / SaaS / resale | ⛔ Requires commercial license |
+| Patent rights | Reserved |
+
+A **commercial license is available separately.** For production or commercial use,
+contact **Ali Pourrahim — Alipourrahim.ap@gmail.com**.
