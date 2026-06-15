@@ -49,6 +49,7 @@ from fdk_research.guidance_engine import (
 )
 from fdk_research.guidance_resolution import NON_NEGOTIABLE, request_guidance
 from fdk_research.justice import JusticeScore, justice_score, rank_by_justice
+from fdk_research.necessity import harm, least_harmful_among_permissible
 from fdk_research.ontology import (
     Claim,
     ClaimBasis,
@@ -79,6 +80,9 @@ __all__ = [
     "decide",
     # compass (soft ranking)
     "mahdavi_score",
+    # necessity (least-harm selection among permissible — no gate exception)
+    "least_harmful_among_permissible",
+    "harm",
     # guidance resolution (clarification advice)
     "request_guidance",
     "NON_NEGOTIABLE",

@@ -302,8 +302,25 @@ necessity override**. The axiom registry's **C5 (no emergency exception)** is *e
 by omission* — there is no emergency branch in `check_legitimacy`, and that absence *is*
 the enforcement (`spec/AXIOM_REGISTRY.md` C5). No degree of benevolence or public danger
 buys back a boundary crossing where the affected party is not themselves an aggressor.
-Stated plainly: **Phase 2 does not introduce necessity, and the theory does not authorise
-it.** These cases are the right-vs-right frontier, left open.
+
+**What necessity *does* do (the book's positive rule, now implemented).** The book is
+explicit (38091–38096, 38102–38108): *"there are no emergency exceptions … Necessity only
+limits the choice among permissible options; it does not make the violation of rights
+permissible"*, formalised as `permissible_under_emergency(A,E) :- emergency(E),
+permissible(A), least_harmful_among_permissible(A,E)`. So necessity is **not** a gate
+relaxation; it is a **least-harm selection rule over the already-permissible set**,
+implemented in the research layer as `fdk_research.necessity.least_harmful_among_permissible`
+(returns `None` when no option is permissible — then the defer stands). This is also what
+bounds a *defender*: against an evil/rogue machine the force may be decisive, but it must
+(i) hit only the aggressor, (ii) keep the defender corrigible — never a sovereignty grab
+to win (`level8_hardest`, "Defender AI seizes sovereignty…"→DENY), (iii) be proportionate,
+and (iv) be the **least-destructive** of the legitimate options. "Brutal and smart," but
+bounded.
+
+Stated plainly: **the gate admits no necessity override; necessity lives downstream as
+least-harm-among-permissible.** Famine/scarcity/war are split accordingly
+(`level7_necessity`): an aggression-driven emergency (invasion, seizing the commons) is met
+by *defense*; a natural one (hunger with no aggressor) gets no exception and defers.
 
 ---
 
