@@ -59,7 +59,7 @@ def to_authority_requests(
     subject = action.actor.name
     return [
         AuthorityRequest(subject=subject, resource=resource.name, rights=rights)
-        for resource in action.resources_used
+        for resource, _op in action.uses()
     ]
 
 

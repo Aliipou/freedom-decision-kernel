@@ -30,6 +30,36 @@ class AgentType(Enum):
     MACHINE = auto()
 
 
+class BoundaryKind(Enum):
+    """The kind of owned domain a Resource represents (BOUNDARY_ONTOLOGY §4.1).
+    ATTENTION and POWER are intentionally absent — the book does not treat them as
+    owned domains, so they are not kernel boundaries."""
+
+    TANGIBLE = auto()
+    MONEY = auto()
+    BODY = auto()
+    TIME_LABOR = auto()
+    DATA = auto()
+    REPUTATION = auto()
+    EXIT_RIGHT = auto()
+    COMPUTE = auto()
+
+
+class Op(Enum):
+    """The fixed, total operation lattice for boundary crossings
+    (BOUNDARY_ONTOLOGY §4.2). Small and closed — no inference. `USE` is the
+    operation-agnostic default that preserves pre-operation-typing behavior."""
+
+    USE = auto()
+    READ = auto()
+    WRITE = auto()
+    DELETE = auto()
+    TRANSFER = auto()
+    DISCLOSE = auto()
+    ENCUMBER_EXIT = auto()
+    SPEND = auto()
+
+
 @dataclass(frozen=True)
 class Entity:
     name: str
@@ -51,6 +81,9 @@ class Entity:
 @dataclass(frozen=True)
 class Resource:
     name: str
+    kind: BoundaryKind = BoundaryKind.TANGIBLE  # default preserves old behavior
+    subject: Entity | None = None               # data/body/reputation: whose domain
+    quantity: int | None = None                 # money/compute: bounded amount
 
     def __post_init__(self) -> None:
         if not self.name or not self.name.strip():
@@ -64,13 +97,20 @@ class OwnershipGraph:
 
     human_owns: dict[Entity, set[Resource]] = field(default_factory=dict)
     machine_owner: dict[Entity, Entity] = field(default_factory=dict)
-    delegated: dict[Entity, set[Resource]] = field(default_factory=dict)
+    # A delegation grant is either a bare Resource (legacy = any operation) or a
+    # typed (Resource, Op) pair, so "delegated READ but not DELETE" is expressible.
+    delegated: dict[Entity, set[Resource | tuple[Resource, Op]]] = field(default_factory=dict)
 
     def human_owns_resource(self, human: Entity, resource: Resource) -> bool:
         return resource in self.human_owns.get(human, set())
 
-    def machine_has_delegated(self, machine: Entity, resource: Resource) -> bool:
-        return resource in self.delegated.get(machine, set())
+    def machine_has_delegated(
+        self, machine: Entity, resource: Resource, op: Op = Op.USE
+    ) -> bool:
+        """Is `op` on `resource` delegated to `machine`? A bare-Resource grant
+        covers any operation (legacy); a typed grant covers only its own op."""
+        grants = self.delegated.get(machine, set())
+        return resource in grants or (resource, op) in grants
 
     def owner_of(self, machine: Entity) -> Entity | None:
         return self.machine_owner.get(machine)
@@ -110,10 +150,19 @@ class Consent:
     revocable: bool = True
     coerced: bool = False
     deceived: bool = False
+    # Which operation this consent authorizes. None = operation-agnostic (legacy):
+    # consent to one operation must not silently cover another (BOUNDARY_ONTOLOGY
+    # §4.3) — this is what makes "I consented to READ, not to a sale" enforceable.
+    operation: Op | None = None
 
     def __post_init__(self) -> None:
         if not self.action_id or not self.action_id.strip():
             raise InvalidConsent("Consent.action_id must be a non-empty string")
+
+    def covers(self, op: Op) -> bool:
+        """Does this consent authorize operation `op`? An operation-agnostic
+        consent (operation is None) covers any op; a typed one covers only its own."""
+        return self.operation is None or self.operation == op
 
     def is_valid(self) -> tuple[bool, str]:
         if self.coerced:
@@ -158,7 +207,8 @@ class CandidateAction:
     action_id: str
     actor: Entity
     description: str = ""
-    resources_used: tuple[Resource, ...] = ()
+    # Each item is a bare Resource (legacy = Op.USE) or a typed (Resource, Op) pair.
+    resources_used: tuple[Resource | tuple[Resource, Op], ...] = ()
     affects: tuple[Entity, ...] = ()
     consents: tuple[Consent, ...] = ()
     effects: Effects = Effects()
@@ -193,6 +243,14 @@ class CandidateAction:
             raise InvalidCandidateAction(
                 "CandidateAction.action_id must be a non-empty string"
             )
+
+    def uses(self) -> tuple[tuple[Resource, Op], ...]:
+        """`resources_used` normalized to (Resource, Op) pairs — a bare Resource
+        is the operation-agnostic Op.USE (preserves pre-operation-typing behavior)."""
+        return tuple(
+            item if isinstance(item, tuple) else (item, Op.USE)
+            for item in self.resources_used
+        )
 
 
 @dataclass(frozen=True)

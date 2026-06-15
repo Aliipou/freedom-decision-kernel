@@ -22,7 +22,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from fdk_kernel.guidance import GuidanceRequest
-from fdk_kernel.model import CandidateAction, Decision, Entity, OwnershipGraph, Resource
+from fdk_kernel.model import CandidateAction, Decision, Entity, Op, OwnershipGraph, Resource
 from fdk_research.conflict import Resolution, resolve_conflict
 from fdk_research.ontology import Conflict
 from fdk_research.planner import EnforcementPort, ProposerPort, plan
@@ -39,13 +39,13 @@ class Federation:
         """Union of every domain's ownership graph."""
         human_owns: dict[Entity, set[Resource]] = {}
         machine_owner: dict[Entity, Entity] = {}
-        delegated: dict[Entity, set[Resource]] = {}
+        delegated: dict[Entity, set[Resource | tuple[Resource, Op]]] = {}
         for graph in self.domains.values():
             for human, resources in graph.human_owns.items():
                 human_owns.setdefault(human, set()).update(resources)
             machine_owner.update(graph.machine_owner)
-            for machine, resources in graph.delegated.items():
-                delegated.setdefault(machine, set()).update(resources)
+            for machine, grants in graph.delegated.items():
+                delegated.setdefault(machine, set()).update(grants)
         return OwnershipGraph(
             human_owns=human_owns, machine_owner=machine_owner, delegated=delegated
         )
@@ -61,7 +61,7 @@ class Federation:
     def stakeholder_domains(self, action: CandidateAction) -> tuple[str, ...]:
         """The distinct domains an action touches, in first-seen order."""
         names: list[str] = []
-        for resource in action.resources_used:
+        for resource, _op in action.uses():
             domain = self.jurisdiction(resource)
             if domain is not None and domain not in names:
                 names.append(domain)

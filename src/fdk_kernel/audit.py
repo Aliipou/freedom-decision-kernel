@@ -34,7 +34,7 @@ def build_audit_context(
 ) -> AuditContext:
     """Assemble the ownership + consent + justification context for an action."""
     ownership = tuple(
-        f"{r.name} owned by {_owner_of_resource(graph, r)}" for r in action.resources_used
+        f"{r.name} owned by {_owner_of_resource(graph, r)}" for r, _op in action.uses()
     )
     consent = tuple(
         f"{c.human.name}: {'valid' if c.is_valid()[0] else 'INVALID'}" for c in action.consents

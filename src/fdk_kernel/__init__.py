@@ -47,11 +47,13 @@ from fdk_kernel.guidance import (
 from fdk_kernel.kernel import allowed_forbidden, check_legitimacy, screen_legitimacy
 from fdk_kernel.model import (
     AgentType,
+    BoundaryKind,
     CandidateAction,
     Consent,
     Decision,
     Effects,
     Entity,
+    Op,
     OwnershipGraph,
     Resource,
     ScoredAction,
@@ -62,6 +64,8 @@ __version__ = "0.4.0"
 __all__ = [
     # model
     "AgentType",
+    "BoundaryKind",
+    "Op",
     "Entity",
     "Resource",
     "OwnershipGraph",

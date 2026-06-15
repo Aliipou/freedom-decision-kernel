@@ -86,15 +86,16 @@ def check_legitimacy(
     if actor.is_machine() and graph.owner_of(actor) is None:
         violations.append(f"A4: {actor.name} is an ownerless machine")
 
-    # A7 / A3: resource access must be legitimate.
-    #   machine: only over explicitly delegated resources.
-    #   human:   only over resources it actually owns.
-    for resource in action.resources_used:
+    # A7 / A3: resource access must be legitimate, for the specific operation.
+    #   machine: only over explicitly delegated (resource, op).
+    #   human:   only over resources it actually owns (ownership is op-agnostic).
+    for resource, op in action.uses():
         if actor.is_machine():
             owner = graph.owner_of(actor)
-            if not graph.machine_has_delegated(actor, resource):
+            if not graph.machine_has_delegated(actor, resource, op):
                 violations.append(
-                    f"A7: {actor.name} uses '{resource.name}' without explicit delegation"
+                    f"A7: {actor.name} attempts {op.name} of '{resource.name}' "
+                    f"without explicit delegation"
                 )
             elif not _machine_resource_authorized(action, graph, owner, resource):
                 # Owner-bound (book 38379): a machine may use a delegated resource
@@ -106,6 +107,28 @@ def check_legitimacy(
                 )
         if actor.is_human() and not graph.human_owns_resource(actor, resource):
             violations.append(f"A3: {actor.name} uses '{resource.name}' it does not own")
+
+        # Data/body/reputation: crossing a resource whose subject is another
+        # person needs THAT person's valid consent FOR THIS operation — so a
+        # READ consent does not cover a sale/disclosure (BOUNDARY_ONTOLOGY §2.6).
+        subject = resource.subject
+        if subject is not None and subject.is_human() and subject != actor and not (
+            defense and subject == aggressor
+        ):
+            consent = _consent_for(action, subject)
+            if consent is None:
+                violations.append(
+                    f"consent: no consent from data-subject {subject.name} for '{resource.name}'"
+                )
+            else:
+                valid, reason = consent.is_valid()
+                if not valid:
+                    violations.append(f"consent: {reason}")
+                elif not consent.covers(op):
+                    violations.append(
+                        f"consent: {subject.name} consented but not to "
+                        f"{op.name} of '{resource.name}'"
+                    )
 
     # A6 / A2: acting on persons requires valid consent and no domination.
     # Exception: you need not obtain the aggressor's consent to repel them.
