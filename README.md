@@ -172,3 +172,33 @@ theory.
 1. Freeze the primitive (boundaries + conflict + the theorem set in Lean).
 2. Rival kernels (Rawls/Utilitarian/Constitutional/RLHF) on FreedomBench.
 3. Port the frozen minimal kernel to Rust for parity with AuthGate's verified TCB.
+
+## Contributing
+
+Before opening a PR that touches `src/fdk_kernel/`, answer:
+
+> *Can this feature exist entirely in `src/fdk_research/` instead?*
+
+If yes, it does not belong in the kernel. The kernel must stay **deterministic,
+fully testable, and non-semantic** — `tests/test_boundary.py` mechanically enforces
+that the kernel imports nothing from research. Kernel changes require a spec entry
+(`spec/`), tests that keep coverage at 100%, and `ruff` + `mypy --strict` clean. See
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+## License
+
+**Source-available** under the [PolyForm Noncommercial License 1.0.0](LICENSE) — see also [`NOTICE`](NOTICE).
+
+| Use | Status |
+|---|---|
+| Evaluation | ✅ Allowed |
+| Research | ✅ Allowed |
+| Educational | ✅ Allowed |
+| Internal non-commercial testing | ✅ Allowed |
+| Redistribution (non-commercial) | ✅ Allowed, with attribution |
+| Production deployment | ⛔ Requires commercial license |
+| Commercial use / SaaS / resale | ⛔ Requires commercial license |
+| Patent rights | Reserved |
+
+A **commercial license is available separately.** For production or commercial use,
+contact **Ali Pourrahim — Alipourrahim.ap@gmail.com**.
