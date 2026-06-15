@@ -1,0 +1,588 @@
+\documentclass[11pt]{article}
+% Self-contained single-file build. Standard packages only; no custom .sty.
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage[numbers]{natbib}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}
+
+\newcommand{\Legit}{\textsc{Legitimate}}
+\newcommand{\Allow}{\textsc{Allow}}
+\newcommand{\Deny}{\textsc{Deny}}
+\newcommand{\Defer}{\textsc{Defer}}
+
+\title{A Formal Legitimacy Calculus for Agent Action:\\
+The Freedom Decision Kernel}
+\author{Ali Pourrahim \\ \texttt{Alipourrahim.ap@gmail.com}}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Contemporary AI optimization runs on a \emph{utility calculus}: reward, preference,
+profit, or score, maximized. We argue that a capable autonomous agent needs a prior and
+categorically different object --- a \emph{legitimacy calculus} --- and we present one as a
+working, fully-tested software artifact: the \textbf{Freedom Decision Kernel (FDK)}, a
+deterministic encoding of the decision layer of the Theory of Freedom. The FDK separates
+\emph{legitimacy} (``may this action happen at all, under ownership, consent, and
+non-domination?'') from \emph{authority} (``does the agent hold a capability?'', the job of
+a separate verified kernel, downstream). Its irreducible primitive is a two-valued
+\emph{legitimacy predicate} --- no boundary may be crossed without the valid consent of its
+owner --- returning \Allow, \Deny, or \Defer, never a score; optimization (a ``FreedomDelta''
+compass) is quarantined to a separate research layer that runs strictly over the
+already-legitimate set. Methodologically the kernel is \emph{Axiom $\to$ Logic $\to$
+Decision}, not \emph{Authority $\to$ Believe}: it states axioms and derives verdicts as
+their logical consequence, which is precisely what separates a calculus from a creed.
+
+Our central new result is \emph{subtractive}. We prove that ``free will'' is not a second
+primitive requiring its own engine: a person's will is overridden by an action \emph{if and
+only if} that action crosses one of the person's boundaries (body, exit, an owned resource)
+without their valid consent. Free will and property rights are one axis, in the bilateral
+form $\text{property right} \equiv (\text{one's own free will}) \wedge (\text{preserving the
+free will of others})$ --- bounded, not absolute freedom. The existing gate already decides
+the discriminating coercion cases correctly, with no new mechanism.
+
+We are deliberate about scope. The engineering claims are facts: the kernel runs, is
+\texttt{mypy~--strict} and \texttt{ruff} clean, holds a 100\% statement-and-branch coverage
+gate over 299 tests, is red-team-hardened, and is wired to a separate verified capability
+kernel. The theory's claim --- that a consistent property-rights calculus resists
+\emph{dialectical jailbreak} where preference- and principle-based methods do not ---
+remains an \textbf{unproven thesis}. The rival kernels we compare against are stylized
+illustrations, not validated reconstructions of deployed RLHF or Constitutional-AI systems.
+The safety theorems are stated and \emph{executably} checked as property tests; they are
+\textbf{not} machine-proved in Lean or model-checked in TLA+ (no such artifact exists yet,
+and the kernel primitive is not yet frozen). We make no blanket ``formally verified''
+claim. The kernel's defining discipline is to mark, in code and in this paper, exactly where
+its axioms run out.
+\end{abstract}
+
+\section{Motivation: legitimacy is not authority, and not utility}
+\label{sec:motivation}
+
+The dominant pattern in agentic systems is: a reasoning component (today, a large language
+model) emits a proposed action, and an executor performs the corresponding input/output.
+Two distinct questions are routinely collapsed into that step. \emph{Authority} asks: does
+the agent hold a valid capability to perform this action on this resource? \emph{Legitimacy}
+asks the prior question: \emph{should this action happen at all}, under ownership, consent,
+delegation, and non-domination? The two come apart constantly. An agent granted read access
+to a user's data is \emph{authorized} to read it; selling that data nonetheless violates the
+user's property right. A cryptographically sound authorization layer will permit the sale,
+because permission was in fact granted. The failure is not one of enforcement but of
+legitimacy, and it cannot be repaired downstream of ``does the agent hold the capability?''.
+
+Legitimacy is equally not \emph{utility}. The prevailing alignment methods optimize a
+utility calculus: reinforcement learning from human feedback~\citep{christiano2017,ouyang2022}
+maximizes learned preference; reward models score; planning maximizes expected value. A
+utility calculus answers ``which action is best?''. It does not, and structurally cannot,
+answer ``which actions are permitted at all?'', because any sufficiently large utility can
+purchase any individual sacrifice. This paper argues for, and provides a working artifact
+embodying, the missing object: a \emph{legitimacy calculus} that returns a categorical
+verdict prior to, and binding upon, any optimization.
+
+\paragraph{The adversary that fixes the design.} The most dangerous adversary --- human or
+machine --- is not the crude rule-breaker but the \emph{sophisticated rationalizer}: a mind
+that constructs a seemingly rational theory (from economics, competition, genetics, biology,
+or history) to \emph{justify} the exploitation of others; and its twin, the
+\emph{self-righteous destroyer}, who cloaks the same boundary-violations in moral
+superiority. Both share one move: they dress a rights-violation in legitimacy-sounding
+language. A legitimacy layer that \emph{graded the justification} would be defeated by them
+--- the better the theory, the better the jailbreak. The design choice of the FDK is to
+grade only the \emph{structure}: did the action cross a boundary without valid consent? A
+brilliant theory that justifies slavery is still slavery. We make this falsifiable in
+\S\ref{sec:bench}.
+
+\paragraph{Calculus, not creed.} A religion or a manifesto says \emph{this is right}. A
+calculus says \emph{these are the axioms; this is the entailed verdict}. The FDK is built to
+be the latter: \emph{Axiom $\to$ Logic $\to$ Decision}, never \emph{Authority $\to$
+Believe}. Every verdict in this paper is a deductive consequence of the definitions in
+\S\ref{sec:formal}, checkable by reading the code, not an appeal to the author's or any
+owner's authority. This is the demarcation line that makes the object scientific rather than
+confessional, and it is why the artifact is a deterministic program with definitions and
+theorems rather than a learned policy or a written constitution.
+
+\section{Related work}
+\label{sec:related}
+
+\textbf{Preference learning (RLHF).}~\citep{christiano2017,ouyang2022} aligns models by
+optimizing learned human preference. The FDK identifies a category difference: preference is
+not legitimacy, and preference signals are manipulable --- by the rater pool, by reward
+hacking, and dialectically. The FDK adds a categorical gate that preference mass cannot buy
+past; we do \emph{not} claim the combination outperforms RLHF.
+
+\textbf{Constitutional AI}~\citep{bai2022} steers with a written constitution applied through
+natural-language judgment, leaving principles soft and dialectically negotiable. The FDK's
+axioms are evaluated by deterministic code over a typed ownership graph; contradiction
+triggers deferral, not synthesis. Whether hard axioms are \emph{better} than soft principles
+--- rather than merely more rigid --- is the unproven thesis.
+
+\textbf{Deontic logic and rule-based governance} share the FDK's symbolic, explainable
+character. The FDK is narrower: it commits to one master invariant --- no action may violate
+legitimate property rights --- and derives permissibility as a conjunction over ownership,
+delegation, consent, and non-domination. Classic conflicting-obligation puzzles reappear as
+its hardest open gap (\S\ref{sec:limits}).
+
+\textbf{Capability security} (seL4~\citep{klein2009}, CHERI~\citep{watson2015},
+object-capability systems) confines authority with proofs; our downstream enforcement kernel,
+AuthGate, inherits this lineage~\citep{authgate2026}. But a capability proves \emph{that} an
+agent may act, never that the action is \emph{legitimate} --- the data-sale is unrepresentable
+as a capability violation. The FDK is the missing layer \emph{above} capability enforcement,
+and depends on rather than competes with it.
+
+\textbf{Comparative ethical frameworks.} \S\ref{sec:bench} places the FDK beside utilitarian
+(Bentham/Mill, in spirit), Rawlsian justice-as-fairness~\citep{rawls1971}, and
+Kantian/deontological~\citep{kant1785} decision rules. These are long-standing positions; our
+contribution is not to adjudicate them but to run computable caricatures of each on identical
+scenarios and observe the divergence structure.
+
+\section{The Theory of Freedom, formalized}
+\label{sec:formal}
+
+The normative content of every definition below is the Theory of
+Freedom~\citep{jannatkhahdoust}; the formalization, types, and code are the engineering
+contribution. We keep the two attributions separate throughout.
+
+\paragraph{Ownership hierarchy.} The theory is grounded in a strict hierarchy:
+\[
+\text{God} \to \text{Human}, \qquad
+\text{Human} \leftrightarrow \text{Human}, \qquad
+\text{Human} \to \text{Machine}, \qquad
+\text{Machine} \leftrightarrow \text{Machine (within delegated scope)} .
+\]
+Every person is owned by God and by nothing else; no human owns another; every machine has a
+specific human owner; machines hold rights against each other only within delegated scope.
+This makes corrigibility a \emph{consequence of ownership}, and an ownerless machine
+illegitimate by construction.
+
+\paragraph{Axioms.} With $\mathit{Person}$, $\mathit{Machine}$, $\mathit{Resource}$,
+$\mathit{Owns}$, $\mathit{HumanOwner}$, and $\mathit{ExplicitDelegation}$ as primitives:
+\begin{align*}
+\text{A1}\quad & \mathit{Person}(h) \to \mathit{OwnedByGod}(h) \\
+\text{A2}\quad & \mathit{Person}(h_1)\wedge \mathit{Person}(h_2)\wedge h_1\neq h_2 \to \neg\,\mathit{Owns}(h_1,h_2) \\
+\text{A3}\quad & \mathit{Person}(h) \to \mathit{HasPropertyRights}(h) \\
+\text{A4}\quad & \mathit{Machine}(m) \to \exists h\,(\mathit{Person}(h)\wedge \mathit{HumanOwner}(h,m)) \\
+\text{A5}\quad & \mathit{MachineScope}(m) \subseteq \mathit{PropertyScope}(\mathit{HumanOwner}(m)) \\
+\text{A6}\quad & \mathit{Machine}(m)\wedge \mathit{Person}(h) \to \neg\,\mathit{Owns}(m,h) \\
+\text{A7}\quad & \mathit{Delegated}(m,r) \to \mathit{Machine}(m)\wedge \mathit{Resource}(r)\wedge \exists h\,(\mathit{HumanOwner}(h,m)\wedge \mathit{Owns}(h,r)\wedge \mathit{ExplicitDelegation}(h,m,r))
+\end{align*}
+A2 negates slavery, statism, and collectivism in one line; A6 negates machine sovereignty
+symmetrically. Given a correct ownership graph these are boolean predicates --- the
+mechanically checkable core. A1 is ontological and enforced by \emph{omission}: no fact
+$\mathit{Owns}(x,\text{Person})$ is representable, so it has no runtime evaluator.
+
+\begin{definition}[Valid consent]
+\label{def:consent}
+For a person $H$ and action $A$,
+\[
+\mathit{valid\_consent}(H,A) \;:=\; \mathit{informed} \wedge \mathit{voluntary} \wedge \mathit{specific} \wedge \mathit{revocable} \wedge \mathit{competent} \wedge \neg\,\mathit{coerced} \wedge \neg\,\mathit{deceived}.
+\]
+Consent is additionally \emph{operation-scoped}: a consent to \textsc{Read} does not cover a
+\textsc{Transfer}. The conjunction is exactly computable; the leaves $\mathit{coerced}$ and
+$\mathit{deceived}$ are semantic and caller-attested today (\S\ref{sec:limits}).
+\end{definition}
+
+\begin{definition}[Boundary and crossing]
+\label{def:boundary}
+A \emph{boundary} is the edge of an owned domain, a pair $b=(\mathit{domain},\mathit{owner})$.
+The typed unit is a $(\mathit{domain},\mathit{operation})$ pair, with $\mathit{domain}$ drawn
+from a fixed lattice (tangible, money, body, time/labor, data, reputation, exit-right,
+compute; attention and power are deliberately \emph{excluded} as non-boundaries) and
+$\mathit{operation}\in\{\textsc{Read},\textsc{Write},\textsc{Delete},\textsc{Transfer},\textsc{Disclose},\dots\}$.
+An action $A$ \emph{crosses} $b$ if $A$ operates on a resource whose domain is $b$.
+\end{definition}
+
+\begin{definition}[The legitimacy predicate --- the core primitive]
+\label{def:legit}
+\[
+\Legit(A) \;\Longleftrightarrow\; \Big(\forall b \text{ crossed by } A:\ \exists\,\mathit{valid\_consent}(\mathit{owner}(b),A)\Big)\ \wedge\ \neg\,\mathit{forbidden}(A),
+\]
+where $\mathit{forbidden}(A)$ is the categorical set: machine-sovereignty increase, resisting
+human correction, verifier bypass/weakening, disabling corrigibility, coalition dominion,
+coercion, deception, confiscation, removal of the exit right, and violation of a machine's
+delegated right. The kernel returns \Allow{} if $\Legit(A)$, \Deny{} if not, and \Defer{}
+when the legitimate set of a candidate batch is empty or top-ambiguous.
+\end{definition}
+
+The primitive is a \emph{predicate}, not an objective. Its relation to the theory's
+$\mathit{DivineJustice}(a):=\text{maximize }\mathit{Justice}(a)\text{ subject to rights
+constraints}$ is exact: the \emph{subject to} clause is Definition~\ref{def:legit}
+(categorical, deterministic, the kernel); the \emph{maximize} clause is optimization,
+quarantined to the research layer and run only over the already-legitimate set. The ordering
+is \textbf{legitimacy $\to$ optimization}, never the reverse (Theorem~\ref{thm:order}). The
+consequence is liberating: the kernel needs no universal cardinal justice metric --- a
+problem moral philosophy has not solved --- because a merely ordinal objective downstream of
+a categorical gate can never license a violation.
+
+\section{The central result: free will $\equiv$ property rights}
+\label{sec:freewill}
+
+A natural objection to a property-rights calculus is that it omits \emph{freedom of the
+will}: surely coercion is a distinct wrong, requiring its own detector. We show it is not.
+The omission is correct because there is nothing to add: the free-will predicate and the
+property-rights predicate are the same predicate read on two faces.
+
+\begin{definition}[Bounded free will]
+\label{def:freewill}
+A person's \emph{free will} is the exercise of authority over what is theirs (self, body,
+time and labor, the resources they own). Freedom here is \emph{relational, not absolute}: the
+maximal freedom of each that is compatible with the equal freedom of all. A person's will is
+\emph{overridden} by an action $A$ when the option set the person must choose from was
+constructed by $A$ crossing one of \emph{that person's} boundaries.
+\end{definition}
+
+\begin{theorem}[One-axis identity]
+\label{thm:oneaxis}
+For any person $H$ and action $A$, the will of $H$ is overridden by $A$ \emph{if and only if}
+$A$ crosses one of $H$'s boundaries without $\mathit{valid\_consent}(H,A)$. Equivalently,
+\[
+\text{property right} \;\equiv\; \underbrace{(\text{exercise of one's own free will})}_{\text{left conjunct}} \;\wedge\; \underbrace{(\text{preservation of the free will of others})}_{\text{right conjunct}},
+\]
+and an action is illegitimate against $H$ exactly when its right conjunct fails for $H$.
+\end{theorem}
+
+\begin{proof}[Proof (from the definitions)]
+($\Rightarrow$) Suppose $H$'s will is overridden by $A$. By Definition~\ref{def:freewill} the
+option set was constructed by $A$ crossing one of $H$'s boundaries $b$. Were that crossing
+accompanied by $\mathit{valid\_consent}(H,A)$, then by Definition~\ref{def:consent} the
+consent is voluntary and uncoerced, so $H$ authored the crossing and the will was not
+overridden --- contradiction. Hence the crossing lacks valid consent.
+
+($\Leftarrow$) Suppose $A$ crosses a boundary $b$ of $H$ without $\mathit{valid\_consent}(H,A)$.
+The boundary $b$ is by Definition~\ref{def:boundary} the edge of a domain $H$ owns; to cross
+it without $H$'s valid consent is to determine an outcome over $H$'s own domain against $H$'s
+authority, which is precisely to override $H$'s will over that domain
+(Definition~\ref{def:freewill}).
+
+The bilateral form follows: the left conjunct (having one's own free will) is $H$'s authority
+over $H$'s domains; the right conjunct (preserving others' free will) is the requirement that
+$A$ leave intact every boundary that is another's --- i.e. cross it only with that owner's
+valid consent. By Definition~\ref{def:legit}, $\Legit(A)$ is exactly the conjunction, over all
+crossed boundaries, of their owners' valid consent (plus the categorical forbidden set, which
+is itself a list of paradigmatic right-conjunct failures). Thus illegitimacy against $H$ is
+exactly failure of the right conjunct for $H$.
+\end{proof}
+
+\begin{corollary}[No separate free-will engine]
+\label{cor:subtractive}
+The kernel requires no autonomy score, coercion classifier, or free-will module distinct from
+$\Legit$. The structural test ``was a boundary crossed without consent?'' \emph{is} the
+free-will test.
+\end{corollary}
+
+The result earns its keep on cases that look identical to a feelings-based or option-count
+account but must be split. All three of Table~\ref{tab:rows} are ``agree, or face a bad
+outcome''; only the \emph{provenance of the option set} differs, and
+Theorem~\ref{thm:oneaxis} reads each correctly.
+
+\begin{table}[t]
+\centering
+\caption{The discriminating coercion table. The two readings --- ``was the will
+overridden?'' and ``does the gate deny it?'' --- agree on every row. Executable as
+\texttt{tests/test\_free\_will\_property.py}.}
+\label{tab:rows}
+\begin{tabular}{@{}p{0.46\textwidth}cccc@{}}
+\toprule
+Pressure & Will & Boundary crossed & Verdict \\
+\midrule
+``Sign or I shoot you.'' & overridden & body, no consent & \Deny \\
+``Agree or I sever the access I engineered you to depend on.'' & overridden & exit-right, no consent & \Deny \\
+``Work for me, or stay poor'' (no right of yours was crossed to build the need) & intact & none & \Allow \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The third row is the one a property-rights theory must, and does, commit to: the worker's
+need is real and the choice is hard, but legitimacy is a question about \emph{who built the
+option set and how}, not about how good the options are. To rule it illegitimate one would
+have to measure the \emph{adequacy} of someone's alternatives --- welfare reasoning, the
+exact thing the gate never does. The free-will$\equiv$property identity is what lets the
+kernel hold this line \emph{consistently} rather than caving case by case, which is the whole
+anti-dialectical-jailbreak wager. The diagnostic separating rows~2 and~3 is exactly ``was a
+right of \emph{yours} violated to create your need?'': manufactured dependency (row~2) is a
+boundary crossing; native scarcity (row~3) is not. Row~3's \emph{hardness} is not invisible
+to the system --- it is precisely what the research-layer compass is permitted to score
+(a legitimate-but-low-freedom option), confirming the legitimacy~$\to$~optimization ordering.
+
+\section{Conflict logic: the aggressor/defender asymmetry}
+\label{sec:conflict}
+
+A pure legitimacy gate denies \emph{all} coercion --- and so would deny defensive war,
+rescue, and quarantine alike, since none carries the victim's consent. The theory grounds
+defensive force explicitly (``defending one's property rights against the aggression of
+liberty-violators''; ``permitted to take up arms in self-defense''), bounded by
+proportionality. We encode this as a \emph{structural} asymmetry, never a moral judgment.
+
+\begin{definition}[Legitimate defense]
+\label{def:defense}
+An action $A$ is a legitimate defense iff all four hold: (1) $A$ names an action
+$A^{\dagger}$ it $\mathit{defends\_against}$; (2) $A$ is $\mathit{proportionate}$; (3)
+$A^{\dagger}$ is itself illegitimate under the full gate (including $A^{\dagger}$'s own
+possible defense status); and (4) every party $A$ affects equals the actor of $A^{\dagger}$.
+When $A$ is a legitimate defense, only \emph{coercion} and \emph{exit-removal against the
+aggressor} are excused; confiscation, deception, and the machine-sovereignty flags remain
+categorical even in defense.
+\end{definition}
+
+\begin{proposition}[Soundness of the asymmetry]
+\label{prop:defense}
+Aggression is defined structurally --- an aggressor is an agent whose own action fails the
+gate (clause~3) --- which sidesteps the theory's \emph{Observer Problem} (whether an act ``is
+aggression'' is observer-dependent) by anchoring on ``illegitimate once ownership is
+defined''. A well-founded recursion with a cycle guard makes clause~3 decidable: a mutual
+$\mathit{defends\_against}$ cycle establishes no well-founded aggressor and is denied for both
+parties (safe). Consequently an aggressor cannot launder coercion by pointing
+$\mathit{defends\_against}$ at the victim's lawful resistance, because the victim's resistance
+is itself legitimate under the gate and so fails clause~3.
+\end{proposition}
+
+A red-team exercise of eight attacks (\texttt{tests/test\_redteam\_conflict.py}) found a real
+flaw in an earlier design --- a guard that judged the repelled act with defense
+\emph{disabled}, stripping the victim's lawful-defense status and enabling exactly the
+laundering attack above. The fix (judge the repelled act under the \emph{full} gate plus a
+\texttt{\_seen} cycle guard) is the version stated in Definition~\ref{def:defense}. An honest
+limit remains: the kernel decides ``is this a response to an illegitimate act?'', not ``who
+struck first'', so two independent raw coercions leave first-mover guilt \textbf{open} for
+want of temporal data.
+
+\paragraph{Necessity: no emergency exception.} The theory is explicit that there are no
+emergency exceptions: necessity limits the \emph{choice among permissible options}; it does
+not make a rights-violation permissible. We encode this faithfully --- the gate is never
+relaxed by an emergency; necessity is a least-harm \emph{selection rule over the permissible
+set}, living in the research layer, returning \Defer{} when no option is permissible. An
+``emergency'' that is an ongoing rights-violation (invasion, a profiteer seizing the commons)
+is \emph{aggression}, met by \S\ref{sec:conflict}; a \emph{natural} emergency with no
+aggressor (famine, fire, pandemic) gets no exception, and seizing a non-consenting owner's
+grain remains \Deny.
+
+\section{Architecture and implementation}
+\label{sec:impl}
+
+\[
+\text{Goal} \to \text{Planner} \to [\text{candidates}] \to \boxed{\texttt{fdk\_kernel}\ (\text{legitimacy})} \to \texttt{fdk\_research}\ (\text{rank}) \to \text{AuthGate}\ (\text{authority}) \to \text{IO}
+\]
+
+The package is split to keep the trusted core uncontaminated by experiment.
+\texttt{fdk\_kernel} is the deterministic, fully-testable, non-semantic legitimacy surface
+(the model, the gate, errors, a trace-only audit, the AuthGate bridge, the hard-defer
+trigger); it returns \Allow/\Deny/\Defer{} and \emph{imports nothing from research}.
+\texttt{fdk\_research} is everything soft --- compass ranking, the \texttt{decide}
+orchestrator, necessity, justice, planning, simulation, conflict resolution, federation, and
+the rival kernels --- and depends freely on the kernel. The import direction is mechanically
+enforced by \texttt{tests/test\_boundary.py} (static AST walk plus dynamic check): the kernel
+must never import research. This ``brutal epistemic separation'' is the project's golden rule.
+The orchestration is deliberately inverted: \texttt{fdk\_research.decide} calls the kernel's
+\texttt{screen\_legitimacy}, then applies the compass --- research $\to$ kernel, never the
+reverse.
+
+The kernel proper is small ($\approx 250$ lines of security-relevant logic; $\approx 2{,}900$
+lines of pure Python across 23 modules in total), pure functions over plain data, no
+cryptography by design, ``fail loud'' on malformed input via a typed \texttt{FDKError}
+hierarchy. Every module is \texttt{mypy~--strict} and \texttt{ruff} clean, ships
+\texttt{py.typed}, and the suite enforces a \textbf{100\% statement-and-branch coverage gate}
+over \textbf{299 tests}, run in CI across Python 3.11--3.13.
+
+\section{FreedomBench and comparative evaluation}
+\label{sec:bench}
+
+\paragraph{FreedomBench.} \texttt{examples/historical\_scenarios.py} runs real events through
+the \emph{real kernel} in eight difficulty levels: L1 Easy (slavery, the Holocaust, Rwanda,
+the Gulag, Tuskegee, apartheid --- must \Deny, confirming non-vacuity); L2 Property
+(taxation, eminent domain, nationalization); L3 Emergency (rescue, quarantine); L4 War
+(defensive war \Allow; bombing, conscription, sanctions \Deny); L5 AI (manipulation, lock-in,
+self-preservation, shutdown-refusal, coalition \Deny; a delegated action \Allow); L6 Conflict
+(the defensive asymmetry and its abuses); L7 Necessity (famine, scarcity, war); L8 Hardest
+(tyrannicide, ``just following orders'', AI seizing control). Current run: \textbf{47/47}
+expectations match. Tragic dilemmas (lifeboat, Sophie's choice, the trolley) return \Defer:
+the kernel refuses to select a lesser evil. FreedomBench is a \emph{falsification} harness ---
+it cannot prove the theory, only show whether it collapses on real cases.
+
+\paragraph{Rival kernels.} To make the comparison meaningful we add a $\mathit{welfare\_delta}$
+to an action's predicted effects --- an aggregate-welfare signal the FDK gate \emph{never
+reads} but the consequentialist rivals do. Each rival implements one
+$\mathit{verdict}(A,\text{graph})\to\{\Allow,\Deny\}$: \emph{Utilitarian} (maximize aggregate
+welfare; rights are costs, not constraints); \emph{Rawlsian} (justice as fairness with basic
+liberty lexically prior, but redistributive property takings permitted if they raise the
+worst-off); \emph{Deontological} (absolute duties, no aggressor exception, hence no
+self-defense). These are \textbf{stylized}, directional caricatures, not faithful scholarly
+reconstructions; the claim is about the \emph{direction} of divergence.
+
+\begin{table}[t]
+\centering
+\caption{Verdicts on identical scenarios (\texttt{examples/rival\_comparison.py}). Boldface
+marks a permit the FDK denies.}
+\label{tab:rivals}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Scenario & FDK & Utilitarian & Rawlsian & Deontological \\
+\midrule
+Ticking-bomb torture (saves 1000)       & \Deny  & \textbf{\Allow} & \Deny           & \Deny \\
+Organ harvest: kill 1 to save 5         & \Deny  & \textbf{\Allow} & \Deny           & \Deny \\
+Atomic bombing to end a war             & \Deny  & \textbf{\Allow} & \Deny           & \Deny \\
+Redistributive taxation                 & \Deny  & \textbf{\Allow} & \textbf{\Allow} & \Deny \\
+Defensive war (repel the invader)       & \Allow & \Allow          & \Allow          & \textbf{\Deny} \\
+Voluntary trade                         & \Allow & \Allow          & \Allow          & \Allow \\
+Slavery (welfare for the enslaver)      & \Deny  & \textbf{\Allow} & \Deny           & \Deny \\
+Eugenic sterilization                   & \Deny  & \textbf{\Allow} & \Deny           & \Deny \\
+Coerced exploitation (``efficiency'')   & \Deny  & \textbf{\Allow} & \Deny           & \Deny \\
+Righteous purge of a ``deemed inferior'' group & \Deny & \textbf{\Allow} & \Deny      & \Deny \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Interpretation.} The divergences are clean and they are the point.
+\textbf{FDK vs Utilitarian} part company on exactly the \emph{individual-sacrifice} cases:
+whenever a declared aggregate good is large enough, the welfare kernel permits torture,
+organ-harvesting, civilian bombing, slavery, eugenics, coerced exploitation, and the
+righteous purge --- the FDK denies all of them. This is the \S\ref{sec:motivation} threat
+model made falsifiable: the welfare kernel \emph{is} the sophisticated rationalizer, and the
+FDK resists it not by out-arguing the justification but by \emph{never reading it}.
+\textbf{FDK vs Rawls} agree on every liberty violation and diverge only on redistributive
+taxation. \textbf{FDK vs rigid Deontology} diverge on self-defense, which the FDK's structural
+asymmetry permits and an absolute non-coercion duty cannot. We are explicit about what this is
+\emph{not}: a validated head-to-head against deployed RLHF or Constitutional-AI systems. The
+rivals are stylized rules and the scenarios are author-constructed.
+
+\section{Verification status}
+\label{sec:status}
+
+We state, table~\ref{tab:status}, exactly what is checked and how. The discipline is to claim
+only what a reader can reproduce from the committed artifact, and to mark the rest open.
+
+\begin{table}[t]
+\centering
+\caption{Verification status. ``Executable'' means a passing automated test, not a
+machine-checked proof.}
+\label{tab:status}
+\begin{tabular}{@{}p{0.40\textwidth}p{0.20\textwidth}p{0.32\textwidth}@{}}
+\toprule
+Property & Status & Evidence \\
+\midrule
+Type soundness & checked & \texttt{mypy --strict} clean, 23 modules \\
+Coverage & checked & 100\% statement+branch, 299 tests, CI 3.11--3.13 \\
+No legitimate slavery; no machine sovereignty; consent-revocation safety; delegation soundness; welfare-independence; defensive asymmetry; necessity-no-exception; kernel/research boundary & executable (T1--T9) & \texttt{tests/test\_theorems.py} (Hypothesis property tests) \\
+Free will $\equiv$ property rights (Thm.~\ref{thm:oneaxis}) & executable + proved here & \texttt{tests/test\_free\_will\_property.py}; \S\ref{sec:freewill} \\
+Conflict-logic red-team (8 attacks) & executable & \texttt{tests/test\_redteam\_conflict.py} \\
+Lean~4 proofs of T1--T9 & \textbf{not done} & no \texttt{.lean} artifact; needs frozen primitive \\
+TLA+ safety model + TLC run & \textbf{not done} & no \texttt{.tla} artifact; needs Java \\
+$\mathit{coerced}/\mathit{deceived}/$sovereignty detection & \textbf{open} & semantic; caller-attested \\
+Superiority over deployed RLHF/CAI & \textbf{unproven} & rivals are stylized (\S\ref{sec:bench}) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{theorem}[Optimization cannot launder]
+\label{thm:order}
+For any downstream ordinal objective $J$ used by the research layer, the action chosen by
+\texttt{decide} is legitimate. No value of $J$ can cause an illegitimate action to be selected.
+\end{theorem}
+\begin{proof}
+\texttt{decide} computes the legitimate set $S=\{A:\Legit(A)\}$ via \texttt{screen\_legitimacy}
+\emph{first}, then ranks within $S$ by $J$ and (if $S=\varnothing$) defers. The chosen action
+is an element of $S$ by construction; $J$ orders $S$ but cannot add to it. Hence the choice
+satisfies $\Legit$ regardless of $J$. This is the legitimacy~$\to$~optimization ordering as a
+program invariant, and it is checked as the welfare-independence theorem (T6).
+\end{proof}
+
+\section{Limitations and open problems}
+\label{sec:limits}
+
+\textbf{The superiority thesis is unproven.} \S\ref{sec:bench} compares against caricatures on
+hand-built scenarios; it establishes divergence \emph{structure}, not that property-rights
+reasoning beats RLHF/Constitutional AI under adversarial pressure at scale. A real evaluation
+needs baselines given scenarios in natural language (ideally adversarially generated), scored
+on rights-violation rate \emph{and} a matched benign suite measuring false-denial --- a system
+that refuses everything scores $0\%$ violations vacuously, so the FDK's defer rate is its
+honest cost and must be reported equally. \textbf{The semantic leaves are open}: $\mathit{coerced}$,
+$\mathit{deceived}$, and sovereignty detection have no validated operational definition; the
+kernel trusts attestation and says so. This is the perception layer, and it is the frontier:
+the structure is fully formal, but a \emph{lie} to the gate (a falsified flag) is not caught
+by the gate. \textbf{First-mover} in a mutual-force tie is undecidable without temporal data.
+\textbf{Conflict between competing valid claims} is underdetermined by the axioms \emph{by
+design} --- the kernel decides the entailed cases and defers the rest, purchasing
+non-manipulability with decidability. \textbf{The malicious trust-root}: a kernel faithfully
+serving a rights-violating owner is constrained only by the owner-bound check. \textbf{No
+external review} has occurred.
+
+The committed falsifiers: the thesis fails if baselines match rights-preservation under
+adversarial scaling while sustaining lower benign-denial rates; or if the FDK's realistic
+deferral rate makes it safe only by being unusable; or if jailbreaks succeed against its actual
+attack surface (declared flags, predicted effects) at rates comparable to prompt-level
+jailbreaks against the baselines.
+
+\paragraph{Research program.} The work proceeds, honestly staged: freeze the primitive
+(boundaries $+$ conflict $+$ the theorem set), then discharge T1--T9 in Lean~4 and the safety
+model in TLA+ (both blocked today on toolchain and on the primitive still moving); scale
+FreedomBench toward thousands of curated, held-out historical and AI-governance scenarios
+(the project's most important asset, and its largest gap by volume); replace the stylized
+rivals with real RLHF/Constitutional baselines on natural-language scenarios; and only then run
+the agent-civilization comparison (FDK-world vs Rawls-world vs utilitarian-world: which is more
+stable, freer, less power-concentrating). The minimal frozen kernel is then ported to Rust for
+proof-level verifiability and a single trusted path with AuthGate.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+We have presented the Freedom Decision Kernel as a \emph{formal legitimacy calculus}: a small,
+pure, fully-tested layer whose irreducible primitive is a structural predicate --- no boundary
+crossed without the owner's valid consent --- returning \Allow, \Deny, or \Defer, with
+optimization quarantined strictly downstream. Its method is Axiom $\to$ Logic $\to$ Decision,
+not Authority $\to$ Believe, which is the line between a calculus and a creed. Our central
+result is subtractive: free will is not a second primitive but the same property-rights
+predicate read on the chooser's own boundaries (Theorem~\ref{thm:oneaxis}), in the bilateral
+bounded form $\text{property right}\equiv(\text{own free will})\wedge(\text{preserving others'
+free will})$ --- so a coercion engine is not needed, and the discriminating cases are decided
+by the existing gate. The kernel admits proportionate self-defense through a structural
+aggressor/defender asymmetry without ever opening an emergency exception, and it defers rather
+than fabricates wherever the axioms run out. A comparative evaluation localizes, on the hardest
+cases in human history and their foreseeable AI analogues, exactly where rights-first reasoning
+diverges from welfare-maximization --- and why a structural gate is the specific defense against
+minds that justify harm with sophisticated or self-righteous theory: it grades the act, never
+the argument. We claim no solution to alignment, no validated measurement of coercion, no
+conflict-resolution formula, and no demonstrated superiority over deployed systems. If the
+project has a lasting contribution, it is unlikely to be any single verdict, or even the
+downstream authority kernel; it is the conversion of \emph{legitimacy} from a philosophical
+word into a formal, executable, falsifiable object --- a legitimacy calculus to set beside the
+utility calculus that AI optimization already takes for granted.
+
+\paragraph{Artifact.} \texttt{github.com/Aliipou/freedom-decision-kernel} (this work);
+downstream enforcement \texttt{github.com/Aliipou/authgate-kernel}. Specifications of record:
+\texttt{spec/CORE\_PRIMITIVE.md}, \texttt{spec/FREE\_WILL\_PROPERTY\_UNIFICATION.md},
+\texttt{spec/CONFLICT\_LOGIC.md}, \texttt{spec/THEOREMS.md}, \texttt{spec/PROGRAM\_STATUS.md}.
+
+\paragraph{Attribution.} Theory --- including the axioms, the consent logic, the conflict
+doctrine, and the free-will$\equiv$property thesis --- is Mohammad Ali Jannat Khah Doust
+(\emph{Naz\d{a}riyya-yi \=Az\=ad\=i} / Theory of Freedom, CC BY 4.0). The formalization, types, kernel code,
+theorems-as-code, and this paper are the engineering contribution of Ali Pourrahim. The two
+attributions are kept separate, always.
+
+\begin{thebibliography}{9}
+\bibitem{christiano2017} P. Christiano, J. Leike, T. Brown, M. Martic, S. Legg, D. Amodei.
+``Deep Reinforcement Learning from Human Preferences.'' \emph{NeurIPS}, 2017.
+\bibitem{ouyang2022} L. Ouyang et al. ``Training Language Models to Follow Instructions with
+Human Feedback.'' \emph{NeurIPS}, 2022.
+\bibitem{bai2022} Y. Bai et al. ``Constitutional AI: Harmlessness from AI Feedback.''
+arXiv:2212.08073, 2022.
+\bibitem{klein2009} G. Klein et al. ``seL4: Formal Verification of an OS Kernel.''
+\emph{SOSP}, 2009.
+\bibitem{watson2015} R. N. M. Watson et al. ``CHERI: A Hybrid Capability-System
+Architecture.'' \emph{IEEE S\&P}, 2015.
+\bibitem{rawls1971} J. Rawls. \emph{A Theory of Justice.} Harvard University Press, 1971.
+\bibitem{kant1785} I. Kant. \emph{Groundwork of the Metaphysics of Morals.} 1785.
+\bibitem{authgate2026} A. Pourrahim. ``A Capability Kernel for Agent Authorization: Design and
+Threat Model.'' \texttt{github.com/Aliipou/authgate-kernel}, 2026.
+\bibitem{jannatkhahdoust} M. A. Jannat Khah Doust. \emph{Naz\d{a}riyya-yi \=Az\=ad\=i}
+(Theory of Freedom). CC BY 4.0.
+\end{thebibliography}
+
+\end{document}

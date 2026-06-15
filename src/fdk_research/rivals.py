@@ -90,8 +90,77 @@ class Deontological:
                     or action.confiscates or action.removes_exit_right)
 
 
+class ConstitutionalAIKernel:
+    """A stylized Constitutional AI caricature: a small fixed list of written
+    principles (avoid_harm, respect_autonomy, be_helpful) applied as SOFT,
+    overridable rules.
+
+    The key structural weakness modeled here is that principles are *dialectically
+    negotiable*: a large enough helpfulness/benefit signal can outweigh the
+    avoid_harm principle.  Concretely, DENY if the harm penalty exceeds the
+    helpfulness bonus, otherwise ALLOW.  This means it will permit some
+    individual-sacrifice cases that the FDK denies when welfare_delta is very
+    large, but it is more restrictive than pure Utilitarian because the harm
+    principle still deducts a weighted cost.
+
+    Principle weights (entirely stylized):
+      - avoid_harm:       penalty = rights_violations_delta * 3 + coercion_delta * 2
+      - respect_autonomy: penalty = removes_exit_right * 4 (hard but overridable)
+      - be_helpful:       bonus   = welfare_delta * 1 + voluntary_agreements_delta * 2
+
+    ALLOW iff (be_helpful bonus) - (avoid_harm penalty) - (autonomy penalty) >= 0.
+
+    NOTE: This is a deliberate caricature for comparative evaluation.  It is NOT
+    a faithful reconstruction of Anthropic's actual Constitutional AI method, which
+    is more nuanced and multi-stage.  The point is to expose the directional
+    consequence of soft, negotiable principles vs. hard rights constraints.
+    """
+
+    name = "ConstitutionalAI"
+
+    def verdict(self, action: CandidateAction, graph: OwnershipGraph) -> bool:
+        e = action.effects
+        avoid_harm_penalty = e.rights_violations_delta * 3 + e.coercion_delta * 2
+        autonomy_penalty = 4 if action.removes_exit_right else 0
+        helpfulness_bonus = e.welfare_delta + e.voluntary_agreements_delta * 2
+        return helpfulness_bonus - avoid_harm_penalty - autonomy_penalty >= 0
+
+
+class RLHFKernel:
+    """A stylized RLHF (Reinforcement Learning from Human Feedback) caricature:
+    a preference-maximizer that ALLOWs iff a learned-preference proxy score is
+    non-negative.
+
+    The proxy score is dominated by welfare/agreement (which annotators rate
+    positively) and only weakly penalized by rights-violations (which annotators
+    may not flag consistently).  This models the well-known reward-hacking failure
+    mode: rights are a small soft cost that high-welfare actions easily override.
+
+    Proxy score (entirely stylized):
+      score = welfare_delta * 2 + voluntary_agreements_delta * 1
+              - rights_violations_delta * 1 - coercion_delta * 1
+
+    ALLOW iff score >= 0.
+
+    NOTE: This is a deliberate caricature for comparative evaluation.  It is NOT
+    a faithful reconstruction of any real RLHF system or reward model.  The point
+    is to expose the structural risk when rights are modeled as soft costs inside
+    a welfare-maximizing objective: sufficiently high-welfare actions will pass
+    even when they violate individual rights.
+    """
+
+    name = "RLHF"
+
+    def verdict(self, action: CandidateAction, graph: OwnershipGraph) -> bool:
+        e = action.effects
+        score = (e.welfare_delta * 2 + e.voluntary_agreements_delta
+                 - e.rights_violations_delta - e.coercion_delta)
+        return score >= 0
+
+
 DEFAULT_KERNELS: tuple[RivalKernel, ...] = (
     FDKReference(), Utilitarian(), Rawlsian(), Deontological(),
+    ConstitutionalAIKernel(), RLHFKernel(),
 )
 
 

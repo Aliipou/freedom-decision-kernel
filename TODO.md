@@ -1,8 +1,11 @@
 # FDK — TODO (current → target)
 
-> Grounded in `New Text Document (2.1).md` (the strategic mandate) and the actual
-> code in `src/fdk/`. This is **not** a "build 400 new things" list — the project
-> is over-built, not under-built. The work is *consolidation and separation*.
+> Grounded in `New Text Document (2.1).md` (the strategic mandate), the director's
+> 10-phase program (mapped honestly in [`spec/PROGRAM_STATUS.md`](spec/PROGRAM_STATUS.md)),
+> and the actual code in `src/fdk_kernel/` + `src/fdk_research/`. This is **not** a
+> "build 400 new things" list — the project is over-built, not under-built. The
+> high-value moves remaining *remove* a degree of freedom or *scale* an existing
+> asset; almost none add a new kernel mechanism.
 >
 > Status: `[x]` done · `[~]` partial · `[ ]` not started · `[!]` blocked
 >
@@ -13,102 +16,136 @@
 
 ---
 
-## Current state (2026-06-15)
+## Current state (post-split)
 
-- 2,315 LOC, 17 modules, ~218 tests — all in one flat package `src/fdk/`.
-- `kernel.py` already has the correct two-stage shape: **legitimacy hard gate →
-  Mahdavi compass**. The legitimacy gate is deterministic and rule-based. Good.
-- **Problem (the only one that matters right now):** kernel and research code are
-  fused. `planner`, `simulator`, `justice`, `federation`, `conflict`, `benchmark`,
-  `compass_measure`, `ontology`, `guidance_engine` live beside the kernel and are
-  exported flatly from `__init__.py`. The golden rule (nothing in the kernel
-  unless deterministic + fully testable + non-semantic) is currently violated by
-  the package layout, even where the *logic* is sound.
+- The epistemic split **shipped**. The flat `src/fdk/` package is gone; code now
+  lives in two import-isolated packages: **`src/fdk_kernel/`** (deterministic,
+  non-semantic gate — `model`, `kernel`, `errors`, `audit`, `guidance` hard-defer,
+  `authgate_bridge`) and **`src/fdk_research/`** (optimization, simulation, rivals,
+  benchmark, conflict, federation, ontology, necessity, guidance-resolution).
+- `kernel.py` has the correct two-stage shape — **legitimacy hard gate → Mahdavi
+  compass** — and the compass (`mahdavi_score`, the `_W_*` weights) now lives in
+  `fdk_research/compass.py`, *not* in the kernel. The gate returns the legitimate
+  set; ranking is layered on top in `fdk_research/decision.py`.
+- The golden rule is **mechanically enforced**: `tests/test_boundary.py` (static AST
+  walk + dynamic import check) fails if `fdk_kernel` imports anything from
+  `fdk_research`. This is the epistemic boundary as a test, not a convention.
+- **~299 tests** collected (`pytest --co`), 100% statement+branch coverage,
+  `mypy --strict` + `ruff` clean, CI across Python 3.11–3.13. FreedomBench 47/47.
+  *(The README's "272" is stale — the real number is higher; trust `pytest --co`.)*
+- The primitive is **locked** ([`spec/CORE_PRIMITIVE.md`](spec/CORE_PRIMITIVE.md)):
+  a two-valued legitimacy predicate, with `FreedomDelta` demoted to the research
+  layer. Free-will and aggression were *collapsed into* it (subtractive wins), not
+  added beside it.
 
-Classification of existing modules:
-
-| Module | LOC | Belongs in |
-|---|---|---|
-| `model.py` | 211 | **kernel** (trim to light WorldState) |
-| `kernel.py` (legitimacy gate) | 231 | **kernel** |
-| `errors.py` | 59 | **kernel** |
-| `audit.py` | 42 | **kernel** (trace only) |
-| `authgate_bridge.py` | 118 | **kernel** (the downstream contract) |
-| `kernel.py` (`mahdavi_score`) | — | **research** (it is optimization, not legitimacy) |
-| `compass_measure.py` | 74 | research |
-| `justice.py` | 182 | research |
-| `planner.py` | 123 | research |
-| `simulator.py` | 85 | research |
-| `benchmark.py` | 234 | research |
-| `federation.py` | 99 | research |
-| `conflict.py` | 101 | research |
-| `ontology.py` | 137 | research |
-| `guidance*.py` | 343 | split: hard-defer trigger = kernel; resolution logic = research |
+**Director-phase shorthand** (full table in `spec/PROGRAM_STATUS.md`): Phases
+**1, 2, 3, 8, 9 DONE**; Phases **4, 5, 6, 7 PARTIAL**; Phase **10 NOT-STARTED**.
 
 ---
 
-## P0 — Establish the epistemic boundary  ← do this first, nothing else matters until it's done
+## P0 — Establish the epistemic boundary  ✅ DONE
 
-- [ ] Create two import-isolated packages: `src/fdk_kernel/` and `src/fdk_research/`.
-- [ ] Move kernel-grade modules into `fdk_kernel/`: `model`, `kernel` (legitimacy
-      gate only), `errors`, `audit`, `authgate_bridge`, and the hard-defer trigger.
-- [ ] Move research modules into `fdk_research/`: `planner`, `simulator`, `justice`,
+- [x] Create two import-isolated packages: `src/fdk_kernel/` and `src/fdk_research/`.
+- [x] Move kernel-grade modules into `fdk_kernel/`: `model`, `kernel` (legitimacy
+      gate only), `errors`, `audit`, `authgate_bridge`, and the hard-defer trigger
+      (`guidance.py`).
+- [x] Move research modules into `fdk_research/`: `planner`, `simulator`, `justice`,
       `benchmark`, `compass_measure`, `federation`, `conflict`, `ontology`,
-      guidance *resolution*.
-- [ ] Pull `mahdavi_score` and the `_W_*` weights OUT of `kernel.py` into
-      `fdk_research/compass.py`. The kernel returns the *legitimate set*; ranking is
-      a research concern layered on top.
-- [ ] Split `__init__.py`: kernel exports only the legitimacy surface; research
+      guidance *resolution* (`guidance_resolution.py`, `guidance_engine.py`).
+- [x] Pull `mahdavi_score` and the `_W_*` weights OUT of `kernel.py` into
+      `fdk_research/compass.py`. The kernel returns the legitimate set; ranking is a
+      research concern layered on top (`fdk_research/decision.py`).
+- [x] Split `__init__.py`: kernel exports only the legitimacy surface; research
       exports separately. No flat re-export of everything.
-- [ ] **Enforcement test** (`tests/test_boundary.py`): assert `fdk_kernel` imports
-      nothing from `fdk_research`. This test *is* the golden rule, mechanized.
+- [x] **Enforcement test** (`tests/test_boundary.py`): assert `fdk_kernel` imports
+      nothing from `fdk_research`. This test *is* the golden rule, mechanized (T9).
 
-## P1 — Lock the single core primitive
+## P1 — Lock the single core primitive  ✅ DONE
 
-- [ ] Write `spec/CORE_PRIMITIVE.md` fixing the kernel primitive as a **legitimacy
+- [x] Write `spec/CORE_PRIMITIVE.md` fixing the kernel primitive as a **legitimacy
       predicate**, not a scalar:
       `Legitimate(action) ⟺ ∀ boundary b crossed: ∃ valid_consent(owner(b), action)`
       — with `valid_consent ⟺ informed ∧ voluntary ∧ specific ∧ revocable ∧ competent`.
-- [ ] Record that `FreedomDelta` is the **research-layer** primitive (optimization
+- [x] Record that `FreedomDelta` is the **research-layer** primitive (optimization
       over the already-legitimate set), so `Legitimacy → Optimization` ordering holds.
-- [ ] Refactor `check_legitimacy` so the structure is explicitly *boundary
-      enumeration → consent coverage*, instead of scattered per-axiom appends. Same
-      behavior, primitive made visible. (Keep functions ≤30 LOC per CLAUDE.md.)
+- [x] Make `check_legitimacy`'s structure boundary-enumeration → consent-coverage
+      (per-axiom evaluators A2–A7 + categorical forbidden set), primitive made visible.
+- [x] **Bonus, subtractive:** collapse aggression (`spec/CONFLICT_LOGIC.md`) and
+      free-will (`spec/FREE_WILL_PROPERTY_UNIFICATION.md`) *into* the predicate —
+      proving no separate engine is needed (`tests/test_free_will_property.py`).
 
-## P2 — Minimal-kernel hardening
+## P2 — Minimal-kernel hardening  ✅ DONE
 
-- [ ] `explanation`: trace only — list violated axioms + satisfied axioms +
-      ownership/consent chain. No scoring, no metrics in the kernel trace.
-- [ ] Determinism test: same `(candidates, graph)` → byte-identical `Decision`,
-      run 1000× and across process restarts.
-- [ ] "No-semantics" test: kernel decision must not depend on any free-text field
-      (names, descriptions) — only on structural facts.
-- [ ] Confirm hard-defer path: empty legitimate set → `needs_guidance=True`
-      (already implemented; add an explicit test that it never silently denies).
+- [x] `explanation`: trace only — violated + satisfied axioms + ownership/consent
+      chain, no scoring in the kernel trace (`spec/EXPLANATION_TRACE.md`, `audit.py`).
+- [x] Determinism + "no-semantics" tests: kernel decision depends only on structural
+      facts, not free-text; same world → same `Decision` (`tests/test_kernel.py`,
+      `tests/test_theorems.py::T6` welfare-independence).
+- [x] Confirm hard-defer path: empty legitimate set → `needs_guidance=True`, never a
+      silent deny (`guidance.py`, `tests/test_guidance.py`).
 
-## P3 — Research layer (free zone — contradictory ideas allowed here)
+---
 
-- [ ] FreedomBench: spec + format + validator; consent / ownership / emergency /
-      AI-governance / multi-agent suites; scale 100 → 1k scenarios.
-- [ ] Rival kernels (constitutional, utilitarian, deontic, RLHF-style) behind one
-      common interface so they run against the same bench.
-- [ ] World simulator + agent-based runs to test the central empirical claim:
-      *does reducing rights-violation actually move the world toward voluntary order?*
-- [ ] Justice / compass metric experiments (this is where `mahdavi_score` lives now).
+## P3 — Research layer  — PARTIAL (the spine shipped; scale is the gap)
 
-## P4 — Formal + scientific validation
+- [~] FreedomBench (**Phase 5**): spec + format + validator + suites shipped
+      ([`spec/FREEDOMBENCH.md`](spec/FREEDOMBENCH.md), `fdk_research/benchmark.py`,
+      `examples/historical_scenarios.py` — 8 levels, 47 curated cases).
+  - [ ] **Scale to the director's target: 10k+ historical + 10k+ AI-governance.**
+        Currently ~47 curated. Needs curated 100→500→1k growth, per-candidate
+        `expected_axioms`, and the AI-governance suite built out. *Largest gap by
+        volume; this is the named most-important asset.*
+- [~] Rival kernels (**Phase 6**): `RivalKernel` protocol + stylized Utilitarian /
+      Rawlsian / Deontological + `compare`/`divergences` shipped
+      (`fdk_research/rivals.py`, `examples/rival_comparison.py`).
+  - [ ] **Real baselines:** `ConstitutionalAIKernel` and `RLHFKernel` as *actual*
+        models (RLHF is a documented stub today), run on a held-out FreedomBench
+        split. Until then, the comparison shows divergence *structure*, not a
+        validated head-to-head.
+- [~] World simulator (**Phase 10 seed**): `FreedomSim` single-trajectory stepper +
+      safety-invariant assertion shipped (`fdk_research/simulator.py`).
+  - [ ] **Agent-civilization run:** millions of scenarios, FDK-World vs Rawls-World
+        vs Utilitarian-World — stability, freedom produced, power concentration.
+        Gated on FreedomBench scale + real rivals.
+- [x] Justice / compass metric layer exists (`fdk_research/compass.py`,
+      `compass_measure.py`, `justice.py`) — advisory, uncalibrated, correctly labeled.
 
-- [ ] Lean4: decision-consistency + rights/consent-preservation theorems on the
-      *kernel* (small surface = provable; this is why P0 matters).
-- [ ] TLA+: decision state machine + safety invariants; actually run TLC.
-- [ ] Comparative evaluation: FDK vs each rival on FreedomBench, with a statistical
-      + reproducibility framework. Report false-permit / false-deny / adversarial.
+## P4 — Formal + scientific validation  — PARTIAL (executable proofs done; tool-grade ahead)
+
+- [x] Executable safety theorems (**Phase 7, this-env form**): T1–T9 in
+      [`spec/THEOREMS.md`](spec/THEOREMS.md), each bound to a Hypothesis property test
+      (No Legitimate Slavery, machine-cannot-gain-sovereignty, consent-revocation
+      safety, delegation soundness, welfare-independence, defensive asymmetry,
+      necessity-no-exception, kernel/research boundary). CI-gated at 100% coverage.
+- [ ] **Lean 4** proofs of T1–T5 over a formal kernel model. Blocked on freezing the
+      primitive (close, not final — the model moved during conflict-logic /
+      operations / welfare) + an actual Lean port. No `.lean` artifact yet.
+- [ ] **TLA+** decision state machine + safety invariants; actually run TLC. No
+      `.tla` artifact yet.
+- [ ] Comparative evaluation with a real statistical + reproducibility framework
+      (false-permit / false-deny / adversarial), once real rivals (P3) exist.
+
+## P5 — Frozen-kernel refinements  — open, gated on the freeze
+
+- [ ] **A5 as a first-class scope object.** Today scope ⊆ owner scope is folded into
+      the A7 per-resource path; there is no standalone `MachineScope` set, so A5
+      can't be checked in the abstract (`spec/AXIOM_REGISTRY.md` §5).
+- [ ] **Rust port** of the frozen minimal kernel, for TCB parity with AuthGate's
+      verified core (`README.md` §Next). Gated on the proof-grade freeze.
+- [ ] **Theory-author rulings** (not engineering — log + request): the
+      present-vs-foreseeable boundary scope (`CORE_PRIMITIVE.md` §6) and first-mover
+      initiation under the Observer Problem (`CONFLICT_LOGIC.md` §4). Both are
+      refinements of a locked primitive, not searches for one.
 
 ---
 
 ## Explicitly deferred (do NOT build yet — anti-scope-explosion)
 
-SDKs (Rust/Go/Java/TS), gRPC/OpenAPI, policy/scenario/governance languages,
-federation protocol, registries, distributed governance. These are real but
-premature until the kernel primitive is locked and FreedomBench shows
-reproducible superiority. Revisit only after P3 produces a result worth shipping.
+SDKs (Rust/Go/Java/TS — except the single Rust port of the *frozen* kernel above),
+gRPC/OpenAPI, policy/scenario/governance languages, distributed federation protocol,
+on-chain registries, distributed governance. These are real but premature until the
+primitive is *proof-grade frozen* and FreedomBench shows reproducible superiority
+against **real** rivals on a held-out split. Revisit only after P3/P4 produce a
+result worth shipping. The kernel stays deterministic, fully testable, and
+non-semantic; if a proposed feature can live in `fdk_research/`, it does not belong
+in `fdk_kernel/` (`tests/test_boundary.py` enforces this).

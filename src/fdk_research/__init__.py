@@ -69,10 +69,12 @@ from fdk_research.planner import (
 )
 from fdk_research.rivals import (
     DEFAULT_KERNELS,
+    ConstitutionalAIKernel,
     Deontological,
     FDKReference,
     Rawlsian,
     RivalKernel,
+    RLHFKernel,
     Utilitarian,
     compare,
     divergences,
@@ -99,6 +101,8 @@ __all__ = [
     "Utilitarian",
     "Rawlsian",
     "Deontological",
+    "ConstitutionalAIKernel",
+    "RLHFKernel",
     "DEFAULT_KERNELS",
     "compare",
     "divergences",

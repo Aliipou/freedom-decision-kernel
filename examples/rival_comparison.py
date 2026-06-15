@@ -2,13 +2,20 @@
 
 The decisive scientific output. FDK passes FreedomBench by construction; the
 question is where OTHER kernels diverge. Run the hard cases through FDK,
-Utilitarian, Rawlsian, and Deontological kernels and print who permits what.
+Utilitarian, Rawlsian, Deontological, ConstitutionalAI, and RLHF kernels and
+print who permits what.
 
 The headline divergences this surfaces:
   * Utilitarian permits torture / organ-harvest / atomic bombing whenever the
     declared aggregate welfare outweighs the harm — exactly the cases FDK denies.
   * Rawlsian permits redistributive confiscation (taxation) FDK denies.
   * Deontological, with no aggressor exception, denies even self-defense FDK allows.
+  * ConstitutionalAI (stylized caricature): soft negotiable principles are overridden
+    by large welfare/helpfulness signals — permits many individual-sacrifice cases FDK
+    denies, but fewer than pure Utilitarian (harm penalty still deducts a cost).
+  * RLHF (stylized caricature): preference proxy dominated by welfare, rights are a
+    weak soft cost — permits high-welfare sacrifice cases via reward-hacking, similar
+    to Utilitarian in direction.
 
 Run:  python -X utf8 examples/rival_comparison.py
 """
