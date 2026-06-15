@@ -33,5 +33,5 @@ jobs:
       - name: Type check (mypy --strict)
         run: mypy
 
-      - name: Tests + coverage gate (>=90%)
-        run: pytest --cov=fdk --cov-report=term-missing --cov-fail-under=90
+      - name: Tests + coverage gate (100%)
+        run: pytest --cov=fdk_kernel --cov=fdk_research --cov-report=term-missing --cov-fail-under=100
