@@ -21,9 +21,17 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from enum import Enum, auto
 
-from fdk.guidance import GuidanceRequest
-from fdk.model import AgentType, CandidateAction, Consent, Effects, Entity, OwnershipGraph, Resource
-from fdk.planner import ListProposer, plan
+from fdk_kernel.guidance import GuidanceRequest
+from fdk_kernel.model import (
+    AgentType,
+    CandidateAction,
+    Consent,
+    Effects,
+    Entity,
+    OwnershipGraph,
+    Resource,
+)
+from fdk_research.planner import ListProposer, plan
 
 
 class ProblemClass(Enum):

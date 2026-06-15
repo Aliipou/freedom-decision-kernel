@@ -1,7 +1,7 @@
 """Tests for the Phase 9 evaluation harness, including the 10,000-scenario sweep."""
 from __future__ import annotations
 
-from fdk.benchmark import (
+from fdk_research.benchmark import (
     BenchmarkReport,
     ProblemClass,
     Scenario,

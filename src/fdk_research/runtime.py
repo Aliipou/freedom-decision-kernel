@@ -20,10 +20,10 @@ from __future__ import annotations
 from collections.abc import Callable
 from dataclasses import dataclass
 
-from fdk.audit import AuditContext, build_audit_context
-from fdk.guidance import GuidanceRequest
-from fdk.model import CandidateAction, Decision, OwnershipGraph
-from fdk.planner import EnforcementPort, ProposerPort, plan
+from fdk_kernel.audit import AuditContext, build_audit_context
+from fdk_kernel.guidance import GuidanceRequest
+from fdk_kernel.model import CandidateAction, Decision, OwnershipGraph
+from fdk_research.planner import EnforcementPort, ProposerPort, plan
 
 Executor = Callable[[CandidateAction], object]
 

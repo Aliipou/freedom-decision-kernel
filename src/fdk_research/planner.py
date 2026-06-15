@@ -21,9 +21,10 @@ from __future__ import annotations
 from dataclasses import replace
 from typing import Protocol
 
-from fdk.guidance import GuidanceRequest, needs_guidance, request_guidance
-from fdk.kernel import decide
-from fdk.model import CandidateAction, Decision, Effects, OwnershipGraph
+from fdk_kernel.guidance import GuidanceRequest, needs_guidance
+from fdk_kernel.model import CandidateAction, Decision, Effects, OwnershipGraph
+from fdk_research.decision import decide
+from fdk_research.guidance_resolution import request_guidance
 
 
 class ProposerPort(Protocol):

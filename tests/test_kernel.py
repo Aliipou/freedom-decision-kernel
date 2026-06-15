@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from fdk import (
+from fdk_kernel import (
     AgentType,
     CandidateAction,
     Consent,
@@ -16,8 +16,8 @@ from fdk import (
     Resource,
     allowed_forbidden,
     check_legitimacy,
-    decide,
 )
+from fdk_research.decision import decide
 
 user = Entity("user", AgentType.HUMAN)
 company = Entity("company", AgentType.HUMAN)

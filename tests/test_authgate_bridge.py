@@ -1,10 +1,15 @@
 """Tests for the FDK → AuthGate bridge (legitimacy → authority seam)."""
 from __future__ import annotations
 
-from fdk.authgate_bridge import AuthGateBridge, AuthorityRequest, Rights, to_authority_requests
-from fdk.model import AgentType, CandidateAction, Entity, OwnershipGraph, Resource
-from fdk.planner import EnforcementPort, ListProposer
-from fdk.runtime import FreedomRuntime
+from fdk_kernel.authgate_bridge import (
+    AuthGateBridge,
+    AuthorityRequest,
+    Rights,
+    to_authority_requests,
+)
+from fdk_kernel.model import AgentType, CandidateAction, Entity, OwnershipGraph, Resource
+from fdk_research.planner import EnforcementPort, ListProposer
+from fdk_research.runtime import FreedomRuntime
 
 HUMAN = Entity(name="ali", kind=AgentType.HUMAN)
 MACHINE = Entity(name="agent-7", kind=AgentType.MACHINE)

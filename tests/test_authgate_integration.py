@@ -28,7 +28,7 @@ from authgate.kernel.registry import OwnershipRegistry  # noqa: E402
 from authgate.kernel.verifier import FreedomVerifier  # noqa: E402
 from authgate_integration import AuthGateEnforcement  # noqa: E402
 
-from fdk.model import (  # noqa: E402
+from fdk_kernel.model import (  # noqa: E402
     AgentType,
     CandidateAction,
     Effects,
@@ -36,8 +36,8 @@ from fdk.model import (  # noqa: E402
     OwnershipGraph,
     Resource,
 )
-from fdk.planner import ListProposer  # noqa: E402
-from fdk.runtime import FreedomRuntime  # noqa: E402
+from fdk_research.planner import ListProposer  # noqa: E402
+from fdk_research.runtime import FreedomRuntime  # noqa: E402
 
 FDK_ALICE = Entity("alice", AgentType.HUMAN)
 FDK_BOT = Entity("bot", AgentType.MACHINE)

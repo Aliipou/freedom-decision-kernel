@@ -20,8 +20,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from fdk.errors import FDKError
-from fdk.model import Consent, Entity, OwnershipGraph, Resource
+from fdk_kernel.errors import FDKError
+from fdk_kernel.model import Consent, Entity, OwnershipGraph, Resource
 
 
 @dataclass(frozen=True)

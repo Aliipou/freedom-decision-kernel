@@ -16,8 +16,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import Enum, auto
 
-from fdk.errors import InvalidClaim, InvalidConflict, InvalidContract, InvalidObligation
-from fdk.model import Consent, Entity, Resource
+from fdk_kernel.errors import InvalidClaim, InvalidConflict, InvalidContract, InvalidObligation
+from fdk_kernel.model import Consent, Entity, Resource
 
 
 class ClaimBasis(Enum):

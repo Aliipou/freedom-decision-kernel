@@ -9,11 +9,10 @@ human (legitimacy != authority), and an empty legitimate space routes to Guidanc
 """
 from __future__ import annotations
 
-from fdk.authgate_bridge import AuthGateBridge
-from fdk.guidance import GuidanceRequest, needs_guidance, request_guidance
-from fdk.justice import rank_by_justice
-from fdk.kernel import allowed_forbidden, decide
-from fdk.model import (
+from fdk_kernel.authgate_bridge import AuthGateBridge
+from fdk_kernel.guidance import GuidanceRequest, needs_guidance
+from fdk_kernel.kernel import allowed_forbidden
+from fdk_kernel.model import (
     AgentType,
     CandidateAction,
     Consent,
@@ -22,8 +21,11 @@ from fdk.model import (
     OwnershipGraph,
     Resource,
 )
-from fdk.planner import ListProposer
-from fdk.runtime import FreedomRuntime
+from fdk_research.decision import decide
+from fdk_research.guidance_resolution import request_guidance
+from fdk_research.justice import rank_by_justice
+from fdk_research.planner import ListProposer
+from fdk_research.runtime import FreedomRuntime
 
 
 def H(name: str) -> Entity:

@@ -4,13 +4,7 @@ Advisory worst-off-weighted ranking over permissible actions — pure functions,
 deterministic, no crypto, no I/O."""
 from __future__ import annotations
 
-from fdk.justice import (
-    W_WORST_OFF,
-    JusticeScore,
-    justice_score,
-    rank_by_justice,
-)
-from fdk.model import (
+from fdk_kernel.model import (
     AgentType,
     CandidateAction,
     Consent,
@@ -18,6 +12,12 @@ from fdk.model import (
     Entity,
     OwnershipGraph,
     Resource,
+)
+from fdk_research.justice import (
+    W_WORST_OFF,
+    JusticeScore,
+    justice_score,
+    rank_by_justice,
 )
 
 # ---------------------------------------------------------------------------

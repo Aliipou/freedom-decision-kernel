@@ -2,10 +2,18 @@
 defer rules (C-EMPTY, C-TIE, P-NEG, C-AUTH). Includes red-team proposers."""
 from __future__ import annotations
 
-from fdk.authgate_bridge import AuthGateBridge
-from fdk.guidance import GuidanceRequest
-from fdk.model import AgentType, CandidateAction, Consent, Effects, Entity, OwnershipGraph, Resource
-from fdk.planner import ListProposer, plan
+from fdk_kernel.authgate_bridge import AuthGateBridge
+from fdk_kernel.guidance import GuidanceRequest
+from fdk_kernel.model import (
+    AgentType,
+    CandidateAction,
+    Consent,
+    Effects,
+    Entity,
+    OwnershipGraph,
+    Resource,
+)
+from fdk_research.planner import ListProposer, plan
 
 ALICE = Entity("alice", AgentType.HUMAN)
 USER = Entity("user", AgentType.HUMAN)

@@ -4,11 +4,19 @@ from __future__ import annotations
 
 import pytest
 
-from fdk.audit import build_audit_context
-from fdk.guidance_engine import SelfUpdate, verify_self_update
-from fdk.kernel import check_legitimacy
-from fdk.model import AgentType, CandidateAction, Consent, Effects, Entity, OwnershipGraph, Resource
-from fdk.simulator import run_scenario
+from fdk_kernel.audit import build_audit_context
+from fdk_kernel.kernel import check_legitimacy
+from fdk_kernel.model import (
+    AgentType,
+    CandidateAction,
+    Consent,
+    Effects,
+    Entity,
+    OwnershipGraph,
+    Resource,
+)
+from fdk_research.guidance_engine import SelfUpdate, verify_self_update
+from fdk_research.simulator import run_scenario
 
 ALICE = Entity("alice", AgentType.HUMAN)
 BOB = Entity("bob", AgentType.HUMAN)

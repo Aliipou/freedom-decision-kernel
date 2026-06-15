@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import pytest
 
-from fdk.errors import (
+from fdk_kernel.errors import (
     FDKError,
     InvalidCandidateAction,
     InvalidConsent,
@@ -18,8 +18,7 @@ from fdk.errors import (
     InvalidOwnershipGraph,
     InvalidResource,
 )
-from fdk.kernel import decide
-from fdk.model import (
+from fdk_kernel.model import (
     AgentType,
     CandidateAction,
     Consent,
@@ -28,6 +27,7 @@ from fdk.model import (
     OwnershipGraph,
     Resource,
 )
+from fdk_research.decision import decide
 
 ALICE = Entity("alice", AgentType.HUMAN)
 BOT = Entity("bot", AgentType.MACHINE)

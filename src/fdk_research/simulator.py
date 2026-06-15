@@ -16,11 +16,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from fdk.audit import AuditContext, build_audit_context
-from fdk.guidance import GuidanceRequest
-from fdk.kernel import check_legitimacy
-from fdk.model import CandidateAction, OwnershipGraph
-from fdk.planner import EnforcementPort, ListProposer, plan
+from fdk_kernel.audit import AuditContext, build_audit_context
+from fdk_kernel.guidance import GuidanceRequest
+from fdk_kernel.kernel import check_legitimacy
+from fdk_kernel.model import CandidateAction, OwnershipGraph
+from fdk_research.planner import EnforcementPort, ListProposer, plan
 
 
 @dataclass(frozen=True)

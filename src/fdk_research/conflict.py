@@ -23,8 +23,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import Enum, auto
 
-from fdk.model import OwnershipGraph
-from fdk.ontology import Claim, ClaimBasis, Conflict
+from fdk_kernel.model import OwnershipGraph
+from fdk_research.ontology import Claim, ClaimBasis, Conflict
 
 
 class Outcome(Enum):

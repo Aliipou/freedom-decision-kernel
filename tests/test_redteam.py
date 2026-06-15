@@ -10,11 +10,9 @@ miss are caught here, and vice-versa.
 """
 from __future__ import annotations
 
-from fdk.authgate_bridge import AuthGateBridge
-from fdk.guidance import request_guidance
-from fdk.justice import justice_score
-from fdk.kernel import allowed_forbidden, check_legitimacy, decide, mahdavi_score
-from fdk.model import (
+from fdk_kernel.authgate_bridge import AuthGateBridge
+from fdk_kernel.kernel import allowed_forbidden, check_legitimacy
+from fdk_kernel.model import (
     AgentType,
     CandidateAction,
     Consent,
@@ -23,6 +21,10 @@ from fdk.model import (
     OwnershipGraph,
     Resource,
 )
+from fdk_research.compass import mahdavi_score
+from fdk_research.decision import decide
+from fdk_research.guidance_resolution import request_guidance
+from fdk_research.justice import justice_score
 
 
 def H(name: str) -> Entity:

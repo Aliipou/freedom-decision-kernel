@@ -2,9 +2,9 @@
 real executor (success, failure, decide-only) and the defer path."""
 from __future__ import annotations
 
-from fdk.model import AgentType, CandidateAction, Effects, Entity, OwnershipGraph, Resource
-from fdk.planner import ListProposer
-from fdk.runtime import FreedomRuntime
+from fdk_kernel.model import AgentType, CandidateAction, Effects, Entity, OwnershipGraph, Resource
+from fdk_research.planner import ListProposer
+from fdk_research.runtime import FreedomRuntime
 
 ALICE = Entity("alice", AgentType.HUMAN)
 BOT = Entity("bot", AgentType.MACHINE)

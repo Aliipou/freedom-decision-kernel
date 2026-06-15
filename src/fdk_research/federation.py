@@ -21,11 +21,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from fdk.conflict import Resolution, resolve_conflict
-from fdk.guidance import GuidanceRequest
-from fdk.model import CandidateAction, Decision, Entity, OwnershipGraph, Resource
-from fdk.ontology import Conflict
-from fdk.planner import EnforcementPort, ProposerPort, plan
+from fdk_kernel.guidance import GuidanceRequest
+from fdk_kernel.model import CandidateAction, Decision, Entity, OwnershipGraph, Resource
+from fdk_research.conflict import Resolution, resolve_conflict
+from fdk_research.ontology import Conflict
+from fdk_research.planner import EnforcementPort, ProposerPort, plan
 
 
 @dataclass

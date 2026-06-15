@@ -25,7 +25,7 @@ dependencies = []
 dev = ["pytest>=8", "pytest-cov>=5", "ruff>=0.6", "mypy>=1.11"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/fdk"]
+packages = ["src/fdk_kernel", "src/fdk_research"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
@@ -54,7 +54,7 @@ strict = true
 files = ["src"]
 
 [tool.coverage.run]
-source = ["fdk"]
+source = ["fdk_kernel", "fdk_research"]
 branch = true
 
 [tool.coverage.report]

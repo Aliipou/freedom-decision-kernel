@@ -21,7 +21,7 @@ from authgate.kernel.entities import Resource as AGResource
 from authgate.kernel.verifier import Action as AGAction
 from authgate.kernel.verifier import FreedomVerifier
 
-from fdk.model import CandidateAction
+from fdk_kernel.model import CandidateAction
 
 
 @dataclass
@@ -58,9 +58,9 @@ def _demo() -> None:  # pragma: no cover - runnable example, not a test
     from authgate.kernel.entities import ResourceType, RightsClaim
     from authgate.kernel.registry import OwnershipRegistry
 
-    from fdk.model import AgentType, CandidateAction, Effects, Entity, OwnershipGraph, Resource
-    from fdk.planner import ListProposer
-    from fdk.runtime import FreedomRuntime
+    from fdk_kernel.model import AgentType, CandidateAction, Effects, Entity, OwnershipGraph, Resource
+    from fdk_research.planner import ListProposer
+    from fdk_research.runtime import FreedomRuntime
 
     # AuthGate side: a registry where bot may READ the doc.
     reg = OwnershipRegistry()

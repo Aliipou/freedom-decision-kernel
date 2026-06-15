@@ -1,80 +1,36 @@
 """
-The Guidance layer of the Freedom Decision Kernel.
+Guidance resolution (research layer) — turning a deferral into actionable advice.
 
-The Theory of Freedom mandates corrigibility-by-ownership: when the legitimate
-space is empty or ambiguous, "contradiction is a signal for guided clarification."
-The kernel must NOT guess — it defers to the human owner with a structured,
-actionable request. This module turns a `Decision` into that request: targeted
-questions, each with a concrete unblock hint where one exists, and an explicit
-non-negotiable marker where none can (sovereignty / coercion flags are
-categorical and are never traded away).
+The kernel decides *whether* to defer (`fdk_kernel.guidance.needs_guidance`). This
+module decides *what to ask the human* once it has deferred: it inspects each
+rejected candidate's violated axioms, maps every violation to a targeted question
+with a concrete unblock hint (or marks it non-negotiable), and explains why
+guidance is needed.
 
-This is pure interpretation of kernel output: no crypto, no enforcement —
-those live downstream (AuthGate).
+This is experimental interpretation, not a gate — it shapes a clarification UX on
+top of the kernel's deterministic output, so it lives in research. It imports the
+defer trigger and the question/request value types from the kernel; the kernel
+imports nothing from here.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
-
-from fdk.model import Decision, ScoredAction
-
-# --- violation-string prefixes (produced by fdk.kernel.check_legitimacy) ----
-# Single source of truth for parsing — no magic strings scattered below.
-
-PREFIX_FORBIDDEN = "FORBIDDEN"   # sovereignty / coercion / deception flags
-PREFIX_CONSENT = "consent"       # A6/A2: missing or invalid consent
-PREFIX_A3 = "A3"                 # human uses a resource it does not own
-PREFIX_A4 = "A4"                 # acting machine has no registered human owner
-PREFIX_A7 = "A7"                 # machine uses a resource without explicit delegation
+from fdk_kernel.guidance import (
+    PREFIX_A3,
+    PREFIX_A4,
+    PREFIX_A7,
+    PREFIX_CONSENT,
+    PREFIX_FORBIDDEN,
+    GuidanceQuestion,
+    GuidanceRequest,
+    has_top_tie,
+)
+from fdk_kernel.model import Decision, ScoredAction
 
 # Marker used in questions for categorically forbidden actions. Such questions
 # carry an EMPTY unblock_hint: there is, by construction, nothing the owner can
 # do to make the action permissible.
 NON_NEGOTIABLE = "non-negotiable"
 
-
-@dataclass(frozen=True)
-class GuidanceQuestion:
-    topic: str
-    question: str
-    unblock_hint: str
-
-
-@dataclass(frozen=True)
-class GuidanceRequest:
-    goal: str
-    reason: str
-    questions: tuple[GuidanceQuestion, ...]
-    blocking_summary: tuple[str, ...]
-
-
-# --- when must the kernel defer? --------------------------------------------
-
-def needs_guidance(decision: Decision) -> bool:
-    """True when the kernel must defer to the human owner instead of acting.
-
-    Three triggers:
-      1. The kernel itself already flagged it (decision.needs_guidance).
-      2. The legitimate space is empty (nothing ranked).
-      3. The top two ranked actions tie on justice score — the winner is
-         ambiguous, and an ambiguous winner is not a winner. Guessing here
-         would substitute the machine's preference for the owner's.
-    """
-    if decision.needs_guidance:
-        return True
-    if not decision.ranked:
-        return True
-    return bool(_has_top_tie(decision))
-
-
-def _has_top_tie(decision: Decision) -> bool:
-    if len(decision.ranked) < 2:
-        return False
-    first, second = decision.ranked[0], decision.ranked[1]
-    return first.justice_score == second.justice_score
-
-
-# --- building the clarification request -------------------------------------
 
 def request_guidance(decision: Decision) -> GuidanceRequest:
     """Turn a Decision into a structured, actionable clarification request.
@@ -94,7 +50,7 @@ def request_guidance(decision: Decision) -> GuidanceRequest:
             blocking.append(violation)
             questions.append(_question_for(violation, scored))
 
-    if _has_top_tie(decision):
+    if has_top_tie(decision):
         questions.append(_tie_question(decision))
 
     return GuidanceRequest(
@@ -112,7 +68,7 @@ def _reason_for(decision: Decision) -> str:
         return ("the legitimate space is empty — no candidate action passed the "
                 "property-rights axioms; deferring to the human owner for "
                 "clarification or re-planning (corrigibility by ownership)")
-    if _has_top_tie(decision):
+    if has_top_tie(decision):
         return ("ambiguous winner — the top-ranked actions tie on justice score; "
                 "the kernel does not guess between equally just options, the "
                 "human owner chooses")

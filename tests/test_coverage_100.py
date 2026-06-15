@@ -3,13 +3,9 @@ from __future__ import annotations
 
 import pytest
 
-from fdk.conflict import Outcome, resolve_conflict
-from fdk.errors import InvalidEntity, InvalidOwnershipGraph
-from fdk.guidance import request_guidance
-from fdk.guidance_engine import DelegationGrant, verify_guidance
-from fdk.justice import justice_score
-from fdk.kernel import check_legitimacy
-from fdk.model import (
+from fdk_kernel.errors import InvalidEntity, InvalidOwnershipGraph
+from fdk_kernel.kernel import check_legitimacy
+from fdk_kernel.model import (
     AgentType,
     CandidateAction,
     Consent,
@@ -20,7 +16,11 @@ from fdk.model import (
     Resource,
     ScoredAction,
 )
-from fdk.ontology import Claim, ClaimBasis, Conflict
+from fdk_research.conflict import Outcome, resolve_conflict
+from fdk_research.guidance_engine import DelegationGrant, verify_guidance
+from fdk_research.guidance_resolution import request_guidance
+from fdk_research.justice import justice_score
+from fdk_research.ontology import Claim, ClaimBasis, Conflict
 
 ALICE = Entity("alice", AgentType.HUMAN)
 BOB = Entity("bob", AgentType.HUMAN)

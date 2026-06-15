@@ -16,7 +16,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from enum import Enum, auto
 
-from fdk.errors import (
+from fdk_kernel.errors import (
     InvalidCandidateAction,
     InvalidConsent,
     InvalidEntity,

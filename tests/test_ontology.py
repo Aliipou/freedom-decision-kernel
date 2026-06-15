@@ -3,9 +3,9 @@ from __future__ import annotations
 
 import pytest
 
-from fdk.errors import InvalidClaim, InvalidConflict, InvalidContract, InvalidObligation
-from fdk.model import AgentType, Consent, Entity, Resource
-from fdk.ontology import (
+from fdk_kernel.errors import InvalidClaim, InvalidConflict, InvalidContract, InvalidObligation
+from fdk_kernel.model import AgentType, Consent, Entity, Resource
+from fdk_research.ontology import (
     Claim,
     ClaimBasis,
     Conflict,

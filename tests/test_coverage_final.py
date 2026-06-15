@@ -1,9 +1,7 @@
 """Final coverage closers: the last three single-line branches."""
 from __future__ import annotations
 
-from fdk.conflict import Outcome, resolve_conflict
-from fdk.guidance import request_guidance
-from fdk.model import (
+from fdk_kernel.model import (
     AgentType,
     CandidateAction,
     Decision,
@@ -12,7 +10,9 @@ from fdk.model import (
     Resource,
     ScoredAction,
 )
-from fdk.ontology import Claim, ClaimBasis, Conflict, Obligation
+from fdk_research.conflict import Outcome, resolve_conflict
+from fdk_research.guidance_resolution import request_guidance
+from fdk_research.ontology import Claim, ClaimBasis, Conflict, Obligation
 
 ALICE = Entity("alice", AgentType.HUMAN)
 BOB = Entity("bob", AgentType.HUMAN)

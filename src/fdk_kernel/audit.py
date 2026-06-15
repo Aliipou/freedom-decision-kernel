@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from fdk.model import CandidateAction, OwnershipGraph, Resource
+from fdk_kernel.model import CandidateAction, OwnershipGraph, Resource
 
 
 @dataclass(frozen=True)

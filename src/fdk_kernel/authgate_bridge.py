@@ -18,7 +18,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from enum import IntFlag, auto
 
-from fdk.model import CandidateAction
+from fdk_kernel.model import CandidateAction
 
 
 class Rights(IntFlag):

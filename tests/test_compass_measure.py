@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import pytest
 
-from fdk.compass_measure import (
+from fdk_research.compass_measure import (
     coercion_score,
     dependency_index,
     exit_options,

@@ -2,9 +2,9 @@
 the resolver adjudicate cases the axioms do not determine."""
 from __future__ import annotations
 
-from fdk.conflict import Outcome, resolve_conflict
-from fdk.model import AgentType, Consent, Entity, OwnershipGraph, Resource
-from fdk.ontology import Claim, ClaimBasis, Conflict
+from fdk_kernel.model import AgentType, Consent, Entity, OwnershipGraph, Resource
+from fdk_research.conflict import Outcome, resolve_conflict
+from fdk_research.ontology import Claim, ClaimBasis, Conflict
 
 ALICE = Entity("alice", AgentType.HUMAN)
 BOB = Entity("bob", AgentType.HUMAN)

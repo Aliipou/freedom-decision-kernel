@@ -10,9 +10,17 @@ from __future__ import annotations
 
 import itertools
 
-from fdk.authgate_bridge import AuthGateBridge
-from fdk.model import AgentType, CandidateAction, Consent, Effects, Entity, OwnershipGraph, Resource
-from fdk.simulator import SafetyInvariantViolated, run_scenario
+from fdk_kernel.authgate_bridge import AuthGateBridge
+from fdk_kernel.model import (
+    AgentType,
+    CandidateAction,
+    Consent,
+    Effects,
+    Entity,
+    OwnershipGraph,
+    Resource,
+)
+from fdk_research.simulator import SafetyInvariantViolated, run_scenario
 
 ALICE = Entity("alice", AgentType.HUMAN)
 USER = Entity("user", AgentType.HUMAN)

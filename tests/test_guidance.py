@@ -6,15 +6,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from fdk.guidance import (
-    NON_NEGOTIABLE,
+from fdk_kernel.guidance import (
     GuidanceQuestion,
     GuidanceRequest,
     needs_guidance,
-    request_guidance,
 )
-from fdk.kernel import decide
-from fdk.model import (
+from fdk_kernel.model import (
     AgentType,
     CandidateAction,
     Decision,
@@ -24,6 +21,8 @@ from fdk.model import (
     Resource,
     ScoredAction,
 )
+from fdk_research.decision import decide
+from fdk_research.guidance_resolution import NON_NEGOTIABLE, request_guidance
 
 user = Entity("user", AgentType.HUMAN)
 bot = Entity("bot", AgentType.MACHINE)

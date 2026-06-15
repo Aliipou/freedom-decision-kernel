@@ -3,8 +3,16 @@ NoConfiscation (book 38135) and exit-right/mukataba (book 21379). Both are
 CATEGORICAL — no consent, delegation, or good outcome can buy them back."""
 from __future__ import annotations
 
-from fdk.kernel import check_legitimacy
-from fdk.model import AgentType, CandidateAction, Consent, Effects, Entity, OwnershipGraph, Resource
+from fdk_kernel.kernel import check_legitimacy
+from fdk_kernel.model import (
+    AgentType,
+    CandidateAction,
+    Consent,
+    Effects,
+    Entity,
+    OwnershipGraph,
+    Resource,
+)
 
 ALICE = Entity("alice", AgentType.HUMAN)
 BOT = Entity("bot", AgentType.MACHINE)

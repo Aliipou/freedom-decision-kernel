@@ -2,17 +2,25 @@
 consent-based access, dispute deferral, and the constitutional-update guard."""
 from __future__ import annotations
 
-from fdk.conflict import Outcome
-from fdk.federation import (
+from fdk_kernel.guidance import GuidanceRequest
+from fdk_kernel.model import (
+    AgentType,
+    CandidateAction,
+    Consent,
+    Effects,
+    Entity,
+    OwnershipGraph,
+    Resource,
+)
+from fdk_research.conflict import Outcome
+from fdk_research.federation import (
     Federation,
     constitutional_update_allowed,
     federated_decide,
     resolve_dispute,
 )
-from fdk.guidance import GuidanceRequest
-from fdk.model import AgentType, CandidateAction, Consent, Effects, Entity, OwnershipGraph, Resource
-from fdk.ontology import Claim, ClaimBasis, Conflict
-from fdk.planner import ListProposer
+from fdk_research.ontology import Claim, ClaimBasis, Conflict
+from fdk_research.planner import ListProposer
 
 ALICE = Entity("alice", AgentType.HUMAN)
 BOB = Entity("bob", AgentType.HUMAN)

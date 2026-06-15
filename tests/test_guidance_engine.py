@@ -3,14 +3,22 @@ obedience. Restrictions pass; scope expansions are checked; no human response ca
 authorize a forbidden action."""
 from __future__ import annotations
 
-from fdk.guidance_engine import (
+from fdk_kernel.kernel import check_legitimacy
+from fdk_kernel.model import (
+    AgentType,
+    CandidateAction,
+    Consent,
+    Effects,
+    Entity,
+    OwnershipGraph,
+    Resource,
+)
+from fdk_research.guidance_engine import (
     ConsentGrant,
     Constraint,
     DelegationGrant,
     verify_guidance,
 )
-from fdk.kernel import check_legitimacy
-from fdk.model import AgentType, CandidateAction, Consent, Effects, Entity, OwnershipGraph, Resource
 
 ALICE = Entity("alice", AgentType.HUMAN)
 MALLORY = Entity("mallory", AgentType.HUMAN)
