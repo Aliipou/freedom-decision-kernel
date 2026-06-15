@@ -5,8 +5,9 @@
 > relations, and an honest map of what is computable today versus what requires
 > semantic judgment or human legal scholarship.
 >
-> **It EXTENDS, and does not replace, `src/fdk/model.py`** (Entity / Resource /
-> OwnershipGraph / Consent). Section 6 gives the exact mapping.
+> **It EXTENDS, and does not replace, `src/fdk_kernel/model.py`** (Entity /
+> Resource / OwnershipGraph / Consent). Section 6 gives the exact mapping.
+> (Paths updated 2026-06-15 after the kernel/research package split.)
 
 **Status legend** (same convention as [`FORMAL_SPEC.md`](FORMAL_SPEC.md))
 - **DEFINED** — computable now from structural data (registry lookups, set membership, conjunctions of recorded booleans).
@@ -265,13 +266,16 @@ unexchangeable"). Already in `model.py`; restated here as the ontology type.
 revocable ∧ competent ∧ ¬coerced ∧ ¬deceived. No emergency suspends it.
 
 **Attributes:** as `model.py:Consent` (`human, action_id, informed, voluntary,
-specific, competent, coerced, deceived`) **plus one required addition**:
+specific, competent, revocable, coerced, deceived`).
 
-> **Gap found:** `model.py:Consent` omits the `revocable` leaf that THEORY.md's
-> `valid_consent/2` requires (`revocable(H, A)`). FORMAL_SPEC §B lists it; the
-> dataclass does not carry it. Stage-2 integration should add
-> `revocable: bool` (and a `revoked_at` lifecycle field) to `Consent`. Flagged
-> for the lead — this spec does not edit `model.py`.
+> **Resolved 2026-06-15:** an earlier version of this section claimed `Consent`
+> omitted the `revocable` leaf. It does not — `model.py:Consent` carries
+> `revocable: bool = True` and `is_valid()` rejects non-revocable consent
+> ("consent of {H} is not revocable"), matching THEORY.md `valid_consent/2`.
+> The remaining gap is a *lifecycle* field (`revoked_at`) for time-bounded
+> revocation, plus operation-typing on the `Resource`/delegation side so a
+> consent can authorize `read` but not `transfer` (see
+> [`BOUNDARY_ONTOLOGY.md`](BOUNDARY_ONTOLOGY.md) §4.3). This spec edits no code.
 
 **Relations:** `consents(Person, Action)`; constituent of `Contract` and of
 `Delegation`; `valid_consent/2` is the derived predicate.
@@ -418,7 +422,7 @@ Consistent with THEORY.md's Prolog and `model.py`. "In code" = exists today.
 | 9 | `right/2` | `Person × RightKind → bool` | A3, THEORY.md ontology | DEFINED (derived, never stored) | implicit |
 | 10 | `machine_right/2` | `Machine × Kind → bool` | THEORY.md ontology | DEFINED | implicit |
 | 11 | `consents/2` | `Person × Action → Consent` | consent logic | DEFINED (record) | `Consent` |
-| 12 | `valid_consent/2` | `Person × Action → bool` | consent logic | DEFINED composite; leaves PARTIAL (`informed/voluntary/specific/revocable/competent`), OPEN (`coerced/deceived`) | `Consent.is_valid` (missing `revocable` — §2.8) |
+| 12 | `valid_consent/2` | `Person × Action → bool` | consent logic | DEFINED composite; leaves PARTIAL (`informed/voluntary/specific/revocable/competent`), OPEN (`coerced/deceived`) | `Consent.is_valid` (carries `revocable` — §2.8) |
 | 13 | `party_to/2` | `Agent × Contract → bool` | Book Part II/III | DEFINED | — (new) |
 | 14 | `valid_contract/1` | `Contract → bool` | Book consent-consequence + Step 16 | DEFINED composite; leaves inherit §B | — (new) |
 | 15 | `violates_third_party_rights/1` | `Contract → bool` | Book Step 16 | DEFINED for declared effects; OPEN for inferred | — (new) |
@@ -494,14 +498,14 @@ one `revocable` field fix (§2.8).
 
 ---
 
-## 6. Mapping to `src/fdk/model.py`
+## 6. Mapping to `src/fdk_kernel/model.py`
 
 | Ontology type | model.py today | Change required (for the lead; this spec edits nothing) |
 |---|---|---|
 | Person, Machine | `Entity(kind=AgentType)` | none — adequate |
 | Asset | `Resource` | optionally add `kind` enum; `Resource` name may stay |
 | owns / human_owner / delegated | `OwnershipGraph` | add multi-owner awareness for `unclear_ownership` detection |
-| Consent | `Consent` | **add `revocable: bool` (+ lifecycle)** — required by THEORY.md `valid_consent/2` |
+| Consent | `Consent` (has `revocable`) | optional: add `revoked_at` lifecycle + operation-typed consent (BOUNDARY_ONTOLOGY §4.3) |
 | Delegation | bare `set[Resource]` in `OwnershipGraph.delegated` | promote to a record (operations, status) when Stage 3 needs citable delegations |
 | Claim, Obligation, Contract, Conflict | absent | new frozen dataclasses, per §2.6, 2.10–2.12 |
 | Organization, Institution, Information | absent | deferred (§5) |
