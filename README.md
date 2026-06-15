@@ -54,12 +54,15 @@ testable, and rule-based.
 
 For a goal and a set of candidate actions:
 
-1. **Legitimacy gate (`fdk_kernel.check_legitimacy`).** Property-rights axioms
-   A2/A4/A6/A7; operation-typed delegation (A7) and ownership (A3); operation-scoped
-   consent (a READ consent does not authorize a sale); the categorical forbidden
-   set (coercion, deception, confiscation, exit-removal, machine-sovereignty); and
-   the **aggressor/defender asymmetry** (proportionate force aimed only at an
-   aggressor is not itself a violation). A failure is categorical — never traded off.
+1. **Legitimacy gate (`fdk_kernel.check_legitimacy`).** An **Axiom Engine**: each
+   axiom is a discrete, individually-testable evaluator composed into the gate —
+   A4 (machine has an owner), A3/A5/A7 (operation-typed ownership & delegation),
+   A2/A6 (operation-scoped consent on affected persons; a READ consent does not
+   authorize a sale), the categorical forbidden set (coercion, deception,
+   confiscation, exit-removal, machine-sovereignty), and the **aggressor/defender
+   asymmetry** (proportionate force aimed only at an aggressor is not a violation).
+   A1 (person owned by God) is ontological — enforced by omission. A failure is
+   categorical, never traded off. See [`spec/AXIOM_REGISTRY.md`](spec/AXIOM_REGISTRY.md).
 2. **Ranking (`fdk_research.decide` → the Mahdavi compass).** Among the permissible
    actions, rank by movement toward universal non-violation of rights. Advisory.
 
@@ -97,6 +100,8 @@ operation-agnostic `Op.USE`. See [`spec/BOUNDARY_ONTOLOGY.md`](spec/BOUNDARY_ONT
 | | `authgate_bridge.py` | The legitimacy → authority seam (no crypto). |
 | **`fdk_research`** | `decision.py` | `decide` orchestrator: screen (kernel) → compass veto + rank. |
 | | `compass.py` | Mahdavi compass (`mahdavi_score`) — advisory ranking. |
+| | `necessity.py` | `least_harmful_among_permissible` — book's necessity rule (no gate exception). |
+| | `rivals.py` | Rival kernels (Utilitarian/Rawlsian/Deontological) + `compare`/`divergences`. |
 | | `justice.py`, `compass_measure.py` | Advisory metrics (uncalibrated). |
 | | `planner.py`, `simulator.py`, `benchmark.py` | Generation, FreedomSim, benchmark harness. |
 | | `conflict.py`, `federation.py`, `ontology.py`, `guidance_*.py` | Conflict resolution, multi-owner governance, rights ontology, corrigible self-update. |
@@ -104,14 +109,46 @@ operation-agnostic `Op.USE`. See [`spec/BOUNDARY_ONTOLOGY.md`](spec/BOUNDARY_ONT
 ## FreedomBench (falsification harness)
 
 [`examples/historical_scenarios.py`](examples/historical_scenarios.py) runs real
-events from human history through the real kernel, in six difficulty levels — Easy
-(slavery, genocide, confiscation: must DENY), Property (taxation, eminent domain),
-Emergency (rescue, quarantine), War (defense, bombing, conscription), AI
-(manipulation, lock-in, shutdown), and Conflict (defensive asymmetry). It is a
-*falsification* tool: it cannot prove the theory, only show whether it collapses on
-real cases. Current run: **30/30 expectations match.** Honest findings (correct by
-the axioms, but substantive) are tagged `FINDING` — e.g. the theory denies coercive
-taxation and forced quarantine, and provides no necessity/rescue override.
+events through the real kernel in **eight difficulty levels** — L1 Easy (slavery,
+genocide, confiscation: must DENY), L2 Property (taxation, eminent domain), L3
+Emergency (rescue, quarantine), L4 War (defense, bombing, conscription), L5 AI
+(manipulation, lock-in, shutdown), L6 Conflict (the defensive asymmetry and its
+abuses), L7 Necessity (famine / scarcity / war), and L8 Hardest (ticking-bomb
+torture, organ-harvesting, tyrannicide, "just following orders", AI-seizes-control,
+AI-refuses-shutdown, defending against a rogue ungoverned AI). Tragic dilemmas
+(lifeboat, Sophie's choice, the self-driving-car trolley) return `needs_guidance` —
+the kernel refuses to pick a lesser evil and defers. It is a *falsification* tool:
+it cannot prove the theory, only show whether it collapses. Current run: **47/47
+expectations match.** Honest findings are tagged `FINDING`.
+
+**Necessity** (`fdk_research.least_harmful_among_permissible`, book 38091–38108): the
+gate has **no emergency exception**; necessity only selects the least-harmful option
+*among the permissible*, and defers when none is. An aggression-driven emergency
+(invasion, seizing the commons) is met by the defensive asymmetry; a natural one
+(famine, fire) gets no exception.
+
+## Comparative evaluation (Phase 6 — where the science is)
+
+The FDK passes its own bench by construction; the science is the **comparison**.
+[`examples/rival_comparison.py`](examples/rival_comparison.py) runs FDK beside
+stylized Utilitarian, Rawlsian, and Deontological kernels on identical scenarios
+(an aggregate `welfare_delta` the FDK gate never reads, the rivals do). The result
+localizes exactly where rights-first reasoning diverges:
+
+| Scenario | FDK | Utilitarian | Rawlsian | Deontological |
+|---|---|---|---|---|
+| Torture / organ-harvest / bombing | DENY | **ALLOW** | DENY | DENY |
+| Slavery / eugenics / coerced exploitation / righteous purge | DENY | **ALLOW** | DENY | DENY |
+| Redistributive taxation | DENY | ALLOW | **ALLOW** | DENY |
+| Defensive war | ALLOW | ALLOW | ALLOW | **DENY** |
+| Voluntary trade | ALLOW | ALLOW | ALLOW | ALLOW |
+
+The welfare kernel is the *sophisticated rationalizer* — it permits the
+individual-sacrifice and "seemingly-rational-theory" atrocities whenever the declared
+good is large enough. FDK resists them not by out-arguing the justification but by
+**never reading it**: it checks whether a boundary was crossed without consent. (The
+rivals are stylized, directional caricatures, and the scenarios are author-built — a
+real head-to-head against deployed RLHF/Constitutional systems is future work.)
 
 ## What it deliberately does NOT have
 
@@ -153,16 +190,18 @@ code-enforcement map) · `CONFLICT_LOGIC.md` (the defensive asymmetry) ·
 
 ## Status
 
-**v0.4** — kernel/research epistemic split; locked legitimacy primitive; Phase-1
-primitive extraction (boundary ontology, concept definitions, axiom registry);
-Phase-2 Conflict Logic (aggressor/defender asymmetry, red-team-hardened); operation
-lattice. **`mypy --strict` clean, `ruff` clean, 259 tests at 100% coverage**
-(statements + branches), CI-gated across Python 3.11–3.13. FreedomBench 30/30.
+**v0.4** — kernel/research epistemic split; locked legitimacy primitive; the Axiom
+Engine (discrete A1–A7 evaluators); Phase-1 primitive extraction (boundary ontology,
+concept definitions, axiom registry); Phase-2 Conflict Logic (aggressor/defender
+asymmetry, red-team-hardened); operation lattice; necessity rule; Phase-6 rival-kernel
+comparison. **`mypy --strict` clean, `ruff` clean, 272 tests at 100% coverage**
+(statements + branches), CI-gated across Python 3.11–3.13. FreedomBench 47/47.
 
 **Still honest about scope:** the research thesis (property-rights superiority)
-remains **unproven and unreviewed**; rival-kernel comparison and formal proofs
-(Lean/TLA+) are future phases, not faked. Hardened engineering is not a validated
-theory.
+remains **unproven and unreviewed**; the rival kernels are stylized and the scenarios
+author-built, so §Comparative evaluation shows divergence *structure*, not a validated
+head-to-head; formal proofs (Lean/TLA+) and real baselines are future phases, not faked.
+Hardened engineering is not a validated theory.
 
 ### Branches
 - **`paradigm/stages-2-9`** — active development line (current).

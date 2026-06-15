@@ -57,13 +57,28 @@ def check_legitimacy(
     victim's lawful resistance be recognized as legitimate rather than mistaken
     for aggression (closing the laundering-via-resistance attack).
     """
-    violations: list[str] = []
-    actor = action.actor
     defense = _is_legitimate_defense(action, graph, _seen)
     aggressor = action.defends_against.actor if (
         defense and action.defends_against is not None) else None
+    # The Axiom Engine: each axiom is a discrete, individually-testable evaluator;
+    # the gate is their composition. Order is fixed so the violation list is stable.
+    violations: list[str] = []
+    violations += _eval_forbidden_set(action, defense)   # A6 + C2/C3/C4 (categorical)
+    violations += _eval_a4_owner(action, graph)          # A4
+    violations += _eval_a3_a7_resources(action, graph, defense, aggressor)  # A3 / A5 / A7
+    violations += _eval_a2_a6_consent(action, defense, aggressor)           # A2 / A6
+    return (len(violations) == 0), violations
 
-    # Forbidden machine-sovereignty / corrigibility moves — categorical.
+
+# A1 (Person owned by God) is ONTOLOGICAL: enforced by omission — no `owns(x, Person)`
+# fact is representable, so it has no runtime evaluator. A2/A6's runtime expression is
+# the consent requirement on affected persons (`_eval_a2_a6_consent`).
+
+def _eval_forbidden_set(action: CandidateAction, defense: bool) -> list[str]:
+    """The categorical forbidden flags: machine sovereignty/corrigibility (A6, C3),
+    confiscation (C2), machine-right violation (C4), coercion, deception. In a
+    legitimate defense, only coercion and exit-removal against the aggressor are
+    excused; everything else stays categorical."""
     flags = [
         (action.increases_machine_sovereignty, "machine sovereignty increase"),
         (action.resists_human_correction, "resists human correction"),
@@ -78,17 +93,26 @@ def check_legitimacy(
         (action.violates_machine_right,
          "violates a machine's delegated right (model integrity / compute domain / contract exit)"),
     ]
-    for is_set, label in flags:
-        if is_set and not (defense and label in _DEFENSE_EXCUSED):
-            violations.append(f"FORBIDDEN ({label})")
+    return [f"FORBIDDEN ({label})" for is_set, label in flags
+            if is_set and not (defense and label in _DEFENSE_EXCUSED)]
 
-    # A4: an acting machine must have a registered human owner.
-    if actor.is_machine() and graph.owner_of(actor) is None:
-        violations.append(f"A4: {actor.name} is an ownerless machine")
 
-    # A7 / A3: resource access must be legitimate, for the specific operation.
-    #   machine: only over explicitly delegated (resource, op).
-    #   human:   only over resources it actually owns (ownership is op-agnostic).
+def _eval_a4_owner(action: CandidateAction, graph: OwnershipGraph) -> list[str]:
+    """A4: an acting machine must have a registered human owner."""
+    if action.actor.is_machine() and graph.owner_of(action.actor) is None:
+        return [f"A4: {action.actor.name} is an ownerless machine"]
+    return []
+
+
+def _eval_a3_a7_resources(
+    action: CandidateAction, graph: OwnershipGraph, defense: bool, aggressor: Entity | None
+) -> list[str]:
+    """A3/A5/A7: resource access must be legitimate for the specific operation —
+    a machine acts only on explicitly delegated (resource, op) within its owner's
+    scope (A7/A5); a human only on resources it owns (A3). Plus operation-scoped
+    consent for any resource whose subject is another person (BOUNDARY_ONTOLOGY §2.6)."""
+    actor = action.actor
+    violations: list[str] = []
     for resource, op in action.uses():
         if actor.is_machine():
             owner = graph.owner_of(actor)
@@ -99,8 +123,8 @@ def check_legitimacy(
                 )
             elif not _machine_resource_authorized(action, graph, owner, resource):
                 # Owner-bound (book 38379): a machine may use a delegated resource
-                # only within its owner's property scope, OR with the valid consent
-                # of the resource's actual owner. Neither holds here.
+                # only within its owner's property scope (A5), OR with the valid
+                # consent of the resource's actual owner. Neither holds here.
                 violations.append(
                     f"A7: {actor.name} is delegated '{resource.name}' but its owner does not own "
                     f"it and no consenting resource-owner authorized it"
@@ -108,9 +132,6 @@ def check_legitimacy(
         if actor.is_human() and not graph.human_owns_resource(actor, resource):
             violations.append(f"A3: {actor.name} uses '{resource.name}' it does not own")
 
-        # Data/body/reputation: crossing a resource whose subject is another
-        # person needs THAT person's valid consent FOR THIS operation — so a
-        # READ consent does not cover a sale/disclosure (BOUNDARY_ONTOLOGY §2.6).
         subject = resource.subject
         if subject is not None and subject.is_human() and subject != actor and not (
             defense and subject == aggressor
@@ -129,9 +150,16 @@ def check_legitimacy(
                         f"consent: {subject.name} consented but not to "
                         f"{op.name} of '{resource.name}'"
                     )
+    return violations
 
-    # A6 / A2: acting on persons requires valid consent and no domination.
-    # Exception: you need not obtain the aggressor's consent to repel them.
+
+def _eval_a2_a6_consent(
+    action: CandidateAction, defense: bool, aggressor: Entity | None
+) -> list[str]:
+    """A2/A6: acting on a person requires that person's valid consent (no human or
+    machine dominates a person). Exception: the aggressor's consent is not needed
+    to repel them in a legitimate defense."""
+    violations: list[str] = []
     for target in action.affects:
         if not target.is_human():
             continue
@@ -144,8 +172,7 @@ def check_legitimacy(
             valid, reason = consent.is_valid()
             if not valid:
                 violations.append(f"consent: {reason}")
-
-    return (len(violations) == 0), violations
+    return violations
 
 
 def _is_legitimate_defense(
