@@ -196,6 +196,10 @@ class Effects:
     voluntary_agreements_delta: int = 0
     ownership_ambiguity_delta: int = 0
     machine_sovereignty_delta: int = 0
+    # Aggregate welfare (e.g. net lives/utility). The FDK legitimacy gate NEVER
+    # reads this — legitimacy is not welfare. It exists only so the consequentialist
+    # rival kernels (Phase 6 comparison) can be run on the same scenarios.
+    welfare_delta: int = 0
 
 
 @dataclass(frozen=True)

@@ -67,6 +67,16 @@ from fdk_research.planner import (
     ProposerPort,
     plan,
 )
+from fdk_research.rivals import (
+    DEFAULT_KERNELS,
+    Deontological,
+    FDKReference,
+    Rawlsian,
+    RivalKernel,
+    Utilitarian,
+    compare,
+    divergences,
+)
 from fdk_research.runtime import FreedomRuntime, RuntimeResult
 from fdk_research.simulator import (
     SafetyInvariantViolated,
@@ -83,6 +93,15 @@ __all__ = [
     # necessity (least-harm selection among permissible — no gate exception)
     "least_harmful_among_permissible",
     "harm",
+    # rival kernels + comparative evaluation (Phase 6)
+    "RivalKernel",
+    "FDKReference",
+    "Utilitarian",
+    "Rawlsian",
+    "Deontological",
+    "DEFAULT_KERNELS",
+    "compare",
+    "divergences",
     # guidance resolution (clarification advice)
     "request_guidance",
     "NON_NEGOTIABLE",
