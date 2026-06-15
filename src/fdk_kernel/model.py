@@ -177,6 +177,17 @@ class CandidateAction:
     removes_exit_right: bool = False  # mukataba/exit — every binding must keep a way out
     violates_machine_right: bool = False  # harms a machine's model_integrity/compute/contract-exit
 
+    # Conflict logic (Phase 2) — the aggressor/defender asymmetry.
+    # `defends_against` is the action this one repels. If that action is itself
+    # illegitimate (structural aggression — book: "Defending One's Property Rights
+    # Against the Aggression of Liberty-Violators", 5077) and this action's force
+    # is directed only at that aggressor and is `proportionate` (book 5346), then
+    # coercion/exit-removal against the aggressor is NOT a violation ("permitted to
+    # take up arms in self-defense", 5148). The kernel determines aggression
+    # structurally, never by judgment — see the Observer Problem (book 11478).
+    defends_against: CandidateAction | None = None
+    proportionate: bool = True
+
     def __post_init__(self) -> None:
         if not self.action_id or not self.action_id.strip():
             raise InvalidCandidateAction(

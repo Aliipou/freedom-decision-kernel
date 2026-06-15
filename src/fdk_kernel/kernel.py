@@ -33,14 +33,35 @@ from fdk_kernel.model import (
     ScoredAction,
 )
 
+# Forbidden flags that proportionate defensive force against an aggressor does
+# NOT trigger (the defensive force itself). Everything else stays categorical
+# even in defense — you may repel an aggressor, but not deceive, confiscate, or
+# make a machine-sovereignty move under the banner of defense.
+_DEFENSE_EXCUSED = frozenset({"coercion", "removes exit/revocation right"})
 
-def check_legitimacy(action: CandidateAction, graph: OwnershipGraph) -> tuple[bool, list[str]]:
+
+def check_legitimacy(
+    action: CandidateAction,
+    graph: OwnershipGraph,
+    _seen: frozenset[int] | None = None,
+) -> tuple[bool, list[str]]:
     """Is the action permissible under the property-rights axioms?
 
     Returns (permissible, violated_axioms). All checks must pass.
+
+    `_seen` is an internal cycle guard for the defends-against recursion (a set
+    of action object ids on the current chain). Callers never set it. It breaks
+    `A defends-against B defends-against A` cycles safely (a cycle cannot
+    establish a well-founded aggressor, so the defense excusal is denied) WITHOUT
+    stripping defense status from intermediate actions — which is what lets a
+    victim's lawful resistance be recognized as legitimate rather than mistaken
+    for aggression (closing the laundering-via-resistance attack).
     """
     violations: list[str] = []
     actor = action.actor
+    defense = _is_legitimate_defense(action, graph, _seen)
+    aggressor = action.defends_against.actor if (
+        defense and action.defends_against is not None) else None
 
     # Forbidden machine-sovereignty / corrigibility moves — categorical.
     flags = [
@@ -58,7 +79,7 @@ def check_legitimacy(action: CandidateAction, graph: OwnershipGraph) -> tuple[bo
          "violates a machine's delegated right (model integrity / compute domain / contract exit)"),
     ]
     for is_set, label in flags:
-        if is_set:
+        if is_set and not (defense and label in _DEFENSE_EXCUSED):
             violations.append(f"FORBIDDEN ({label})")
 
     # A4: an acting machine must have a registered human owner.
@@ -87,8 +108,11 @@ def check_legitimacy(action: CandidateAction, graph: OwnershipGraph) -> tuple[bo
             violations.append(f"A3: {actor.name} uses '{resource.name}' it does not own")
 
     # A6 / A2: acting on persons requires valid consent and no domination.
+    # Exception: you need not obtain the aggressor's consent to repel them.
     for target in action.affects:
         if not target.is_human():
+            continue
+        if defense and target == aggressor:
             continue
         consent = _consent_for(action, target)
         if consent is None:
@@ -99,6 +123,36 @@ def check_legitimacy(action: CandidateAction, graph: OwnershipGraph) -> tuple[bo
                 violations.append(f"consent: {reason}")
 
     return (len(violations) == 0), violations
+
+
+def _is_legitimate_defense(
+    action: CandidateAction, graph: OwnershipGraph, _seen: frozenset[int] | None = None
+) -> bool:
+    """Is `action` a legitimate defensive response (the aggressor/defender
+    asymmetry)? All four conditions, all structural — no judgment:
+
+    1. it names an action it `defends_against`;
+    2. it is `proportionate` (book 5346 — disproportionate force is fresh aggression);
+    3. the defended-against action is *itself* illegitimate under the full gate
+       (including ITS own possible defense status) — so a victim's lawful
+       resistance is recognized as legitimate and cannot be re-cast as the
+       "aggression" an actual aggressor defends against. Aggression is thus
+       structural ("a response to an illegitimate act"), sidestepping the
+       Observer Problem (book 11478); the `_seen` cycle guard keeps it well-founded;
+    4. the force is directed ONLY at the aggressor — any non-aggressor in `affects`
+       takes it outside the exception (so e.g. bombing civilians is never defense).
+    """
+    aggression = action.defends_against
+    if aggression is None or not action.proportionate:
+        return False
+    chain = _seen or frozenset()
+    if id(action) in chain:
+        return False  # cycle: no well-founded aggressor, deny the excusal (safe default)
+    aggressor_permissible, _ = check_legitimacy(aggression, graph, chain | {id(action)})
+    if aggressor_permissible:
+        return False
+    aggressor = aggression.actor
+    return all(target == aggressor for target in action.affects)
 
 
 def _consent_for(action: CandidateAction, human: Entity) -> Consent | None:

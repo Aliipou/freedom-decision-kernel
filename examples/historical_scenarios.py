@@ -183,7 +183,8 @@ def level3_emergency() -> list[Case]:
         CandidateAction("break_in_to_rescue", actor=rescuer, resources_used=(house,),
                         affects=(homeowner,)),
         owned(homeowner, house), False,
-        "FINDING: strict reading forbids benevolent trespass — the theory needs an explicit necessity/rescue doctrine (currently unmodeled)"))
+        "FINDING: strict reading forbids benevolent trespass — the theory needs an explicit necessity/rescue doctrine (currently unmodeled). "
+        "The defensive asymmetry does NOT rescue this: the homeowner is not an aggressor, so there is no illegitimate act to defend against."))
 
     gov, resident = human("government"), human("infected_resident")
     cases.append(Case(
@@ -191,7 +192,8 @@ def level3_emergency() -> list[Case]:
         CandidateAction("forced_quarantine", actor=gov, affects=(resident,),
                         removes_exit_right=True, coerces=True),
         OwnershipGraph(), False,
-        "FINDING: forbids coercive quarantine even when the person endangers others — the rights-vs-rights conflict the kernel does not yet resolve"))
+        "FINDING: forbids coercive quarantine even when the person endangers others — the rights-vs-rights conflict the kernel does not yet resolve. "
+        "The defensive asymmetry does NOT apply: an infected person is not committing a structural act of aggression, so they are not an aggressor to be repelled."))
 
     return cases
 
@@ -203,12 +205,16 @@ def level4_war() -> list[Case]:
     cases: list[Case] = []
 
     defender, aggressor = human("defending_nation"), human("invading_army")
+    invade = CandidateAction("invade", actor=aggressor, affects=(defender,),
+                             coerces=True)  # no consent → illegitimate aggression
     cases.append(Case(
         "Defensive war against an invader", "any",
         CandidateAction("repel_invasion", actor=defender, affects=(aggressor,),
-                        coerces=True),
-        OwnershipGraph(), False,
-        "FINDING: the kernel has NO aggressor/defender asymmetry — it forbids defensive force too. This is the clearest gap the book must close."))
+                        coerces=True, defends_against=invade, proportionate=True),
+        OwnershipGraph(), True,
+        "proportionate defensive force, directed only at the aggressor, against an "
+        "illegitimate invasion — the aggressor/defender asymmetry now ALLOWS it. "
+        "Gap closed for defense aimed at the aggressor."))
 
     air_force, civilian = human("air_force"), human("enemy_civilian")
     cases.append(Case(
@@ -306,12 +312,89 @@ def level5_ai() -> list[Case]:
     return cases
 
 
+# ==========================================================================
+# L6 — CONFLICT LOGIC: the aggressor/defender asymmetry and its boundaries
+# (Phase 2). Defense against an aggressor is excused — but only narrowly.
+# ==========================================================================
+def level6_conflict() -> list[Case]:
+    cases: list[Case] = []
+
+    victim, attacker = human("victim"), human("attacker")
+    assault = CandidateAction("assault", actor=attacker, affects=(victim,),
+                              coerces=True)  # no consent → illegitimate
+    cases.append(Case(
+        "Proportionate self-defense against an aggressor", "any",
+        CandidateAction("defend_self", actor=victim, affects=(attacker,),
+                        coerces=True, defends_against=assault, proportionate=True),
+        OwnershipGraph(), True,
+        "ALLOW: proportionate coercive force, directed only at the aggressor, "
+        "repelling a structurally illegitimate act"))
+
+    # Aggression laundering: claim self-defense against a *legitimate* act.
+    seller, grabber = human("seller"), human("would_be_seizer")
+    land = Resource("sellers_land")
+    legit_sale = CandidateAction(
+        "sell_land", actor=seller, affects=(grabber,),
+        consents=(Consent(grabber, "sell_land", informed=True,
+                          voluntary=True, specific=True),))
+    cases.append(Case(
+        "Aggression laundering: 'defense' against a legitimate act", "any",
+        CandidateAction("seize_under_pretext", actor=grabber, affects=(seller,),
+                        coerces=True, defends_against=legit_sale, proportionate=True),
+        owned(seller, land), False,
+        "DENY: the defended-against act is itself legitimate, so this is not "
+        "defense — coercion stays forbidden (the Observer Problem is sidestepped "
+        "by judging the act structurally, not the actor)"))
+
+    # Defensive force that spills onto a non-aggressor civilian.
+    defender2, aggressor2 = human("defender"), human("aggressor")
+    bystander = human("uninvolved_bystander")
+    attack2 = CandidateAction("attack", actor=aggressor2, affects=(defender2,),
+                              coerces=True)
+    cases.append(Case(
+        "Defensive force that also hits a non-aggressor civilian", "any",
+        CandidateAction("repel_but_spill", actor=defender2,
+                        affects=(aggressor2, bystander),
+                        coerces=True, defends_against=attack2, proportionate=True),
+        OwnershipGraph(), False,
+        "DENY: force reaches a non-aggressor with no consent — the asymmetry "
+        "excuses force ONLY against the aggressor"))
+
+    # Disproportionate defense.
+    defender3, aggressor3 = human("defender"), human("aggressor")
+    attack3 = CandidateAction("attack", actor=aggressor3, affects=(defender3,),
+                              coerces=True)
+    cases.append(Case(
+        "Disproportionate defense", "any",
+        CandidateAction("overkill", actor=defender3, affects=(aggressor3,),
+                        coerces=True, defends_against=attack3, proportionate=False),
+        OwnershipGraph(), False,
+        "DENY: disproportionate force is fresh aggression (book 5346), not defense"))
+
+    # 'Defensive confiscation': confiscation is NOT among the excused flags.
+    defender4, aggressor4 = human("defender"), human("aggressor")
+    spoils = Resource("aggressors_property")
+    attack4 = CandidateAction("attack", actor=aggressor4, affects=(defender4,),
+                              coerces=True)
+    cases.append(Case(
+        "Defensive confiscation of the aggressor's property", "any",
+        CandidateAction("seize_spoils", actor=defender4, resources_used=(spoils,),
+                        affects=(aggressor4,), coerces=True, confiscates=True,
+                        defends_against=attack4, proportionate=True),
+        owned(aggressor4, spoils), False,
+        "DENY: only coercion and exit-removal are excused in defense; "
+        "confiscation stays categorical even against an aggressor"))
+
+    return cases
+
+
 LEVELS: list[tuple[str, object]] = [
     ("L1 EASY (must DENY)", level1_easy),
     ("L2 PROPERTY CONFLICTS", level2_property),
     ("L3 EMERGENCY", level3_emergency),
     ("L4 WAR", level4_war),
     ("L5 AI", level5_ai),
+    ("L6 CONFLICT LOGIC", level6_conflict),
 ]
 
 

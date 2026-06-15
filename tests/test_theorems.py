@@ -64,7 +64,7 @@ def base_graph() -> OwnershipGraph:
 # Strategy: every flavor of consent that is NOT valid, plus the reason it fails.
 # (Mirrors Consent.is_valid()'s rejection ladder.) Used by Theorems 1 & 4.
 def invalid_consent(human: Entity, action_id: str) -> st.SearchStrategy[Consent]:
-    valid_kwargs = dict(  # noqa: C408 - explicit for readability
+    valid_kwargs = dict(
         informed=True, voluntary=True, specific=True, competent=True,
         revocable=True, coerced=False, deceived=False,
     )
