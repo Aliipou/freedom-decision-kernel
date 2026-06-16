@@ -57,13 +57,14 @@ Primitive / axiom / theorem freeze, so Lean, TLA+, and academic review have a fi
 target. Done and *mechanically enforced* ([`FREEZE.md`](FREEZE.md),
 `tests/test_primitive_freeze.py`). The kernel is now meant to be sacred, like TCP/IP.
 
-### Layer 1 — Turn the philosophy into mathematics  `[!]` toolchain-blocked
-Formal semantics (Boundary, Ownership, Consent, Delegation, Aggression, Defense with
-no natural language); a state machine (ownership/consent/delegation/revocation/
-conflict states); a proof layer (consistency, soundness, completeness where
-possible). The executable theorems T1–T9 already pin *what* must be proved; this
-layer re-expresses them in Lean 4 / TLA+. Blocked here only on toolchain (no Lean /
-Java in this environment) and correctly gated on the Layer-0 freeze.
+### Layer 1 — Turn the philosophy into mathematics  `[~]` Lean started, TLC blocked
+Formal semantics, a state machine, and a proof layer. **Done:** `formal/Fdk.lean`
+formalizes the kernel core and proves 8 safety theorems in Lean 4 (`lake build` green,
+zero `sorry`, no mathlib) — the executable T1–T9 are now also machine-checked logic,
+not just property tests. **Open:** (a) the refinement `Lean model ≡ Python kernel` is
+asserted, not proved; (b) the TLA+ model (`spec/fdk.tla`) is written but TLC is not
+run (needs Java); (c) extend the Lean model from booleans to the full consent /
+ownership sub-checks. Correctly gated on — and unblocked by — the Layer-0 freeze.
 
 ### Layer 2 — Try to destroy the theory itself  `[~]` substantially done
 Thousands of attacks on the *philosophy*, not the code: philosophical (Rawls,

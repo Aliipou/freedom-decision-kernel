@@ -35,3 +35,17 @@ jobs:
 
       - name: Tests + coverage gate (100%)
         run: pytest --cov=fdk_kernel --cov=fdk_research --cov-report=term-missing --cov-fail-under=100
+
+  lean:
+    name: Lean proofs (formal/)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan (Lean toolchain manager)
+        run: |
+          curl -sSf https://elan.lean-lang.org/elan-init.sh -o elan-init.sh
+          sh elan-init.sh -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Build + check the proofs (zero sorry)
+        working-directory: formal
+        run: lake build Fdk

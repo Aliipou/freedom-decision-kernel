@@ -509,7 +509,7 @@ Decontaminated comparison (external labels) & checked & FDK 70\% (Rawlsian 80\%)
 No legitimate slavery; no machine sovereignty; consent-revocation safety; delegation soundness; welfare-independence; defensive asymmetry; necessity-no-exception; kernel/research boundary & executable (T1--T9) & \texttt{tests/test\_theorems.py} (Hypothesis property tests) \\
 Free will $\equiv$ property rights (Thm.~\ref{thm:oneaxis}) & executable + proved here & \texttt{tests/test\_free\_will\_property.py}; \S\ref{sec:freewill} \\
 Conflict-logic red-team (8 attacks) & executable & \texttt{tests/test\_redteam\_conflict.py} \\
-Lean~4 proofs of T1--T9 & \textbf{not done} & no \texttt{.lean} artifact; needs frozen primitive \\
+Lean~4 proofs (kernel model) & \textbf{proved} & \texttt{formal/Fdk.lean}: 8 theorems, \texttt{lake build} green, zero \texttt{sorry}; model$\equiv$Python refinement still open \\
 TLA+ safety model + TLC run & spec only & \texttt{spec/fdk.tla} exists; TLC not run (needs Java) \\
 $\mathit{coerced}/\mathit{deceived}/$sovereignty detection & \textbf{open} & semantic; caller-attested \\
 Superiority over deployed RLHF/CAI & \textbf{unproven} & rivals are stylized (\S\ref{sec:bench}) \\

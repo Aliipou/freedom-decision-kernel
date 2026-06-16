@@ -389,6 +389,21 @@ precondition that makes Lean/TLA+/academic review meaningful (you cannot prove o
 review a moving target). New capability goes in `fdk_research/` or a future layer,
 never by editing the kernel.
 
+**Machine-checked proofs (Layer 1).** [`formal/Fdk.lean`](formal/Fdk.lean) formalizes
+the kernel core and **proves 8 safety theorems in Lean 4** (no-legitimate-slavery,
+no-machine-sovereignty, welfare-independence, defense-never-excuses-confiscation,
+non-vacuity, …) — `lake build` green, **zero `sorry`**, no mathlib. The theorems are
+no longer only executable property tests; they are checked by the Lean kernel. Honest
+limit ([`formal/README.md`](formal/README.md)): this proves the Lean *model*; the
+*model ≡ Python kernel* refinement is asserted, not yet proved.
+
+**The three open frontiers — FDK 2.0 research layers** (built *on* the frozen kernel,
+never *in* it; advisory only, proven by property tests never to move the gate):
+[`spec/STANDING.md`](spec/STANDING.md) (who is a rights-holder),
+[`spec/AGGREGATION.md`](spec/AGGREGATION.md) (collective ownership), and
+[`spec/CONSENT_AUTHENTICITY.md`](spec/CONSENT_AUTHENTICITY.md) (was consent freely
+formed — the hardest). Each is honest about what v1.0 cannot represent.
+
 - **FreedomBench at scale:** `generate_historical_suite` + `generate_ai_governance_suite`
   produce **10,000 + 10,000** scenarios, 0% rights-violation, with per-candidate
   `expected_axioms` matching the gate 100% (`src/fdk_research/benchmark.py`); plus 206
