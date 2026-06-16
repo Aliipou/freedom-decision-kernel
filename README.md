@@ -363,8 +363,10 @@ author-built, and the superiority thesis is explicitly unproven.
 
 ## 10. Status and quality
 
-**345 tests, 100% statement + branch coverage, `mypy --strict` clean, `ruff`
-clean, CI across Python 3.11–3.13. FreedomBench 47/47.**
+**415 tests, 100% statement + branch coverage, `mypy --strict` clean, `ruff`
+clean, CI across Python 3.11–3.13. FreedomBench 47/47; the continue.md red-team
+ladder (12 levels L0–L11 + a primitive-completion stress) runs 66/66 against the
+real gate (`examples/continue_ladder.py`, gated by `tests/test_continue_ladder.py`).**
 
 The test count is from a live `pytest --collect-only` run; trust the repo over
 any number you see in older documentation. The README's earlier figure of "272"
