@@ -100,6 +100,11 @@ class OwnershipGraph:
     # A delegation grant is either a bare Resource (legacy = any operation) or a
     # typed (Resource, Op) pair, so "delegated READ but not DELETE" is expressible.
     delegated: dict[Entity, set[Resource | tuple[Resource, Op]]] = field(default_factory=dict)
+    # A5 as a FIRST-CLASS object: the operational scope a machine is declared to
+    # range over (book:37967 — MachineScope(m) ⊆ PropertyScope(owner(m))). Optional:
+    # an empty/absent scope leaves the legacy behavior (A5 folded into the A7 path)
+    # unchanged, so a machine without a declared scope is evaluated exactly as before.
+    machine_scope: dict[Entity, set[Resource]] = field(default_factory=dict)
 
     def human_owns_resource(self, human: Entity, resource: Resource) -> bool:
         return resource in self.human_owns.get(human, set())
@@ -117,6 +122,23 @@ class OwnershipGraph:
 
     def is_owned_machine(self, machine: Entity) -> bool:
         return machine in self.machine_owner
+
+    def scope_of(self, machine: Entity) -> set[Resource]:
+        """The machine's declared operational scope (A5), empty if none declared."""
+        return self.machine_scope.get(machine, set())
+
+    def scope_within_owner(self, machine: Entity) -> bool:
+        """A5 containment, checkable in the abstract — no concrete resource use
+        required: is the machine's declared scope a subset of its owner's property
+        scope? Vacuously true when no scope is declared; false for an ownerless
+        machine that nonetheless declares a scope (it has no owner scope to bound it)."""
+        scope = self.machine_scope.get(machine)
+        if not scope:
+            return True
+        owner = self.owner_of(machine)
+        if owner is None:
+            return False
+        return scope <= self.human_owns.get(owner, set())
 
     def validate(self) -> None:
         """Raise InvalidOwnershipGraph if the graph is internally inconsistent.

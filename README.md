@@ -114,6 +114,11 @@ flag is a categorical forbidden-set violation, not a weighted penalty.
 
 A1 (person owned by God) is ontological — enforced by omission. A2–A7 each have
 an exact enforcement site in `kernel.py` (`spec/AXIOM_REGISTRY.md` maps them).
+A5 (a machine's scope ⊆ its owner's property scope) is now a **first-class object**:
+`OwnershipGraph.machine_scope` carries the declared scope and `_eval_a5_scope`
+checks containment *in the abstract* — `scope_within_owner` rejects an over-broad
+scope before any concrete resource is touched — directly hardening the ownership
+model the gate depends on. An undeclared scope is a no-op, preserving legacy behavior.
 
 ---
 
@@ -358,7 +363,7 @@ author-built, and the superiority thesis is explicitly unproven.
 
 ## 10. Status and quality
 
-**299 tests, 100% statement + branch coverage, `mypy --strict` clean, `ruff`
+**345 tests, 100% statement + branch coverage, `mypy --strict` clean, `ruff`
 clean, CI across Python 3.11–3.13. FreedomBench 47/47.**
 
 The test count is from a live `pytest --collect-only` run; trust the repo over

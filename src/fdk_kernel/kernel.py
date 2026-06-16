@@ -65,6 +65,7 @@ def check_legitimacy(
     violations: list[str] = []
     violations += _eval_forbidden_set(action, defense)   # A6 + C2/C3/C4 (categorical)
     violations += _eval_a4_owner(action, graph)          # A4
+    violations += _eval_a5_scope(action, graph)          # A5 (first-class scope)
     violations += _eval_a3_a7_resources(action, graph, defense, aggressor)  # A3 / A5 / A7
     violations += _eval_a2_a6_consent(action, defense, aggressor)           # A2 / A6
     return (len(violations) == 0), violations
@@ -102,6 +103,33 @@ def _eval_a4_owner(action: CandidateAction, graph: OwnershipGraph) -> list[str]:
     if action.actor.is_machine() and graph.owner_of(action.actor) is None:
         return [f"A4: {action.actor.name} is an ownerless machine"]
     return []
+
+
+def _eval_a5_scope(action: CandidateAction, graph: OwnershipGraph) -> list[str]:
+    """A5 as a first-class object (book:37967 — MachineScope(m) ⊆ PropertyScope(
+    owner(m))). When a machine declares an operational scope (`graph.machine_scope`),
+    two things must hold: (1) the declared scope is contained in the owner's
+    property scope — checkable *in the abstract*, independent of any concrete
+    resource use; and (2) every resource the machine actually touches lies within
+    that declared scope. When no scope is declared the evaluator is a no-op, so the
+    legacy behavior (A5 containment folded into the A7 path) is unchanged."""
+    actor = action.actor
+    if not actor.is_machine():
+        return []
+    scope = graph.scope_of(actor)
+    if not scope:
+        return []
+    violations: list[str] = []
+    if not graph.scope_within_owner(actor):
+        violations.append(
+            f"A5: {actor.name}'s declared scope exceeds its owner's property scope"
+        )
+    for resource, _op in action.uses():
+        if resource not in scope:
+            violations.append(
+                f"A5: {actor.name} acts on '{resource.name}' outside its declared scope"
+            )
+    return violations
 
 
 def _eval_a3_a7_resources(
