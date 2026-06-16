@@ -13,3 +13,4 @@ PAPER.html
 paper/*.aux
 paper/*.log
 paper/*.out
+formal/.lake/
