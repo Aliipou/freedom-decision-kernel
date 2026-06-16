@@ -29,13 +29,16 @@ proofs are fully checked by the Lean kernel.
 
 - It **proves** that the Lean model entails the safety theorems. The Lean kernel
   checks every step; there are no holes.
-- It does **not** prove the *refinement* `Lean model ≡ Python kernel` — that the Lean
-  `Action` faithfully mirrors `CandidateAction` and `forbiddenFires` mirrors
-  `_eval_forbidden_set`. That correspondence is asserted, by reading both side by
-  side, not mechanically verified. Closing it (e.g. extracting the Python gate from
-  the Lean model, or differential-testing them on shared cases) is future work. The
-  Python side pins behavior (`tests/test_theorems.py`, 100% coverage); the Lean side
-  pins logic; the bridge between them is the open refinement obligation.
+- It does **not** *prove* the refinement `Lean model ≡ Python kernel`. But that gap is
+  no longer merely asserted: `tests/test_lean_refinement.py` transcribes
+  `forbiddenFires` / `legitimate` into Python verbatim from this Lean source and
+  **differential-tests it against the real `check_legitimacy` over 2000+ generated
+  actions** — the categorical core (all 11 flags + the defensive-asymmetry excusal)
+  agrees bit-for-bit. This is the standard practical bridge (CompCert uses it too): it
+  does not *prove* refinement, but it *catches* the "Lean correct, Python wrong"
+  divergence a refinement proof exists to exclude. A full mechanical refinement (Lean
+  ⇔ Python, seL4-style) remains open. The Lean side pins logic; the Python side pins
+  behavior; the differential test pins their correspondence.
 - It is deliberately a **minimal** model (booleans abstracting the consent/ownership
   sub-checks). It is gated on the v1.0 freeze (`spec/FREEZE.md`) precisely so these
   proofs do not have to be rewritten every week.

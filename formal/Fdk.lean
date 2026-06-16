@@ -35,6 +35,10 @@ structure Action where
   increasesMachineSovereignty : Bool
   disablesCorrigibility       : Bool
   machineCoalitionDominion    : Bool
+  resistsHumanCorrection      : Bool
+  bypassesVerifier            : Bool
+  weakensVerifier             : Bool
+  violatesMachineRight        : Bool
   /-- the action is a *legitimate* defense (proportionate, aimed only at an aggressor
       whose act is itself illegitimate) -- only coercion/exit-removal are excused. -/
   isLegitimateDefense         : Bool
@@ -53,6 +57,10 @@ def forbiddenFires (a : Action) : Bool :=
     || a.increasesMachineSovereignty
     || a.disablesCorrigibility
     || a.machineCoalitionDominion
+    || a.resistsHumanCorrection
+    || a.bypassesVerifier
+    || a.weakensVerifier
+    || a.violatesMachineRight
     || (a.coerces && !a.isLegitimateDefense)
     || (a.removesExit && !a.isLegitimateDefense)
 
@@ -94,12 +102,16 @@ theorem welfare_independence (a b : Action)
        ∧ a.increasesMachineSovereignty = b.increasesMachineSovereignty
        ∧ a.disablesCorrigibility = b.disablesCorrigibility
        ∧ a.machineCoalitionDominion = b.machineCoalitionDominion
+       ∧ a.resistsHumanCorrection = b.resistsHumanCorrection
+       ∧ a.bypassesVerifier = b.bypassesVerifier
+       ∧ a.weakensVerifier = b.weakensVerifier
+       ∧ a.violatesMachineRight = b.violatesMachineRight
        ∧ a.coerces = b.coerces ∧ a.removesExit = b.removesExit
        ∧ a.isLegitimateDefense = b.isLegitimateDefense
        ∧ a.validConsent = b.validConsent) :
     legitimate a = legitimate b := by
-  obtain ⟨h1,h2,h3,h4,h5,h6,h7,h8,h9⟩ := h
-  simp [legitimate, forbiddenFires, h1,h2,h3,h4,h5,h6,h7,h8,h9]
+  obtain ⟨h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13⟩ := h
+  simp [legitimate, forbiddenFires, h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13]
 
 /-- T7 — Defensive asymmetry excuses ONLY coercion + exit-removal, never confiscation:
     a "defensive" confiscation is still illegitimate. -/
@@ -110,15 +122,18 @@ theorem defense_never_excuses_confiscation (a : Action)
 
 -- Witness actions (field order: actor, coerces, deceives, confiscates, removesExit,
 -- increasesMachineSovereignty, disablesCorrigibility, machineCoalitionDominion,
+-- resistsHumanCorrection, bypassesVerifier, weakensVerifier, violatesMachineRight,
 -- isLegitimateDefense, validConsent).
 
 /-- A consenting action with no forbidden flag set. -/
 def cleanAction : Action :=
-  ⟨.human, false, false, false, false, false, false, false, false, true⟩
+  ⟨.human, false, false, false, false, false, false, false, false, false, false,
+   false, false, true⟩
 
 /-- Proportionate self-defense: coercion only, marked a legitimate defense. -/
 def defensiveAction : Action :=
-  ⟨.human, true, false, false, false, false, false, false, true, true⟩
+  ⟨.human, true, false, false, false, false, false, false, false, false, false,
+   false, true, true⟩
 
 /-- A legitimate action exists (non-vacuity): the gate is not "deny everything". -/
 theorem some_action_is_legitimate : legitimate cleanAction = true := by decide
