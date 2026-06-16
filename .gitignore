@@ -9,3 +9,4 @@ PAPER.html
 
 .hypothesis/
 .claude/
+.coverage
