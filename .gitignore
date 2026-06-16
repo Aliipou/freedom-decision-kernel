@@ -10,3 +10,6 @@ PAPER.html
 .hypothesis/
 .claude/
 .coverage
+paper/*.aux
+paper/*.log
+paper/*.out
