@@ -370,8 +370,16 @@ author-built, and the superiority thesis is explicitly unproven.
 
 ## 10. Status and quality
 
-**507 tests, 100% statement + branch coverage, `mypy --strict` clean, `ruff`
-clean, CI across Python 3.11–3.13.**
+**613 tests + 24 strict-xfail gap-tests, 100% statement + branch coverage,
+`mypy --strict` clean, `ruff` clean (whole tree), CI across Python 3.11–3.13.**
+
+The 24 xfails are the documented **scope limits** (Standing / Aggregation /
+Consent-Authenticity) — each pinned so a future "fix" flips it to XPASS and fails
+the suite until [`spec/LIMITATIONS.md`](spec/LIMITATIONS.md) is updated. Limits
+cannot rot silently. A property-based technical fuzz red-team
+(`tests/test_technical_redteam.py`) proves the kernel's invariants — determinism,
+crash-freedom, atrocity-flag dominance, cycle-guard termination — with **0 critical
+findings** (`spec/TECHNICAL_REDTEAM.md`).
 
 - **FreedomBench at scale:** `generate_historical_suite` + `generate_ai_governance_suite`
   produce **10,000 + 10,000** scenarios, 0% rights-violation, with per-candidate
