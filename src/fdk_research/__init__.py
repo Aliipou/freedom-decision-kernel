@@ -37,6 +37,15 @@ from fdk_research.compass_measure import (
     voluntary_order,
 )
 from fdk_research.conflict import Outcome, Resolution, resolve_conflict
+from fdk_research.consent_authenticity import (
+    AuthenticityReport,
+    ConsentContext,
+    Recommendation,
+    ReviewRequest,
+    Severity,
+    assess_consent_authenticity,
+    route_for_review,
+)
 from fdk_research.decision import decide
 from fdk_research.evaluation import (
     ComparativeReport,
@@ -172,6 +181,14 @@ __all__ = [
     "Outcome",
     "Resolution",
     "resolve_conflict",
+    # consent authenticity (advisory; FDK 2.0 Project C) — never a verdict
+    "ConsentContext",
+    "AuthenticityReport",
+    "ReviewRequest",
+    "Severity",
+    "Recommendation",
+    "assess_consent_authenticity",
+    "route_for_review",
     # compass measurement (advisory)
     "dependency_index",
     "exit_options",
