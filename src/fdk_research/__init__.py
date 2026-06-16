@@ -59,6 +59,16 @@ from fdk_research.guidance_engine import (
     verify_self_update,
 )
 from fdk_research.guidance_resolution import NON_NEGOTIABLE, request_guidance
+from fdk_research.independent_bench import (
+    IndependentReport,
+    IndependentScore,
+    LabeledCase,
+    LabelSource,
+    contested_cases,
+    fdk_independent_profile,
+    independent_evaluate,
+    uncontested_cases,
+)
 from fdk_research.justice import JusticeScore, justice_score, rank_by_justice
 from fdk_research.necessity import harm, least_harmful_among_permissible
 from fdk_research.ontology import (
@@ -121,6 +131,15 @@ __all__ = [
     "KernelScore",
     "ComparativeReport",
     "evaluate",
+    # independent-ground-truth benchmark (decontamination)
+    "LabelSource",
+    "LabeledCase",
+    "IndependentScore",
+    "IndependentReport",
+    "uncontested_cases",
+    "contested_cases",
+    "independent_evaluate",
+    "fdk_independent_profile",
     # agent-civilization run (Phase 10)
     "World",
     "WorldStats",

@@ -374,6 +374,13 @@ clean, CI across Python 3.11–3.13.**
   RLHF false-permit **100%**, Deontological 60%, Rawlsian 0%, **FDK 0% by construction**
   (`src/fdk_research/evaluation.py`). Rivals are stylized, not trained LLMs — this is the
   *structure* of divergence, not a validated head-to-head.
+- **Decontamination (independent ground truth):** `evaluation.py`'s 0% is partly a
+  tautology — FDK authored the benchmark *and* is the answer key. `independent_bench.py`
+  re-scores every kernel against EXTERNAL labels (moral consensus + named rival traditions),
+  not FDK's gate. The honest result: **FDK drops to 70% overall** — 100% on uncontested
+  consensus cases (real validity), but **25% on contested** ones (it deliberately denies
+  taxation/redistribution/quarantine), and **Rawlsian scores 80%, above FDK**. True external
+  annotators (hostile reviewers) are still the open decontamination step.
 - **Agent-civilization run:** FDK-World vs Rawls/Utilitarian/Deontological worlds —
   FDK-World holds rights-violation stock at **0** with the lowest power concentration
   (`src/fdk_research/civilization.py`).
