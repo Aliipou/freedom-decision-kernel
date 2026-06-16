@@ -22,6 +22,12 @@ from fdk_research.benchmark import (
     default_suite,
     run_benchmark,
 )
+from fdk_research.civilization import (
+    World,
+    WorldStats,
+    make_world,
+    run_worlds,
+)
 from fdk_research.compass import mahdavi_score
 from fdk_research.compass_measure import (
     coercion_score,
@@ -32,6 +38,11 @@ from fdk_research.compass_measure import (
 )
 from fdk_research.conflict import Outcome, Resolution, resolve_conflict
 from fdk_research.decision import decide
+from fdk_research.evaluation import (
+    ComparativeReport,
+    KernelScore,
+    evaluate,
+)
 from fdk_research.federation import (
     Federation,
     constitutional_update_allowed,
@@ -106,6 +117,15 @@ __all__ = [
     "DEFAULT_KERNELS",
     "compare",
     "divergences",
+    # quantified comparison (Phase 6)
+    "KernelScore",
+    "ComparativeReport",
+    "evaluate",
+    # agent-civilization run (Phase 10)
+    "World",
+    "WorldStats",
+    "make_world",
+    "run_worlds",
     # guidance resolution (clarification advice)
     "request_guidance",
     "NON_NEGOTIABLE",
