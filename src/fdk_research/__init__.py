@@ -14,6 +14,13 @@ Engineering by Ali Pourrahim.
 """
 from __future__ import annotations
 
+from fdk_research.aggregation import (
+    AggregationAssessment,
+    CollectiveForm,
+    assess_aggregation,
+    gap_forms,
+    representable_forms,
+)
 from fdk_research.benchmark import (
     BenchmarkReport,
     ProblemClass,
@@ -200,6 +207,12 @@ __all__ = [
     "StandingFacts",
     "StandingAssessment",
     "assess_standing",
+    # aggregation / collective ownership (advisory; FDK 2.0 Project B) — never a verdict
+    "CollectiveForm",
+    "AggregationAssessment",
+    "assess_aggregation",
+    "representable_forms",
+    "gap_forms",
     # compass measurement (advisory)
     "dependency_index",
     "exit_options",
