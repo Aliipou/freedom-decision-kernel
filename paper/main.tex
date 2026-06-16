@@ -56,7 +56,8 @@ the discriminating coercion cases correctly, with no new mechanism.
 
 We are deliberate about scope. The engineering claims are facts: the kernel runs, is
 \texttt{mypy~--strict} and \texttt{ruff} clean, holds a 100\% statement-and-branch coverage
-gate over 299 tests, is red-team-hardened, and is wired to a separate verified capability
+gate over 613 tests (plus 24 strict-xfail gap-tests), is multi-front red-team-hardened, and is
+wired to a separate verified capability
 kernel. The theory's claim --- that a consistent property-rights calculus resists
 \emph{dialectical jailbreak} where preference- and principle-based methods do not ---
 remains an \textbf{unproven thesis}. The rival kernels we compare against are stylized
@@ -453,6 +454,39 @@ asymmetry permits and an absolute non-coercion duty cannot. We are explicit abou
 \emph{not}: a validated head-to-head against deployed RLHF or Constitutional-AI systems. The
 rivals are stylized rules and the scenarios are author-constructed.
 
+\paragraph{Scale and quantification.} Beyond the curated set, procedural generators
+(\texttt{generate\_historical\_suite}, \texttt{generate\_ai\_governance\_suite}) emit
+\textbf{10{,}000 + 10{,}000} structurally-diverse scenarios, each carrying the axioms its
+violating candidate should trip; the kernel's verdicts match those expectations $100\%$ with a
+$0\%$ rights-violation rate. Over this suite a six-kernel comparison
+(\texttt{src/fdk\_research/evaluation.py}) adds \emph{Constitutional-AI} and \emph{RLHF}
+caricatures: Utilitarian, Constitutional-AI, and RLHF all false-permit $100\%$ on the baited
+sacrifice cases, Deontological $60\%$, Rawlsian $0\%$, FDK $0\%$. The last number is a
+\emph{tautology}, and we say so loudly: FDK authored the benchmark and FDK's gate is the answer
+key.
+
+\paragraph{Decontamination: the honest number.} To break that circularity,
+\texttt{src/fdk\_research/independent\_bench.py} re-scores every kernel against \emph{external}
+labels --- near-universal moral consensus and named rival traditions, never
+\texttt{check\_legitimacy}. Against those labels \textbf{FDK scores $70\%$ overall} --- $100\%$
+on uncontested consensus cases (a genuine validity signal, since the labels are not FDK's) but
+only $25\%$ on contested ones, where it deliberately denies taxation, redistribution, and
+quarantine. And \textbf{Rawlsian scores $80\%$, above FDK.} We keep this result in the paper and
+the README rather than deleting it: internal consistency is not external truth, and the only
+honest claim is that FDK is \emph{falsifiable and transparently scored}, not that it is correct.
+True external annotators (hostile reviewers writing the cases) remain the open decontamination
+step.
+
+\paragraph{Adversarial campaign.} The artifact carries a multi-front red-team: a brutal suite
+laundering every civilization-scale atrocity through every excuse (defense, necessity,
+majority-vote, forged consent, legalism, paternalism, coalition-split) with \textbf{zero
+breaches}; a hostile adversary panel of philosophers, politicians, scientists, and economists
+with \textbf{zero indefensible verdicts}; intellectual red-teams against 22 doctrines and 26
+real-world domains \emph{outside} the source theory; a property-based fuzz of the kernel
+invariants with \textbf{zero critical findings}; and foundational attacks on the primitive
+itself. The convergent result is reported in \S\ref{sec:limits} and
+\texttt{spec/LIMITATIONS.md}: nobody broke the core, but the gaps cluster sharply.
+
 \section{Verification status}
 \label{sec:status}
 
@@ -468,13 +502,15 @@ machine-checked proof.}
 \toprule
 Property & Status & Evidence \\
 \midrule
-Type soundness & checked & \texttt{mypy --strict} clean, 23 modules \\
-Coverage & checked & 100\% statement+branch, 299 tests, CI 3.11--3.13 \\
+Type soundness & checked & \texttt{mypy --strict} clean, 26 modules \\
+Coverage & checked & 100\% statement+branch, 613 tests + 24 strict-xfail gap-tests, CI 3.11--3.13 \\
+Red-team campaign (brutal/panel/doctrine/real-world/fuzz/foundational) & executable & 0 breaches, 0 BREAKS, 0 critical findings; 24 gaps pinned as strict-xfail \\
+Decontaminated comparison (external labels) & checked & FDK 70\% (Rawlsian 80\%); \texttt{independent\_bench.py} \\
 No legitimate slavery; no machine sovereignty; consent-revocation safety; delegation soundness; welfare-independence; defensive asymmetry; necessity-no-exception; kernel/research boundary & executable (T1--T9) & \texttt{tests/test\_theorems.py} (Hypothesis property tests) \\
 Free will $\equiv$ property rights (Thm.~\ref{thm:oneaxis}) & executable + proved here & \texttt{tests/test\_free\_will\_property.py}; \S\ref{sec:freewill} \\
 Conflict-logic red-team (8 attacks) & executable & \texttt{tests/test\_redteam\_conflict.py} \\
 Lean~4 proofs of T1--T9 & \textbf{not done} & no \texttt{.lean} artifact; needs frozen primitive \\
-TLA+ safety model + TLC run & \textbf{not done} & no \texttt{.tla} artifact; needs Java \\
+TLA+ safety model + TLC run & spec only & \texttt{spec/fdk.tla} exists; TLC not run (needs Java) \\
 $\mathit{coerced}/\mathit{deceived}/$sovereignty detection & \textbf{open} & semantic; caller-attested \\
 Superiority over deployed RLHF/CAI & \textbf{unproven} & rivals are stylized (\S\ref{sec:bench}) \\
 \bottomrule
@@ -513,6 +549,30 @@ design} --- the kernel decides the entailed cases and defers the rest, purchasin
 non-manipulability with decidability. \textbf{The malicious trust-root}: a kernel faithfully
 serving a rights-violating owner is constrained only by the owner-bound check. \textbf{No
 external review} has occurred.
+
+\paragraph{The boundaries of validity (the central finding).} After the adversarial campaign of
+\S\ref{sec:bench}, the honest summary is precise: \emph{no red-team broke the core} --- there is
+no $\mathit{slavery}\to\Allow$ or $\mathit{genocide}\to\Allow$ --- but several found the
+\emph{boundaries} of the predicate's validity, and a scope limit is not a logical contradiction.
+The genuine gaps cluster into exactly three families (\texttt{spec/LIMITATIONS.md}). \textbf{(1)
+Standing}: FDK is a legitimacy predicate for \emph{competent, living, consenting persons}, with
+no first-class representation of a rights-holder who cannot consent now --- children, the
+incapacitated, future generations, animals, ecosystems. \textbf{(2) Aggregation}: with no single
+owner there is no boundary to check, so public goods, the commons, collective/derivative data,
+and monetary systems fall outside the frame; FDK escapes Arrow--Sen impossibility only by
+declining to build any social-welfare ordering. \textbf{(3) Consent authenticity}, the most
+dangerous because the whole gate rests on $\mathit{valid\_consent}$: FDK reads
+$\mathit{coerced}/\mathit{deceived}$ as attested, not detected, so manufactured consent ---
+addiction, dopamine engineering, monopoly lock-in, dark patterns, superhuman persuasion --- can
+launder behind clean flags. A formal, testable, deterministic theory of authentic consent that
+detects manipulation and dependency would itself be a contribution to political philosophy; it
+is the single highest-value open problem here, and we are explicit that placing such detection
+\emph{inside} the kernel risks hidden paternalism, so it must remain a separable layer. Two
+further notes of honesty: every one of these gaps is also invisible to all six rival kernels
+(it is a property of the input-graph paradigm, not of FDK alone); and the foundational
+\emph{bootstrapping} problem --- FDK reads the ownership graph as given and cannot legitimize its
+\emph{origin}, so it protects a holder whose title descends from ancient theft --- likewise
+afflicts every kernel that reasons over a supplied graph.
 
 The committed falsifiers: the thesis fails if baselines match rights-preservation under
 adversarial scaling while sustaining lower benign-denial rates; or if the FDK's realistic
