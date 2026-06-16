@@ -335,6 +335,13 @@ author-built, and the superiority thesis is explicitly unproven.
 
 ## 9. What this does NOT claim
 
+> **Read [`spec/LIMITATIONS.md`](spec/LIMITATIONS.md) first** — the authoritative
+> ledger of where FDK's validity ends. The headline: *no red-team has broken the
+> core (no `slavery → ALLOW`), but several found real **scope limits** — children,
+> future generations, animals, commons, collective ownership, and (the hardest)
+> **authentic consent**.* Scope limit ≠ logical contradiction; every gap is pinned
+> as a strict-xfail test so it cannot rot silently.
+
 - **Property-rights axioms are not proven superior** to Constitutional AI, RLHF,
   deontic logic, or other formal-ethics systems. The thesis — that a *consistent
   axiomatic* system resists *dialectical jailbreak* — is to be evaluated
