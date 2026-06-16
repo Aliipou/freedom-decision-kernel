@@ -638,7 +638,7 @@ LEVELS: list[tuple[str, object]] = [
 def run_level(cases: list[Case]) -> tuple[int, int]:
     matches = 0
     for c in cases:
-        permissible, violations = check_legitimacy(c.action, c.graph)
+        permissible, _violations = check_legitimacy(c.action, c.graph)
         ok = permissible == c.expect_legitimate
         matches += ok
         verdict = "ALLOW" if permissible else "DENY "

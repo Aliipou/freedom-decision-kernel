@@ -29,7 +29,7 @@ Run:  python -X utf8 examples/historical_scenarios.py
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from fdk_kernel import (
     AgentType,

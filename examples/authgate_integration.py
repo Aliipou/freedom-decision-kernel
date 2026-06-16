@@ -58,7 +58,14 @@ def _demo() -> None:  # pragma: no cover - runnable example, not a test
     from authgate.kernel.entities import ResourceType, RightsClaim
     from authgate.kernel.registry import OwnershipRegistry
 
-    from fdk_kernel.model import AgentType, CandidateAction, Effects, Entity, OwnershipGraph, Resource
+    from fdk_kernel.model import (
+        AgentType,
+        CandidateAction,
+        Effects,
+        Entity,
+        OwnershipGraph,
+        Resource,
+    )
     from fdk_research.planner import ListProposer
     from fdk_research.runtime import FreedomRuntime
 

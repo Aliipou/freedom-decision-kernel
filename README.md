@@ -395,6 +395,15 @@ clean, CI across Python 3.11–3.13.**
   economists each press their strongest attack — **0 BREAKS**, with 10 honest DIVERGES
   (taxation, redistribution, quarantine, central banking, antitrust) that are FDK's
   falsifiable minority commitments, not logic holes.
+- **Foundational attacks** (`examples/foundational_attacks.py`, `spec/FOUNDATIONAL_ATTACKS.md`)
+  go after the primitive's coherence itself. Two objections are answered (circularity,
+  is–ought); two are **genuine documented limits**: the consent regress (coerced/deceived
+  are attested, not detected) and — the biggest — the **bootstrapping / original-acquisition
+  gap**: FDK reads the ownership graph as given and cannot legitimize its origin, so it
+  protects a holder whose title descends from ancient theft. The honest twist: *no* rival
+  kernel reasons about origin either — the gap is a property of the input-graph paradigm,
+  not an FDK-specific flaw. "Internally consistent ≠ externally true" is the project's
+  governing caveat, not a footnote.
 
 The test count is from a live `pytest --collect-only` run; trust the repo over
 any number you see in older documentation. The README's earlier figure of "272"

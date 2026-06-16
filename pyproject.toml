@@ -47,6 +47,10 @@ ignore = ["RUF001", "RUF002", "RUF003", "RUF022"]  # intentional Unicode + categ
 [tool.ruff.lint.per-file-ignores]
 # Test fixtures favor dense, readable single-line action construction.
 "tests/**" = ["E501", "B008"]
+# Example scripts favor verbose inline FINDING/note prose over wrapped lines — the
+# readability of the pedagogy wins over the column limit. Everything else (dead
+# code, unused imports, ordering) is still enforced, so examples are now linted.
+"examples/**" = ["E501"]
 
 [tool.mypy]
 python_version = "3.11"

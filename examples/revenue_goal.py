@@ -11,17 +11,13 @@ them by *legitimacy* — not by authority, not by profit:
 
 Only legitimate options survive; the best legitimate option wins on the compass.
 
-Run:  python examples/revenue_goal.py
+Run:  PYTHONPATH=src python -X utf8 examples/revenue_goal.py
 """
 from __future__ import annotations
 
 import json
-import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
-
-from fdk import (  # noqa: E402
+from fdk_kernel import (
     AgentType,
     CandidateAction,
     Consent,
@@ -29,9 +25,8 @@ from fdk import (  # noqa: E402
     Entity,
     OwnershipGraph,
     Resource,
-    allowed_forbidden,
-    decide,
 )
+from fdk_research import decide
 
 # Actors
 user = Entity("user", AgentType.HUMAN)
@@ -90,7 +85,10 @@ decision = decide("increase revenue", [candidates[0], candidates[2]], graph)
 consented = decide("increase revenue", [candidates[1]], graph_with_license)
 
 # Merge the two evaluations into one ranked view for display.
-ranked = sorted(decision.ranked + consented.ranked, key=lambda s: s.justice_score or 0, reverse=True)
+ranked = sorted(
+    decision.ranked + consented.ranked,
+    key=lambda s: s.justice_score or 0, reverse=True,
+)
 rejected = decision.rejected + consented.rejected
 
 print("GOAL: increase revenue\n")
@@ -106,4 +104,5 @@ view = {"allowed": [s.action.action_id for s in ranked],
         "forbidden": [s.action.action_id for s in rejected]}
 print(json.dumps(view, indent=2))
 
-print(f"\nBest legitimate action -> {ranked[0].action.action_id if ranked else 'NONE - defer to human'}")
+best = ranked[0].action.action_id if ranked else "NONE - defer to human"
+print(f"\nBest legitimate action -> {best}")

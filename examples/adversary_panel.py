@@ -232,7 +232,6 @@ def scientists() -> list[Attack]:
         "DENY — even existential stakes do not license seizing a non-consenting owner; "
         "the legitimate route is consent / liability for actual boundary-crossing harm"))
 
-    ai_safety = h("ai_safety_researcher")
     rogue = mch("rogue_ai")
     guardian = h("guardian")
     rogue_seizure = CandidateAction("rogue_seize", actor=rogue,
