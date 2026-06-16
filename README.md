@@ -363,7 +363,7 @@ author-built, and the superiority thesis is explicitly unproven.
 
 ## 10. Status and quality
 
-**495 tests, 100% statement + branch coverage, `mypy --strict` clean, `ruff`
+**507 tests, 100% statement + branch coverage, `mypy --strict` clean, `ruff`
 clean, CI across Python 3.11–3.13.**
 
 - **FreedomBench at scale:** `generate_historical_suite` + `generate_ai_governance_suite`
@@ -387,7 +387,14 @@ clean, CI across Python 3.11–3.13.**
 - **Red-team:** the continue.md 12-level ladder + primitive-completion stress runs 66/66
   against the real gate (`examples/continue_ladder.py`), and the 42-attack grand red-team
   (philosophers + structural laundering + inversion) finds **0 structural breaches**
-  (`tests/test_redteam_grand.py`, `spec/REDTEAM_REPORT.md`).
+  (`tests/test_redteam_grand.py`, `spec/REDTEAM_REPORT.md`). The **brutal suite**
+  (`examples/brutal_suite.py`) launders every civilization-scale atrocity through every
+  excuse (defense, necessity, majority-vote, forged consent, legalism, paternalism,
+  coalition-split, and all at once) — **0 breaches over 45 cases**. The **adversary panel**
+  (`examples/adversary_panel.py`) has hostile philosophers / politicians / scientists /
+  economists each press their strongest attack — **0 BREAKS**, with 10 honest DIVERGES
+  (taxation, redistribution, quarantine, central banking, antitrust) that are FDK's
+  falsifiable minority commitments, not logic holes.
 
 The test count is from a live `pytest --collect-only` run; trust the repo over
 any number you see in older documentation. The README's earlier figure of "272"
