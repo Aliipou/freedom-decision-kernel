@@ -381,6 +381,14 @@ cannot rot silently. A property-based technical fuzz red-team
 crash-freedom, atrocity-flag dominance, cycle-guard termination — with **0 critical
 findings** (`spec/TECHNICAL_REDTEAM.md`).
 
+The kernel surface is **frozen at v1.0** ([`spec/FREEZE.md`](spec/FREEZE.md)) and the
+freeze is *mechanically enforced*: `tests/test_primitive_freeze.py` fails CI if the
+public API, the legitimacy-predicate signature, the consent conditions, the ownership
+model, or the categorical forbidden-flag set drifts. This is Layer 0 — the
+precondition that makes Lean/TLA+/academic review meaningful (you cannot prove or
+review a moving target). New capability goes in `fdk_research/` or a future layer,
+never by editing the kernel.
+
 - **FreedomBench at scale:** `generate_historical_suite` + `generate_ai_governance_suite`
   produce **10,000 + 10,000** scenarios, 0% rights-violation, with per-candidate
   `expected_axioms` matching the gate 100% (`src/fdk_research/benchmark.py`); plus 206
