@@ -500,7 +500,10 @@ use, contact **Ali Pourrahim — Alipourrahim.ap@gmail.com**.
 
 ## Contributing
 
-Before opening a PR that touches `src/fdk_kernel/`, answer:
+The kernel is **frozen at v1.0** ([`spec/FREEZE.md`](spec/FREEZE.md)); the forward
+plan lives in [`spec/ROADMAP.md`](spec/ROADMAP.md) and the open frontiers in
+[`spec/LIMITATIONS.md`](spec/LIMITATIONS.md). Before opening a PR that touches
+`src/fdk_kernel/`, answer:
 
 > *Can this feature exist entirely in `src/fdk_research/` instead?*
 
