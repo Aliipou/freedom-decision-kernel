@@ -116,6 +116,12 @@ from fdk_research.simulator import (
     StepOutcome,
     run_scenario,
 )
+from fdk_research.standing import (
+    StandingAssessment,
+    StandingFacts,
+    StandingKind,
+    assess_standing,
+)
 
 __all__ = [
     # decision orchestration (screen + rank)
@@ -189,6 +195,11 @@ __all__ = [
     "Recommendation",
     "assess_consent_authenticity",
     "route_for_review",
+    # standing (advisory; FDK 2.0 Project A) — who is a rights-holder?
+    "StandingKind",
+    "StandingFacts",
+    "StandingAssessment",
+    "assess_standing",
     # compass measurement (advisory)
     "dependency_index",
     "exit_options",
