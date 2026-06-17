@@ -21,6 +21,13 @@ from fdk_research.aggregation import (
     gap_forms,
     representable_forms,
 )
+from fdk_research.ai_governance import (
+    AgentFacts,
+    AgentStatus,
+    GovernanceAssessment,
+    assess_agent_governance,
+    is_v1_governable,
+)
 from fdk_research.benchmark import (
     BenchmarkReport,
     ProblemClass,
@@ -228,6 +235,12 @@ __all__ = [
     "TitleAssessment",
     "assess_title",
     "reliable_for_kernel",
+    # AI governance (advisory; FDK 2.0 Layer 8) — can a non-human agent own? not in v1.0
+    "AgentStatus",
+    "AgentFacts",
+    "GovernanceAssessment",
+    "assess_agent_governance",
+    "is_v1_governable",
     # compass measurement (advisory)
     "dependency_index",
     "exit_options",
