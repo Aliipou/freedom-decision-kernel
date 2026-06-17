@@ -22,8 +22,34 @@ and **proves** the safety theorems of that model with `simp` / `decide`:
 | `some_action_is_legitimate` | non-vacuity: a consenting, flag-free action is legitimate |
 | `proportionate_defense_is_legitimate` | proportionate self-defense IS legitimate (the asymmetry does real work) |
 
+### Structured consent / ownership model (addresses EXPERT_REVIEW §3)
+
+The eight theorems above run on a model where the whole consent/ownership path is one
+boolean (`validConsent`). The formal-methods critic (`spec/EXPERT_REVIEW.md` §3) objects
+that this "says almost nothing about the code that does the work." So `Fdk.lean` now also
+carries a finite **structured** model that opens that boolean up — an ownership `Graph`
+(`HasOwner`, `ResourceAuthorized`, `HasValidConsent`) and a `legitimateFull` predicate that
+mirrors TLA+ `Legitimate` (`spec/fdk.tla`): owner-bound + every resource authorized +
+per-person consent on every affected human (except the aggressor under a valid defense) +
+effective-forbidden set empty. Resources/entities/flags are small finite enums, so every
+quantifier reduces to a `List.all`/`List.any` and `simp`/`decide` close the goals.
+
+| Theorem | Statement |
+|---|---|
+| `no_action_on_nonconsenting_person` | affects a human (not the defended aggressor) with no valid consent ⇒ deny (structured T2, over a real per-person consent list) |
+| `unowned_resource_use_denied` | a human using a resource it does not own ⇒ deny (`ResourceAuthorized` fails) |
+| `machine_undelegated_denied` | a machine using a resource it has no delegation for ⇒ deny (owner-bound A7) |
+| `welfare_independence_full` | actions agreeing on every structural field get the same verdict (structured T6: no welfare/utility input) |
+| `consenting_owner_action_is_legitimate` | non-vacuity: a consenting owner acting within its ownership IS legitimate (`decide` on a concrete graph) |
+| `delegated_machine_action_is_legitimate` | a machine on a delegated, owner-owned resource IS legitimate (positive owner-bound delegation branch) |
+
+Still abstracted (open Layer-1 TODO, documented in-file as a comment, **never** a `sorry`):
+the operation lattice (`Op`), subject-based resource consent, and nested/recursive defense
+with the `_seen` cycle guard — the same faithful-subset boundary the TLA model keeps.
+
 No `sorry`, no `axiom`, no mathlib — pure Lean 4 core, so `lake build` is fast and the
-proofs are fully checked by the Lean kernel.
+proofs are fully checked by the Lean kernel. (`#print axioms` on the structured theorems
+shows only `propext` / `Quot.sound`, never `sorryAx`.)
 
 ## Honest scope (what this does and does NOT establish)
 
