@@ -19,7 +19,7 @@ _spec.loader.exec_module(panel)
 
 
 def test_traditions_disagree_on_contested_cases() -> None:
-    kappa, scores, contested = panel.build_report()
+    kappa, _scores, contested = panel.build_report()
     # Low agreement is the point: real political traditions do not converge on
     # taxation / redistribution / quarantine / conscription.
     assert kappa < 0.6
