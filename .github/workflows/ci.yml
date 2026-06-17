@@ -49,3 +49,18 @@ jobs:
       - name: Build + check the proofs (zero sorry)
         working-directory: formal
         run: lake build Fdk
+
+  tlc:
+    name: TLA+ model check (spec/)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Download TLC (tla2tools)
+        run: curl -sSL -o tla2tools.jar https://github.com/tlaplus/tlaplus/releases/latest/download/tla2tools.jar
+      - name: Model-check the safety invariants
+        working-directory: spec
+        run: java -cp ../tla2tools.jar tlc2.TLC -config MC_fdk.cfg MC_fdk.tla

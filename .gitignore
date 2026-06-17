@@ -14,3 +14,6 @@ paper/*.aux
 paper/*.log
 paper/*.out
 formal/.lake/
+spec/states/
+spec/*.st
+spec/MC_fdk.out

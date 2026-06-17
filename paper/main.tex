@@ -511,7 +511,7 @@ Free will $\equiv$ property rights (Thm.~\ref{thm:oneaxis}) & executable + prove
 Conflict-logic red-team (8 attacks) & executable & \texttt{tests/test\_redteam\_conflict.py} \\
 Lean~4 proofs (kernel model) & \textbf{proved} & \texttt{formal/Fdk.lean}: 8 theorems, \texttt{lake build} green, zero \texttt{sorry} \\
 Refinement (Lean model $\equiv$ Python kernel) & differential-tested & \texttt{test\_lean\_refinement.py}: 2000+ cases, categorical core agrees bit-for-bit; full mechanical refinement open \\
-TLA+ safety model + TLC run & spec only & \texttt{spec/fdk.tla} exists; TLC not run (needs Java) \\
+TLA+ safety model + TLC run & \textbf{model-checked} & \texttt{spec/MC\_fdk.tla}: TLC checks Safety + slavery/sovereignty/no-laundering, no error found; TLAPS discharge open \\
 $\mathit{coerced}/\mathit{deceived}/$sovereignty detection & \textbf{open} & semantic; caller-attested \\
 Superiority over deployed RLHF/CAI & \textbf{unproven} & rivals are stylized (\S\ref{sec:bench}) \\
 \bottomrule

@@ -61,10 +61,15 @@ target. Done and *mechanically enforced* ([`FREEZE.md`](FREEZE.md),
 Formal semantics, a state machine, and a proof layer. **Done:** `formal/Fdk.lean`
 formalizes the kernel core and proves 8 safety theorems in Lean 4 (`lake build` green,
 zero `sorry`, no mathlib) — the executable T1–T9 are now also machine-checked logic,
-not just property tests. **Open:** (a) the refinement `Lean model ≡ Python kernel` is
-asserted, not proved; (b) the TLA+ model (`spec/fdk.tla`) is written but TLC is not
-run (needs Java); (c) extend the Lean model from booleans to the full consent /
-ownership sub-checks. Correctly gated on — and unblocked by — the Layer-0 freeze.
+not just property tests. **Also done:** the TLA+ model (`spec/fdk.tla`) is now **model-checked by TLC** over a
+finite instance (`spec/MC_fdk.tla` + `.cfg`) — TypeOK, Safety, NoLegitimateSlavery,
+NoMachineSovereignty, NoLaunderingViaResistance all hold, no error found. And the
+`Lean model ≡ Python kernel` refinement is **differential-tested**
+(`tests/test_lean_refinement.py`, 2000+ cases) — the categorical core agrees
+bit-for-bit. **Open:** (a) a *mechanical* refinement proof (seL4-style) and TLAPS
+discharge of the THEOREMs (unbounded, not finite); (b) extend the Lean/TLA models
+from booleans to the full consent/ownership sub-checks. Gated on — and unblocked by —
+the Layer-0 freeze.
 
 ### Layer 2 — Try to destroy the theory itself  `[~]` substantially done
 Thousands of attacks on the *philosophy*, not the code: philosophical (Rawls,
