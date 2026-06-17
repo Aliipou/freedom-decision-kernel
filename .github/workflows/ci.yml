@@ -64,3 +64,12 @@ jobs:
       - name: Model-check the safety invariants
         working-directory: spec
         run: java -cp ../tla2tools.jar tlc2.TLC -config MC_fdk.cfg MC_fdk.tla
+
+  rust:
+    name: Rust parity port (rust/)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build + test the parity port
+        working-directory: rust
+        run: cargo test

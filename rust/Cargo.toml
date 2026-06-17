@@ -1,0 +1,10 @@
+[package]
+name = "fdk-kernel"
+version = "1.0.0"
+edition = "2021"
+license = "PolyForm-Noncommercial-1.0.0"
+description = "Rust parity port of the frozen FDK legitimacy kernel (categorical core)"
+publish = false
+
+[lib]
+name = "fdk_kernel"

@@ -115,16 +115,24 @@ kernel is only as good as the ownership graph" an operational, checkable gate. *
 an actual provenance/registry/identity/disputes/jurisdictions system — a research
 program. (See the bootstrapping gap in `FOUNDATIONAL_ATTACKS.md`.)
 
-### Layer 7 — Civilization scale  `[~]` seed only
-Test civilizations, not individuals: cities, nations, markets, war, migration,
-innovation, energy, environment — billions of interactions, looking for emergent
-behavior. Seed shipped (`civilization.py`). **Trap: simulation addiction.** Garbage
-ownership graph → garbage civilization; input realism matters more than simulation
-scale, so this is gated on Layer 6.
+### Layer 7 — Civilization scale  `[~]` scaled comparison shipped
+Test civilizations, not individuals. **Shipped:** `src/fdk_research/civilization_scale.py`
++ `examples/civilization_scale_run.py` — N agents × M steps under each governing kernel
+on one seeded stream, tracking rights-violation stock, coercion, and power concentration.
+Structural finding: FDK/Rawls/Deontological hold violations at 0 (concentration 0.16);
+welfare governors admit the seizures → 514 violations and double the concentration (0.32).
+**Trap (heeded): simulation addiction** — this is stylized, NOT a prediction; garbage
+ownership graph → garbage civilization, so the honest value is structural, not empirical.
+**Open:** realistic economies / war / migration at true scale (gated on Layer 6 realism).
 
-### Layer 8 — AI governance layer  `[ ]`
+### Layer 8 — AI governance layer  `[~]` advisory scaffold shipped
 FDK applied to intelligent agents, not humans: AGI, ASI, agent societies, autonomous
-corporations, autonomous science. Can a non-human agent own? Do **not** rush AGI
+corporations, autonomous science. **Shipped:** `src/fdk_research/ai_governance.py` +
+`spec/AI_GOVERNANCE.md` — an advisory classifier (`TOOL_OF_OWNER` / `AUTONOMOUS_UNOWNED`
+representable; `CLAIMS_PERSONHOOD` / `COLLECTIVE_OF_AGENTS` honestly NOT representable in
+v1.0), sound on the safety-critical rogue case (ownerless machine fails A4 → deny +
+contain) while refusing to fake machine ownership/standing. **Open (the primitive
+question):** whether a non-human agent can ever own. Do **not** rush AGI
 rights — finish the human-rights model first, or the theory grows on an unstable
 base.
 

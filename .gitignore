@@ -17,3 +17,5 @@ formal/.lake/
 spec/states/
 spec/*.st
 spec/MC_fdk.out
+rust/target/
+rust/Cargo.lock
