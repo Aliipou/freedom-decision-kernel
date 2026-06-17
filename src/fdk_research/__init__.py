@@ -42,6 +42,11 @@ from fdk_research.civilization import (
     make_world,
     run_worlds,
 )
+from fdk_research.civilization_scale import (
+    CivStats,
+    run_civilizations,
+    run_one,
+)
 from fdk_research.compass import mahdavi_score
 from fdk_research.compass_measure import (
     coercion_score,
@@ -182,6 +187,10 @@ __all__ = [
     "WorldStats",
     "make_world",
     "run_worlds",
+    # civilization-scale simulation (FDK 2.0 Layer 7)
+    "CivStats",
+    "run_civilizations",
+    "run_one",
     # guidance resolution (clarification advice)
     "request_guidance",
     "NON_NEGOTIABLE",
