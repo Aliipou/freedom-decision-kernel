@@ -19,3 +19,5 @@ spec/*.st
 spec/MC_fdk.out
 rust/target/
 rust/Cargo.lock
+formal/lake-manifest.json
+formal/.lake/
