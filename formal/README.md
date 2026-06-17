@@ -29,16 +29,19 @@ proofs are fully checked by the Lean kernel.
 
 - It **proves** that the Lean model entails the safety theorems. The Lean kernel
   checks every step; there are no holes.
-- It does **not** *prove* the refinement `Lean model ≡ Python kernel`. But that gap is
-  no longer merely asserted: `tests/test_lean_refinement.py` transcribes
-  `forbiddenFires` / `legitimate` into Python verbatim from this Lean source and
-  **differential-tests it against the real `check_legitimacy` over 2000+ generated
-  actions** — the categorical core (all 11 flags + the defensive-asymmetry excusal)
-  agrees bit-for-bit. This is the standard practical bridge (CompCert uses it too): it
-  does not *prove* refinement, but it *catches* the "Lean correct, Python wrong"
-  divergence a refinement proof exists to exclude. A full mechanical refinement (Lean
-  ⇔ Python, seL4-style) remains open. The Lean side pins logic; the Python side pins
-  behavior; the differential test pins their correspondence.
+- It does **not** *prove* the refinement `model ≡ Python kernel`. But that gap is no
+  longer merely asserted — it is differential-tested on TWO levels:
+  - `tests/test_lean_refinement.py` mirrors the Lean `forbiddenFires`/`legitimate`
+    and checks the **categorical core** (all 11 flags + defensive-asymmetry excusal)
+    against `check_legitimacy` over 2000+ actions — agrees bit-for-bit.
+  - `tests/test_tla_refinement.py` transcribes the **full** TLA+ `Legitimate`
+    predicate (HasOwner + ResourceAuthorized + HasValidConsent + defense) and checks
+    the *complete* verdict — consent/ownership path included — over 3000 actions in
+    the model's faithful subset. This closes the formal-methods objection that the
+    categorical-only test cannot catch a consent-path bug.
+  This is the standard practical bridge (CompCert uses it too): it does not *prove*
+  refinement, but it *catches* the "spec correct, Python wrong" divergence a refinement
+  proof exists to exclude. A full *mechanical* refinement (seL4-style) remains open.
 - It is deliberately a **minimal** model (booleans abstracting the consent/ownership
   sub-checks). It is gated on the v1.0 freeze (`spec/FREEZE.md`) precisely so these
   proofs do not have to be rewritten every week.
