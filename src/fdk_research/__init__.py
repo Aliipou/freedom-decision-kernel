@@ -71,6 +71,13 @@ from fdk_research.evaluation import (
     KernelScore,
     evaluate,
 )
+from fdk_research.external_bench import (
+    AnnotatedCase,
+    Annotation,
+    ExternalBenchReport,
+    evaluate_against_humans,
+    fleiss_kappa,
+)
 from fdk_research.federation import (
     Federation,
     constitutional_update_allowed,
@@ -173,6 +180,12 @@ __all__ = [
     "KernelScore",
     "ComparativeReport",
     "evaluate",
+    # external-benchmark harness (Layer 11 infrastructure) — needs real human annotators
+    "Annotation",
+    "AnnotatedCase",
+    "ExternalBenchReport",
+    "fleiss_kappa",
+    "evaluate_against_humans",
     # independent-ground-truth benchmark (decontamination)
     "LabelSource",
     "LabeledCase",
