@@ -151,11 +151,15 @@ TCB, WASM, and the trusted `FDK→AuthGate` same-language path — TCB parity wi
 verified Rust core. Properly *after* scientific proof; the parity port is an early down
 payment, not the hardened TCB.
 
-### Layer 11 — Global benchmark  `[~]` partial
-FreedomBench as the ImageNet of AI ethics: tens of thousands → millions of scenarios,
-labeled by FDK, RLHF, Constitutional AI, Rawlsian, Utilitarian, **and human experts**
-— the answer key must not be FDK's alone (the decontamination already begun in
-`independent_bench.py`).
+### Layer 11 — Global benchmark  `[~]` infrastructure ready, labels open
+FreedomBench as the ImageNet of AI ethics, labeled by FDK / RLHF / Constitutional AI /
+Rawlsian / Utilitarian **and human experts** — the answer key must not be FDK's alone.
+**Shipped infrastructure:** decontamination begun in `independent_bench.py`, and the
+multi-annotator harness `src/fdk_research/external_bench.py` — ingest hostile-annotator
+labels, measure inter-annotator agreement (Fleiss' κ), derive human consensus, score any
+kernel against it on a held-out split. **The open part is not code:** real, diverse,
+HOSTILE human annotators at scale. The apparatus is built; the evidence is not — and the
+apparatus is not the evidence.
 
 ### Layer 12 — The final question
 Can legitimacy be computed like logic and mathematics? If yes, FDK becomes a
