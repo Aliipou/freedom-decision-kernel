@@ -19,6 +19,47 @@ enforcement engine downstream. This is the missing layer *above* it.
 
 ---
 
+## Status: a hypothesis under test, not a paradigm
+
+The engineering is in unusually strong shape (four independent checkers, below). The
+*theory* is not proven, and this README leads with that on purpose. Full program:
+[`spec/RESEARCH_AGENDA.md`](spec/RESEARCH_AGENDA.md); open frontiers with documented
+counterexamples in [`spec/frontiers/`](spec/frontiers/).
+
+**Research question.** *Can legitimacy be modeled as a consent-over-boundaries predicate,
+independently of utility?*
+
+**Hypothesis (the honest claim).** FDK may be a useful legitimacy framework **for
+competent, living, consenting persons.** Nothing stronger is established.
+
+**Not solved** (each could make FDK *partially survive* or *collapse* — both admissible):
+- **Standing** — children, the incapacitated, animals, the unborn. FDK *actively
+  legitimizes* cruelty to an owned animal, and **the non-identity problem (Parfit) may be
+  lethal even in the limit**: a victim-indexed gate cannot represent a wrong with no
+  identifiable victim. ([`spec/frontiers/standing.md`](spec/frontiers/standing.md))
+- **Consent authenticity** — manufactured consent (addiction, lock-in, superhuman
+  persuasion). The **adaptive-preference case may be *irreducible***: the only fix is the
+  paternalism FDK exists to refuse.
+  ([`spec/frontiers/consent_authenticity.md`](spec/frontiers/consent_authenticity.md))
+- **Aggregation / commons** — rivers, atmosphere, collective data; Ostrom *empirically
+  refutes* the tragedy FDK structurally predicts.
+  ([`spec/frontiers/aggregation.md`](spec/frontiers/aggregation.md))
+- **Ownership genesis** (Lockean origin), **collective data**, **AI standing**.
+
+**Unproven:** superiority over rivals · universality · predictive advantage · real-world
+outcomes. FDK scores **70%** against external moral-consensus labels (Rawlsian **80%**),
+and on contested cases the political traditions **disagree** (Fleiss κ≈0.35), so there is
+no human ground truth to validate *any* kernel against — including FDK.
+
+**Lineage and the test ahead.** FDK's core is, candidly, the intellectual child of
+**Locke + Nozick + Rothbard**. To matter it must **out-explain** (not merely oppose) its
+three real rivals — **Rawls** (justice), **Sen** (capabilities), **Ostrom** (commons) —
+exactly at the three gaps above. On the 15-stage path from idea to paradigm, FDK sits
+around **stage 3–4 of 15**. *Internally consistent ≠ externally true*, and the author does
+not get to declare a paradigm — the critics and the next generation do.
+
+---
+
 ## Contents
 
 1. [Architecture pipeline](#1-architecture-pipeline)
