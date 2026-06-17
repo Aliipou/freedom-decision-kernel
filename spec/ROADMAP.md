@@ -103,11 +103,17 @@ become hidden paternalism ("you don't really know what you want"). Therefore con
 This is likely the largest single part of the entire project, and the one that, if
 solved, brings FDK into the 21st century.
 
-### Layer 6 — Real Ownership Graph  `[ ]`
+### Layer 6 — Real Ownership Graph  `[~]` advisory scaffold shipped
 The largest gap between FDK and the world: today the `OwnershipGraph` is *assumed*
 correct. Who actually owns land, water, air, IP, data, DNA, AI models, intellectual
-capital? Without this, FDK only works on synthetic models. (See the bootstrapping
-gap in `FOUNDATIONAL_ATTACKS.md`.)
+capital? **Shipped:** `src/fdk_research/ownership_graph.py` + `spec/OWNERSHIP_GRAPH.md`
+— an advisory layer that grades how far a *title* can be trusted before it is handed
+to the kernel (cryptographic→RELY, NFT token≠asset caveat, **forced origin→DO_NOT_RELY
++ bootstrapping flag**, contested/unproven→don't rely), with the real-world catalogue
+(Bitcoin/NFT/user-data/model-weights/inheritance/IP/conquest-land). It makes "the
+kernel is only as good as the ownership graph" an operational, checkable gate. **Open:**
+an actual provenance/registry/identity/disputes/jurisdictions system — a research
+program. (See the bootstrapping gap in `FOUNDATIONAL_ATTACKS.md`.)
 
 ### Layer 7 — Civilization scale  `[~]` seed only
 Test civilizations, not individuals: cities, nations, markets, war, migration,
