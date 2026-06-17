@@ -96,6 +96,14 @@ from fdk_research.ontology import (
     MachineRight,
     Obligation,
 )
+from fdk_research.ownership_graph import (
+    OriginKind,
+    Reliance,
+    TitleAssessment,
+    TitleClaim,
+    assess_title,
+    reliable_for_kernel,
+)
 from fdk_research.planner import (
     EffectsPort,
     EnforcementPort,
@@ -213,6 +221,13 @@ __all__ = [
     "assess_aggregation",
     "representable_forms",
     "gap_forms",
+    # real ownership graph (advisory; FDK 2.0 Layer 6) — title reliance, never a verdict
+    "OriginKind",
+    "Reliance",
+    "TitleClaim",
+    "TitleAssessment",
+    "assess_title",
+    "reliable_for_kernel",
     # compass measurement (advisory)
     "dependency_index",
     "exit_options",
