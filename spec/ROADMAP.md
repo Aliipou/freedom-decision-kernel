@@ -141,9 +141,15 @@ Peer review, replication, external red team — by people who *dislike* private
 property, *dislike* libertarianism, and will *want* FDK to fail. They are the most
 valuable critics. Survive ~100 serious attacks and it earns scientific credibility.
 
-### Layer 10 — Engineering hardening  `[ ]` after scientific proof, not before
+### Layer 10 — Engineering hardening  `[~]` Rust parity port started
 Rust, WASM, formal verification, TCB minimization, cryptographic proofs, AuthGate
-integration. Only here does it become OS-like.
+integration. **Started:** `rust/` — a parity port of the frozen categorical core, with
+the 8 safety theorems re-checked as Rust tests (CI job `rust`); built on this box via
+the GNU toolchain + TDM-GCC + ASCII target dir (non-ASCII-path workaround). **Open:**
+the consent/ownership path, the operation lattice, a verified `#![forbid(unsafe_code)]`
+TCB, WASM, and the trusted `FDK→AuthGate` same-language path — TCB parity with AuthGate's
+verified Rust core. Properly *after* scientific proof; the parity port is an early down
+payment, not the hardened TCB.
 
 ### Layer 11 — Global benchmark  `[~]` partial
 FreedomBench as the ImageNet of AI ethics: tens of thousands → millions of scenarios,
