@@ -131,6 +131,11 @@ from fdk_research.planner import (
     ProposerPort,
     plan,
 )
+from fdk_research.preflight import (
+    PreflightReport,
+    PreflightWarning,
+    preflight,
+)
 from fdk_research.rivals import (
     DEFAULT_KERNELS,
     ConstitutionalAIKernel,
@@ -263,6 +268,10 @@ __all__ = [
     "GovernanceAssessment",
     "assess_agent_governance",
     "is_v1_governable",
+    # pre-flight: compose the advisory layers around the kernel (FDK 2.0 glue)
+    "PreflightWarning",
+    "PreflightReport",
+    "preflight",
     # compass measurement (advisory)
     "dependency_index",
     "exit_options",
