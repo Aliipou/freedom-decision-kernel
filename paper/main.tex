@@ -56,7 +56,7 @@ the discriminating coercion cases correctly, with no new mechanism.
 
 We are deliberate about scope. The engineering claims are facts: the kernel runs, is
 \texttt{mypy~--strict} and \texttt{ruff} clean, holds a 100\% statement-and-branch coverage
-gate over 613 tests (plus 24 strict-xfail gap-tests), is multi-front red-team-hardened, and is
+gate over 739 tests (plus 24 strict-xfail gap-tests), is multi-front red-team-hardened, and is
 wired to a separate verified capability
 kernel. The theory's claim --- that a consistent property-rights calculus resists
 \emph{dialectical jailbreak} where preference- and principle-based methods do not ---
@@ -503,7 +503,8 @@ machine-checked proof.}
 Property & Status & Evidence \\
 \midrule
 Type soundness & checked & \texttt{mypy --strict} clean, 26 modules \\
-Coverage & checked & 100\% statement+branch, 613 tests + 24 strict-xfail gap-tests, CI 3.11--3.13 \\
+Coverage & checked & 100\% statement+branch, 739 tests + 24 strict-xfail gap-tests, CI 3.11--3.13 \\
+Four independent checkers (Hypothesis, Lean, TLC, Rust) & checked & property tests + 8 Lean proofs + TLC model-check + 8 Rust tests, all CI-gated \\
 Red-team campaign (brutal/panel/doctrine/real-world/fuzz/foundational) & executable & 0 breaches, 0 BREAKS, 0 critical findings; 24 gaps pinned as strict-xfail \\
 Decontaminated comparison (external labels) & checked & FDK 70\% (Rawlsian 80\%); \texttt{independent\_bench.py} \\
 No legitimate slavery; no machine sovereignty; consent-revocation safety; delegation soundness; welfare-independence; defensive asymmetry; necessity-no-exception; kernel/research boundary & executable (T1--T9) & \texttt{tests/test\_theorems.py} (Hypothesis property tests) \\
@@ -574,6 +575,24 @@ further notes of honesty: every one of these gaps is also invisible to all six r
 \emph{bootstrapping} problem --- FDK reads the ownership graph as given and cannot legitimize its
 \emph{origin}, so it protects a holder whose title descends from ancient theft --- likewise
 afflicts every kernel that reasons over a supplied graph.
+
+\paragraph{Building \emph{around} the frozen kernel (FDK 2.0), and one orthogonal caution.}
+The three frontiers are not closed by editing the kernel --- doing so would unfreeze it and,
+for consent, risk hidden paternalism. They are addressed as \emph{advisory} research layers
+built on top of the frozen v1.0 gate, none of which returns a verdict or can move it (a
+property-based invariant verifies the advisory layers leave \texttt{check\_legitimacy}
+byte-identical): Standing (who holds a right), Aggregation (collective ownership), Consent-
+Authenticity (was consent freely formed), a real-ownership-graph title-reliance layer (which
+\emph{flags} a conquest-descended title the kernel would otherwise honour), and an AI-governance
+layer (a machine as owner is honestly out-of-frame). A \emph{pre-flight} composes them, so the
+architecture is \emph{Universe $\to$ input-validation $\to$ kernel}, with the inputs' own
+trustworthiness gated before the verdict is trusted. Finally, a hostile four-critic expert
+review (\texttt{spec/EXPERT\_REVIEW.md}; Rawlsian, Sen-style welfare economist, formal-methods,
+AI-safety) found no core break but added the orthogonal caution that decides honest deployment:
+\textbf{legitimacy is not safety.} FDK certifies an action's \emph{provenance}, not its
+\emph{outcome}; a legitimate action can be catastrophic (a legitimate ASI legitimately acquiring
+all compute, one \texttt{ALLOW} step at a time), and the per-action gate never sees the
+trajectory. FDK is a legitimacy layer, not an alignment solution, and says so.
 
 The committed falsifiers: the thesis fails if baselines match rights-preservation under
 adversarial scaling while sustaining lower benign-denial rates; or if the FDK's realistic
