@@ -76,6 +76,7 @@ class PolicyDecision:
     action_id: str
     actor: str
     reasons: tuple[str, ...] = ()
+    axiom_trace: tuple[str, ...] = ()
     resources: tuple[str, ...] = ()
     authority_consulted: bool = False
     authority_ok: bool | None = None
@@ -96,6 +97,7 @@ class PolicyDecision:
             "action_id": self.action_id,
             "actor": self.actor,
             "reasons": list(self.reasons),
+            "axiom_trace": list(self.axiom_trace),
             "resources": list(self.resources),
             "authority_consulted": self.authority_consulted,
             "authority_ok": self.authority_ok,
@@ -111,6 +113,20 @@ class PolicyDecision:
 
 def _utc_now() -> str:
     return datetime.now(UTC).isoformat()
+
+
+def _axiom_trace(violations: tuple[str, ...] | list[str]) -> tuple[str, ...]:
+    """Extract the compact axiom/flag codes from the kernel's violation strings,
+    for the PolicyDecision contract's `axiom_trace` (e.g. 'A7: …' -> 'A7',
+    'FORBIDDEN (coercion)' -> 'FORBIDDEN(coercion)', 'consent: …' -> 'consent').
+    Order-preserving and de-duplicated."""
+    codes: list[str] = []
+    for violation in violations:
+        head = violation.split(":", 1)[0].strip()
+        code = head.replace(" (", "(") if head.startswith("FORBIDDEN") else head
+        if code and code not in codes:
+            codes.append(code)
+    return tuple(codes)
 
 
 def _safe_str(value: object, default: str) -> str:
@@ -213,7 +229,8 @@ class PolicyEngine:
         if not permissible:
             return PolicyDecision(
                 Verdict.DENY, action_id, actor,
-                reasons=tuple(violations), resources=resources, decided_at=now,
+                reasons=tuple(violations), axiom_trace=_axiom_trace(violations),
+                resources=resources, decided_at=now,
             )
 
         if self._defer_policy is not None:

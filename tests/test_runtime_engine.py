@@ -71,6 +71,10 @@ def test_illegitimate_action_is_denied_with_reasons():
     assert decision.allowed is False
     assert decision.reasons  # carries the violated axioms
     assert any("A3" in r or "consent" in r for r in decision.reasons)
+    # axiom_trace is the compact contract field consumed by AuthGate's bridge.
+    assert decision.axiom_trace
+    assert all(":" not in code and " (" not in code for code in decision.axiom_trace)
+    assert "A3" in decision.axiom_trace or "consent" in decision.axiom_trace
 
 
 def test_module_level_evaluate_smoke():

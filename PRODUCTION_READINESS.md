@@ -51,8 +51,15 @@ FDK rejects it before AuthGate is consulted.
 
 Branch only on `decision.allowed` (true **only** for `ALLOW`). Every decision is
 a serializable `PolicyDecision` (`to_dict()` / `to_json()`) carrying the verdict,
-reasons, resources touched, authority result, the FDK + freeze versions, and a
-timestamp — ready for a log line or a SIEM event.
+reasons, a compact `axiom_trace`, resources touched, authority result, the FDK +
+freeze versions, and a timestamp — ready for a log line or a SIEM event.
+
+This `PolicyDecision` JSON **is the boundary contract with AuthGate**: AuthGate
+consumes it (`authgate.integrations.fdk.enforce_legitimacy`) and runs its
+capability gate only on an explicit `ALLOW`, fail-closed on everything else. The
+two products share this *schema*, not code (AuthGate's
+`spec/policy_decision.schema.json`). It is deterministic and categorical — there
+is intentionally no `confidence` field; `DEFER` already means "ask a human."
 
 ## The cardinal guarantee: fail-closed
 
