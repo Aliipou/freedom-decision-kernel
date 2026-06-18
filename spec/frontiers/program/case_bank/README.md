@@ -36,8 +36,12 @@ imported person-premise (→ Rothbard's inalienability or Pettit's domination);
 | Collapses to **Sen** (deny only by judging the deformed wanting) | the node-K residue (~8) |
 | Control cases (all four agree ALLOW: at-will job, caffeine, terminable contract) | 3 |
 
-**Zero fourth routes in 61 cases.** The breadth does not rescue RC; it confirms the
-analytic result. The pattern is exactly as predicted:
+**No fourth route in the 61 *sampled* cases — which is suggestive, not probative.**
+The rubric's buckets are the three rivals, so this bank cannot, on its own, show a
+fourth route does not *exist*; it can only show none appeared in a search space the
+rivals already carved. The bias-corrected test that starts from the rivals instead of
+from FDK is [`../../../../paper/reverse_test.md`](../../../../paper/reverse_test.md);
+read this bank with that caveat. The pattern it does show is exactly as predicted:
 
 - **Foreclosed-exit cases** (irrevocable servitude, company scrip, confiscated
   passports, non-portable data, bonded labor) → RC denies, but the *ground* of the

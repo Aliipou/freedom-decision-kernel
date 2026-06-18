@@ -170,12 +170,14 @@ route**, because Q2 showed the only candidate for one requires an imported premi
 real cases** (voluntary slavery and self-binding, company towns and debt bondage,
 platform and data lock-in, labor contracts, addiction, cults and adaptive preference —
 [`../spec/frontiers/program/case_bank/`](../spec/frontiers/program/case_bank/)) was
-scored against all four theories under a fixed rubric. **Zero of the 61 yielded a
-fourth route.** Foreclosure cases collapse to Pettit, retained-but-unwanted cases to
-Rothbard or Sen, and the most concrete candidate (data portability) merely
-*operationalises* non-domination. Breadth confirms the analysis rather than rescuing
-RC; a fourth route, if it exists, will be produced by closing the Q2 derivation, not by
-enumerating cases.
+scored against all four theories under a fixed rubric. **No fourth route appeared in the
+61 sampled cases** — suggestive, not probative, since the rubric's buckets *are* the
+three rivals (a referee will rightly say the search space was pre-carved). The
+bias-corrected check that starts from the rivals' own signature cases instead of from
+FDK is [`reverse_test.md`](reverse_test.md), and it reaches the same verdict by a method
+not pre-loaded with FDK's taxonomy: FDK exhibits no case that is distinctively its own.
+A fourth route, if it exists, will be produced by closing the Q2 derivation or by
+meeting the reverse test's open challenge — not by enumerating more cases.
 
 ---
 
