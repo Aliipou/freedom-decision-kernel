@@ -30,7 +30,13 @@ counterexamples in [`spec/frontiers/`](spec/frontiers/).
 independently of utility?*
 
 **Hypothesis (the honest claim).** FDK may be a useful legitimacy framework **for
-competent, living, consenting persons.** Nothing stronger is established.
+competent, living, consenting persons.** Nothing stronger is established. The fairest
+one-line characterization: *a highly engineered, internally consistent rights-based
+framework with several major unresolved domains.* The proofs/tests establish **consistency
+given the axioms** — "consistent but **incomplete**" (children, animals, future generations,
+commons, authentic consent all return *unknown*) — **not** that the axioms are true. The
+current risk is not contradiction but **irrelevance**; the work is *completing the domains
+outside the model*, not fixing a bug.
 
 **Not solved** (each could make FDK *partially survive* or *collapse* — both admissible):
 - **Standing** — children, the incapacitated, animals, the unborn. FDK *actively

@@ -13,6 +13,37 @@ over `owner(b)` as a *given*. It can verify that B's title came from A by consen
 from a prior holder — but the recursion bottoms out at a *first* owner whose claim no
 consent grounds. FDK has **no original-acquisition rule**. The graph floats.
 
+## The three sources of ownership — only the third is open
+
+Ownership can arise three ways, and FDK handles the first two:
+1. **Self-ownership** — a person owns themselves (FDK's `A1`/`A2`, by omission).
+2. **Voluntary transfer** — consensual title passing (the whole gate).
+3. **Original acquisition** — the *first* claim on an unowned thing. **This is the open hole**,
+   and every chain in the `OwnershipGraph` must terminate in one. If that point is illegitimate,
+   the entire chain above it is in question.
+
+Every tradition offers a #3 rule, and **none fully closes it**: Locke (labor-mixing), Islamic
+fiqh's *iḥyāʾ al-mawāt* — *"man aḥyā arḍan maytatan fa-hiya lahu"*, whoever revives dead/unused
+land owns it — libertarian homesteading (first use), and the modern state (registration). FDK
+is *compatible* with an acquisition-by-revival rule **when the resource is truly unowned**: no
+rights-holder is harmed, no boundary is crossed, value is created — the gate has nothing to deny.
+
+## "Dead land ≠ ownerless land" — the trap inside #3
+
+The fatal ambiguity: how do you *know* the land was unowned? Abandoned/"dead" land may belong to
+a people expelled 200 years ago whose deeds are lost but whose descendants still claim. The
+revival rule then *launders a dispossession* — and FDK, reading the post-revival graph, cannot
+tell the two cases apart. So #3 needs not just an acquisition rule but a **reliable
+unowned-detector**, which the historical record almost never supplies.
+
+## From description to justification (the deeper challenge)
+
+Even granting a clean unowned thing, every #3 rule only *describes* who gets it; none
+*justifies* it. **Why does FIRST use create ownership** — and not last use, or joint use among
+all users, or the surrounding community? (And what of **simultaneity** — two who arrive at once?
+Rothbard has no formal answer.) Until FDK answers *why* first-appropriation binds everyone after,
+its acquisition rule is a convention asserted, not a principle derived — Hume's challenge.
+
 ## A catalogue of real cases FDK launders or cannot represent
 
 1. **The Norman Conquest (1066).** Nearly all English freehold title traces to a violent

@@ -53,6 +53,27 @@ something Rawls, Nozick, Hayek, Sen, or Ostrom could not?* If the honest answer 
 FDK is a clean reformulation of old ideas. If "partly," it is a real research contribution.
 If "yes," it could matter. We do not yet know.
 
+### Consistent ≠ true: the three levels (and where we are)
+
+What the Lean proofs, the TLC check, and the red-teams actually establish is **internal
+consistency given the axioms** — not that the axioms are *true*, nor the *best possible*:
+
+- **Level 1 — Inconsistent.** Derives `A ∧ ¬A` (e.g. slavery both ALLOW and DENY). FDK does
+  **not** appear to have this. ✓
+- **Level 2 — Consistent but INCOMPLETE.** Whole domains return *unknown*: children, animals,
+  future generations, collective ownership, authentic consent. **This is exactly where FDK
+  is.**
+- **Level 3 — Explanatory / predictive.** *Why* do some societies flourish, some institutions
+  endure, some property regimes collapse? Here FDK has **almost no evidence yet.**
+
+So the one-line characterization to keep: **"a highly engineered, internally consistent
+rights-based framework with several major unresolved domains."** And the genuine current risk
+is **not contradiction but irrelevance** — the history of philosophy is full of perfectly
+consistent systems that explain nothing important ("consistent but irrelevant"). That every
+red-team **found the edges of validity rather than an internal contradiction** is, for a young
+theory, the *better* sign — but it relocates the whole problem from "fix a bug" to "complete
+the domains still outside the model," which is the work of the programs below.
+
 ## What NOT to do (diminishing returns)
 
 The director's standing guidance, recorded so it binds future work: **no** 500 more tests,
@@ -163,13 +184,19 @@ serious research program. Each may also answer **collapses**, and that too is a 
 
 Honest genealogy, so the project knows whose company it keeps and whom it must answer:
 
-- **Nearest kin:** **Locke** (self-ownership, consent, limited government — and the
-  original-acquisition problem FDK independently rediscovered as Program B), **Nozick**
-  (probably the closest modern philosopher: near-absolute individual rights, refusal to
-  sacrifice the one for the collective good — but Aggregation and Standing unsolved), and
-  **Rothbard** (consent/property pushed further — and breaking hardest on children,
-  environment, public goods). FDK's current core is, candidly, the intellectual child of
-  **Locke + Nozick + Rothbard**.
+- **Nearest kin (closeness, roughly):** **Rothbard ~9/10** (self-ownership → homesteading →
+  property → contract → market — the closest modern match to FDK's spine), **Locke ~8.5**
+  (self-ownership, consent, the original-acquisition problem FDK rediscovered as Program B),
+  **Nozick ~8** (near-absolute rights, no sacrifice of the one for the collective), **Hayek
+  ~6** (spontaneous order, but epistemology more than legitimacy). FDK's current core is,
+  candidly, the intellectual child of **Locke + Nozick + Rothbard**.
+- **The honest bar:** FDK must not remain *"Rothbard + formal verification + Python."* To be
+  genuinely new it has to solve the **four problems Rothbard could not**, which are exactly
+  the frontiers the red-teams found: **Standing** (children, the incapacitated, animals,
+  future people), **Aggregation** (the commons), **Consent-Authenticity** (real vs.
+  manufactured consent), and **Original Acquisition** (the genesis of title — incl. Rothbard's
+  unanswered *simultaneity* case). Solve these and FDK moves from an engineered restatement of
+  libertarianism toward a new framework; fail to, and it is a very clean restatement.
 - **Partial kin:** **Hayek** (spontaneous order, anti-social-engineering — but more
   epistemology/economics than a legitimacy theory) and **Ostrom** (the single most
   important author to engage for Program C — she worked exactly where FDK is weakest).
