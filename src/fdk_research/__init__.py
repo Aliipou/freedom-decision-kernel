@@ -136,6 +136,10 @@ from fdk_research.preflight import (
     PreflightWarning,
     preflight,
 )
+from fdk_research.reversibility import (
+    ReversibilityProfile,
+    reversibility,
+)
 from fdk_research.rivals import (
     DEFAULT_KERNELS,
     ConstitutionalAIKernel,
@@ -272,6 +276,10 @@ __all__ = [
     "PreflightWarning",
     "PreflightReport",
     "preflight",
+    # reversibility apparatus (the H2 empirical instrument — NOT a theory; do not
+    # reify the latent variable; see paper/predictive_test.md + paper/h2_abc.md)
+    "ReversibilityProfile",
+    "reversibility",
     # compass measurement (advisory)
     "dependency_index",
     "exit_options",
