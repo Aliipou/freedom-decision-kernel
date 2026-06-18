@@ -12,6 +12,12 @@
 > This file is that axis as a **single falsifiable research program**, not an essay.
 > It walks the phases — define, try to kill, discriminate, axiomatize, predict —
 > on this one path only. Everything else in FDK is, for now, supporting structure.
+>
+> **The program has been executed** — see [`program/`](program/) for the worked
+> phases (definitions, five enemy kill-dossiers, the discrimination table, the
+> theorem ledger, the real-case/prediction file) and [`program/README.md`](program/README.md)
+> for the honest convergence: one distinct-and-defensible cell (structural denial of
+> lock-in / voluntary slavery), hostage to nodes **G** and **K**.
 
 ## The thesis (one sentence, stated so it can lose)
 

@@ -64,6 +64,18 @@ exactly at the three gaps above. On the 15-stage path from idea to paradigm, FDK
 around **stage 3–4 of 15**. *Internally consistent ≠ externally true*, and the author does
 not get to declare a paradigm — the critics and the next generation do.
 
+> **The one axis that might be distinctive.** A rival-discrimination pass found that
+> almost every clean FDK verdict equals Nozick/Rothbard (redundant) and almost every
+> *original* verdict is refuted (animals, Ostromian commons) or collapses
+> (non-identity, adaptive preference) — with **one** survivor: consent that requires
+> a **preserved exit/revocation right**. That single axis is now an *executed*
+> falsifiable research program —
+> [`spec/frontiers/program/`](spec/frontiers/program/) (definitions, five enemy
+> kill-dossiers, discrimination table, theorem ledger, real-case prediction). Its
+> candidate home is the empty chair between Rothbard and Sen — *protection without
+> paternalism* — and it lives or dies on two named nodes: the **exit-cost threshold**
+> and the **adaptive-preference kill**. The next work is adversarial scholarship, not code.
+
 > **Two tracks — don't conflate them.** The paragraph above is the **research**
 > track. Separately, FDK ships a **product** track: a fail-closed *policy/consent
 > engine for AI agents* (`Planner → fdk_runtime.PolicyEngine → AuthGate → execute`)
