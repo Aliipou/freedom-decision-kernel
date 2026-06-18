@@ -25,6 +25,8 @@
 | 6 | [`is_any_primitive.md`](is_any_primitive.md) | Then is *non-domination* (or capability, or rights) foundational? | **No** — the same scalpel dissolves them all; the field is a web with no floor. Relocates the question and exposes the one live frontier |
 | 7 | [`iteration_secured_exit.md`](iteration_secured_exit.md) | Push the survivor: make exit *modal/secured* — does it claim the third horn? | Clears the contented slave (preference-independent, non-perfectionist) but **by becoming Pettit's exit-dimension**. The horn exists only as a *measurement* (D), not a normative theory (N). FDK's true niche: the **instrument** for layer D |
 | 8 | [`red_team_the_verdict.md`](red_team_the_verdict.md) | Is the *negative verdict* itself sound? | **Mostly — but less certain than stated.** The foundationalism kills (5,6) prove too much and are downgraded to context; "RC ⊆ Pettit" is earned only on the contented case; "no fourth route" is *none-found*, not proven; **one live crack remains** (the act-locus vs relation-locus for authored-but-autonomous structures) |
+| 9 | [`../spec/frontiers/program/killer_test/`](../spec/frontiers/program/killer_test/) | Run the live crack as the killer test (4 parallel hunts) — does it revive FDK? | **No (0 survivors / 17 cases / 4 domains).** The crack is **real but closed against freedom**: the *same move that silences all three rivals also escapes freedom* — you must make the foreclosure impersonal/inert, at which point the wrong is *irreversible institutional design*, not legitimacy. Confirms danger #4 by four routes; relocates the residue out of freedom theory |
+| 10 | [`hidden_variable.md`](hidden_variable.md) | Wrong question — what *variable* does FDK measure? | **Reversibility**, and it is **orthogonal** to legitimacy (all four corners of the legitimacy×reversibility 2×2 are populated). Reframes every prior "defeat" as a *misfiling*: FDK is a thermometer entered in a disease-theory contest. **H1 (freedom theory) collapsed; H2 (reversibility / lock-in-risk index) alive and stronger** — and empirically decidable |
 
 Plus the executed program ([`../spec/frontiers/program/`](../spec/frontiers/program/)):
 five enemy kill-dossiers, the theorem ledger, and a 61-case bank (0 fourth routes in
@@ -63,8 +65,19 @@ crack remains**: the act-locus may catch wrongs of authored-but-autonomous struc
 (protocols, institutions that dominate no one *now*) that the relation-locus cannot — the
 place a first genuine FDK win, if any, would come from.
 
+**The reframe (paper 10) — two hypotheses, not one.** The whole contest above tested
+**H1: "FDK is a new theory of freedom/legitimacy/consent."** H1 has **collapsed.** But the
+program kept dragging every case toward exit and foreclosure — the signal that FDK was
+measuring something else all along: **H2: "FDK measures *reversibility*, an orthogonal
+structural variable (all four corners of the legitimacy×reversibility 2×2 are populated),
+and is a candidate index of lock-in risk."** H2 is **alive, stronger than H1 ever was, and
+empirically decidable** — and it puts the project in a different building: institutions,
+systems, and path-dependence, not political philosophy. So:
+
 **Therefore:** FDK is, on present evidence, **not a new philosophical paradigm and not
-yet a distinct moral theory.** It is best and honestly described as a *precise,
+yet a distinct moral theory** (H1 collapsed) — but it is a **live candidate for a
+consent-indexed, computable measure of structural reversibility / lock-in risk** (H2),
+which is a claim to be settled by data, in a different discipline, not by more philosophy. It is best and honestly described as a *precise,
 machine-checked, deployable operationalisation of an existing family of ideas* — a
 consent-**checker** that presupposes a rights/agency/property baseline it does not
 supply, whose verdicts project onto Nozick and Pettit. **This is not a failure.** A
