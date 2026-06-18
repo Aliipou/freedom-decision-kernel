@@ -128,6 +128,37 @@ not-utility structurally different from RLHF / preference-learning / utility-max
 legitimacy-before-optimization resist a class of reward-hacking/manipulation failures that
 welfare-gated agents do not* — testable on real agent benchmarks. Cases: `spec/AI_GOVERNANCE.md`.
 
+## The prioritized work order (highest theoretical payoff first)
+
+Not all holes weigh the same. **Tier 1 — if these are not solved, FDK never becomes a
+paradigm:** (1) **Standing** (who is a rights-holder?), (2) **Competence** (who may exercise
+the right?), (3) **Consent Authenticity** (what is real consent?). The first hole to close is
+the one FDK trips on the moment the world is not "competent adult human → self-owner → valid
+consent": newborn, child, adolescent, Alzheimer's, coma, addiction, brainwashing, very low IQ,
+psychosis.
+
+The recommended order, by theoretical payoff (each a research deliverable, **not** a kernel
+feature — see *What NOT to do* above):
+
+1. **Ownership ≠ Transfer Authority** — the new foundational principle (`frontiers/competence_spectrum.md`):
+   own a thing ≠ may alienate it. Splits into Ownership(binary) / Agency / Transfer-Authority.
+2. **Competence Spectrum** — a graded score `[0,1]` that lives in the *research layer*; the
+   kernel only ever asks the boolean *"is competence sufficient for this consent?"*
+3. **Consent Matrix** — `valid_consent ⟺ Competence ≥ Threshold(act)`; ice-cream low, kidney max.
+4. **Child rights model** — owns body/possessions; graded agency; near-zero alienation.
+5. **Dementia / coma model** — Ownership 100%, Agency→0, Transfer→0; defeasible guardianship.
+6. **Addiction / manipulation model** — the manufactured-consent half (Program A).
+7. **Authentic consent theory** — the formal account, if one exists (or the proof it does not).
+8. **Standing theory** — model child / dementia / coma / fetus / future / animal / ecosystem /
+   AI **separately**; the great error is trying to solve them all at once.
+9. **Ownership origin** — the Lockean genesis gap (`frontiers/ownership_genesis.md`).
+10. **Collective ownership** — the commons (`frontiers/aggregation.md`, answer Ostrom).
+
+When (and if) these ten are answered, the question stops being *"is FDK engineered cleanly?"*
+and becomes *"is this model of consent, competence, and ownership better than the standard
+theories of political philosophy?"* — which is the point at which a GitHub repo becomes a
+serious research program. Each may also answer **collapses**, and that too is a result.
+
 ## Intellectual position — lineage, rivals, and the line that distinguishes FDK
 
 Honest genealogy, so the project knows whose company it keeps and whom it must answer:
