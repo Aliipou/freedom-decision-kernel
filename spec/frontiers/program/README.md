@@ -24,8 +24,12 @@
 | [`07_theorems.md`](07_theorems.md) | 4 — Axiomatize | `A-C / A-R / A-A / A-X → T1…T7`, the inference chain, and the unproved lemmas G and K. |
 | [`08_real_cases.md`](08_real_cases.md) | 5 — Test + predict | Slavery, colonialism, labor, debt, addiction, cults, platforms + a falsifiable prediction. |
 
-(Phase 6 — hand it to *hostile* experts — and Phase 7 — paradigm — are out of our
-hands and not files; see [`../EXIT_RIGHT_PROGRAM.md`](../EXIT_RIGHT_PROGRAM.md).)
+**Phase 6 — hand it to *hostile* experts** — has an artifact: the standalone paper
+[`../../../paper/exit_right.md`](../../../paper/exit_right.md) ("Consent Without Exit:
+Is a Revocation Right a Necessary Condition of Legitimate Consent?"), written to be
+sent to a Pettit republican, a Sen/Khader capability theorist, a Wertheimer
+contract-law scholar, and a Dworkin/Christman autonomy theorist. Its verdict is
+deliberately negative — see below. (Phase 7 — paradigm — is out of our hands.)
 
 ## What the executed program found (the honest convergence)
 
@@ -53,6 +57,19 @@ nodes **G** and **K**. Run **K first** (the contented-slave / designerless-addic
 case): it is the only experiment that can show FDK is original *and* right, and the
 fastest way to learn that it is not. The next work is adversarial scholarship from
 people who hate the theory, not more engineering.
+
+**The standalone paper sharpened this further, and worse.** Writing the exit-right
+thesis as a real philosophy paper ([`paper/exit_right.md`](../../../paper/exit_right.md))
+surfaced the rival the project had not named: **Pettit's republican freedom as
+non-domination** appears to *already* occupy the empty chair — it protects the
+contented slave (she is dominated however content, because domination is a modal
+property of the relationship, not of her preferences) exactly where the exit-right
+condition stalls at Node K. So the honest current estimate of FDK's distinctiveness
+is *lower* than before the paper: its only un-occupied sliver is the claim that the
+exit right's inalienability is **derivable from the structure of consent alone**,
+owing nothing to welfare (Mill/Sen), option-value (Raz), or republican political
+theory (Pettit) — and that derivation must beat non-domination on a contented case.
+That single, precise target is the whole of what is left worth pursuing.
 
 *Theory: نظریه آزادی (Theory of Freedom), Mohammad Ali Jannat Khah Doust (CC BY 4.0).
 Engineering: Ali Pourrahim. Written to be refuted.*
