@@ -138,6 +138,50 @@ every clean verdict is Nozick/Rothbard re-derived; every *original* verdict is
 either refuted (animals, commons) or a collapse (non-identity, adaptive preference).
 **That is the gap between "engineered" and "explanatory."**
 
+### Refinement (conceded): verdict-identity is not theory-identity
+
+The redundancy test above is **too harsh as stated**, and the correction matters.
+That FDK's *output* equals Nozick's on a case does not make FDK redundant *as a
+theory* — calculus and linear algebra agree on countless problems yet have wholly
+different explanatory structure. Two things rescue a verdict-redundant theory:
+
+1. **A more unifying derivation.** If FDK reaches Nozick's verdict *and* the child
+   verdict *and* the lock-in verdict from **one** principle (consent over
+   boundaries) where the rivals need three separate posits, that economy is a
+   contribution even with zero new verdicts. Parsimony is explanation.
+2. **Different predictions at the margins.** Theories that agree on the core
+   diverge at the edges. The discrimination test should therefore be re-run **at
+   the margins** (partial competence, partial exit, contested origin), not on the
+   clean cases where every theory agrees. The ≡ rows above are better read as
+   *"verdict-redundant, explanatory-structure possibly distinct — undecided"*, not
+   *"worthless."*
+
+So the bar is not "different verdict" but **"different *and better* generating
+principle on at least one real problem."** That is still unmet — but it is a
+fairer, and harder, bar than the one the table first implied.
+
+### The unifying candidate worth naming: *protection without paternalism*
+
+C2 (exit-right) and the Ownership↔Authority split are not two findings — they are
+**one**. Both reach a *protective* verdict (against exploiting the locked-in, the
+child, the incapacitated) from a **structural condition on the consent/authority
+relation** — a preserved exit, sufficient authority-*for-this-act* — rather than
+from welfare (Sen/Rawls) or bare consent (Rothbard). Stated as the candidate thesis:
+
+> **FDK's possible distinctive move is to occupy the empty chair between Rothbard
+> and Sen: it derives protection *structurally*, so it protects the vulnerable
+> like Rawls/Sen but *without* an external interest-judgment, and it is more
+> determinate than Rothbard (who cannot say *when* a child may bind itself).**
+
+This is the one place to hunt for "different *and* better": the **capacity cases**.
+Rothbard is *indeterminate* on children; Rawls/Sen reach the protective verdict but
+by importing welfare. If FDK's binary-ownership + graded-authority yields the same
+protection *more determinately and without welfare*, that is a candidate
+contribution — and its **kill-condition is C1**: the contented slave wants no exit
+and asserts full authority, so a purely structural test may under-protect exactly
+where Sen does not. Protection-without-paternalism may be unoccupiable. That is the
+experiment.
+
 ## The single bet worth five years (the exit-right thesis)
 
 If FDK is ever to be more than Rothbard-plus-formal-methods, the live hypothesis is
@@ -158,23 +202,28 @@ narrow and falsifiable:
   Sen (you override the person's own valuation). **This is the experiment to run
   first**, because it is the only thread on which FDK might be original *and* right.
 
-## The ownership ruling you owe the theory (binary vs. gradual)
+## The ownership ruling — SETTLED (2026-06-18)
 
-Your two positions are in tension, and the theory cannot have both:
-- **Earlier:** *"Ownership stays BINARY; grade transfer-authority. Gradual
-  ownership is an abuse trap"* (the Alzheimer's-patient-owns-40%-of-her-house
-  vector — a lever to strip the vulnerable).
-- **Now:** *"10-year-old: ownership 70%."*
+The director ruled, resolving the binary-vs-gradual tension:
 
-Recommendation (yours to overrule, ideally from the source theory): **keep
-Ownership binary — it is the *protection* — and make the three exercised rights
-gradual and independent**: **Transfer**, **Contract**, **Consent-to-act-upon**.
-That yields the developmental spectrum you want (a 10-year-old fully *owns* their
-body but may *transfer* almost nothing; an Alzheimer's patient fully owns her house
-but her *contract* right has lapsed) **without** ever letting anyone say "you only
-70% own yourself" — which is the door to exactly the dispossession FDK exists to
-forbid. The number lives in the research layer; the kernel only ever asks the
-binary "is this right sufficient for *this* act?" (see [[competence_spectrum]]).
+```text
+Ownership          = BINARY     (you own a thing or you do not — the protection)
+Authority          = GRADUAL
+Consent validity   = GRADUAL
+Transferability    = GRADUAL
+Legal responsibility = GRADUAL
+```
+
+**Ownership stays binary** because "the child 40%-owns its body" is precisely the
+lever that strips the vulnerable. What grades is never the *title* but the
+*exercise*: the **authority** to act, the **validity** of consent, the **right to
+transfer**, the **responsibility** borne. So a 10-year-old fully *owns* their body
+yet may *transfer* almost nothing; an Alzheimer's patient fully owns her house yet
+her *contract* capacity has lapsed — no one ever "partly owns" anything. The graded
+numbers live in the research layer; the kernel only ever asks the binary "is this
+authority/consent sufficient for *this* act?" (see [[competence_spectrum]], which
+must be updated to this ruling). This **Ownership ≠ Authority** separation is, per
+the director, the single most promising idea in FDK — see the program below.
 
 ## Why this file, and not more code
 

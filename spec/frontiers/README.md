@@ -23,6 +23,11 @@ Ostromian commons) or a **collapse** (non-identity, adaptive preference), and th
 candidate genuine distinction is the **preserved-exit/revocation-right** condition on consent
 — which is the single thesis worth testing next.
 
+That one thesis is developed as a falsifiable program in
+[`EXIT_RIGHT_PROGRAM.md`](EXIT_RIGHT_PROGRAM.md): FDK's candidate home is the empty chair
+between Rothbard and Sen — *protection without paternalism* — and the program names the two
+nodes it lives or dies on (the **exit-cost threshold** and the **adaptive-preference kill**).
+
 ## The three candidate fatal findings
 
 | Frontier | Deepest finding | Why it may be **irreducible** |

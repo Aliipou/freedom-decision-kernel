@@ -74,6 +74,41 @@ red-team **found the edges of validity rather than an internal contradiction** i
 theory, the *better* sign — but it relocates the whole problem from "fix a bug" to "complete
 the domains still outside the model," which is the work of the programs below.
 
+### The central path (2026-06-18) — the one axis that might be distinctive
+
+The rival-discrimination test ([`frontiers/RIVAL_DISCRIMINATION.md`](frontiers/RIVAL_DISCRIMINATION.md))
+gave a stark result: almost every clean FDK verdict equals Nozick/Rothbard (redundant), and
+almost every *original* verdict is refuted (animals, Ostromian commons) or a collapse
+(non-identity, adaptive preference). **One** candidate distinction survives — consent that
+requires a **preserved exit/revocation right** — and the director independently chose the same
+single axis:
+
+```
+Freedom → Consent → Authenticity → Exit Rights → Manufactured Consent → Adaptive Preference
+```
+
+The agenda is now **focused, not broad**: pursue this one axis to a real result before anything
+else. It is written as a falsifiable program in
+[`frontiers/EXIT_RIGHT_PROGRAM.md`](frontiers/EXIT_RIGHT_PROGRAM.md), with its two decisive open
+nodes named — the **exit-cost threshold** (when is exit so costly it is no exit, without
+smuggling welfare back in?) and the **adaptive-preference kill** (can a structural test deny
+*sincere* consent without paternalism?). FDK's candidate home is the empty chair between
+Rothbard and Sen: **protection without paternalism.**
+
+**Method (a decision tree, not a timeline):** (1) define each term so two readers cannot
+diverge; separate `Consent≠Preference`, `Ownership≠Authority`, `Legitimacy≠Legality`,
+`Freedom≠Welfare`. (2) Write the *falsifier* first. (3) Discriminate vs. Rothbard/Rawls/Sen **at
+the margins**. (4) Extract theorems (`A-C → T1 → T2 → T3/T4`), not prose. (5) Test on real cases
+**and predict**. (6) Hand it to *hostile* experts, not supporters. (7) Paradigm is out of our
+hands — it arrives only when people use "consent without exit is invalid" *without saying "per
+FDK."*
+
+**Settled ruling (2026-06-18) — Ownership is BINARY; Authority / Consent-validity /
+Transferability / Responsibility are GRADUAL.** "The child 40%-owns its body" is the abuse
+lever; what grades is never the title but the *exercise*. The **Ownership ≠ Authority**
+separation is the most promising structural idea and underwrites the capacity half of the
+exit-right program ([`frontiers/competence_spectrum.md`](frontiers/competence_spectrum.md)).
+
 ## What NOT to do (diminishing returns)
 
 The director's standing guidance, recorded so it binds future work: **no** 500 more tests,
