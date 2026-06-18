@@ -195,6 +195,28 @@ def test_decision_json_roundtrips_through_to_dict():
     assert as_dict["fdk_version"]  # stamped for audit
 
 
+# The PolicyDecision wire fields AuthGate's bridge parses (its
+# spec/policy_decision.schema.json). FDK must never drop one of these — this test
+# is the FDK half of the hand-synced cross-repo contract guard.
+_CONTRACT_FIELDS = {"verdict", "action_id", "actor", "reasons", "axiom_trace", "fail_closed"}
+
+
+def test_to_dict_carries_every_contract_field():
+    decision = PolicyEngine(clock=FIXED_CLOCK).evaluate(_legit_action(), _alice_owns_notes())
+    as_dict = decision.to_dict()
+    assert set(as_dict) >= _CONTRACT_FIELDS
+    assert as_dict["verdict"] in {"ALLOW", "DENY", "DEFER"}
+
+
+def test_denied_decision_emits_axiom_trace_for_the_contract():
+    graph = OwnershipGraph(human_owns={BOB: {SECRET}})
+    decision = PolicyEngine(clock=FIXED_CLOCK).evaluate(_illegit_action(), graph)
+    as_dict = decision.to_dict()
+    assert set(as_dict) >= _CONTRACT_FIELDS
+    assert as_dict["verdict"] == "DENY"
+    assert as_dict["axiom_trace"]  # non-empty for a denial
+
+
 def test_consent_path_allows_action_on_another_person():
     # A machine deletes alice's data with her valid, operation-specific consent.
     agent = Entity("agent-7", AgentType.MACHINE)
