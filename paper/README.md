@@ -22,6 +22,7 @@
 | 3 | [`reverse_test.md`](reverse_test.md) | Does FDK produce an *independent verdict-column*? | No column exhibited; FDK = projection of Nozick ∪ Pettit, silent where Sen speaks |
 | 4 | [`steelman_pettit.md`](steelman_pettit.md) | Assume Pettit is right — can FDK survive? | Not as a rival; only as an operationalised shadow of non-domination |
 | 5 | [`consent_not_foundational.md`](consent_not_foundational.md) | Is *consent itself* foundational? | **No** — consent presupposes autonomy, competence, domination, capability; it is a node, not a root |
+| 6 | [`is_any_primitive.md`](is_any_primitive.md) | Then is *non-domination* (or capability, or rights) foundational? | **No** — the same scalpel dissolves them all; the field is a web with no floor. Relocates the question and exposes the one live frontier |
 
 Plus the executed program ([`../spec/frontiers/program/`](../spec/frontiers/program/)):
 five enemy kill-dossiers, the theorem ledger, and a 61-case bank (0 fourth routes in
@@ -43,6 +44,11 @@ Five independent attacks, by different routes, reach the same place:
    *operationalisation* of the exit-dimension of non-domination.
 5. **Consent is not even the right foundation** — it is downstream of the very concepts
    (autonomy, competence, domination, capability, property) FDK hoped to build out of it.
+6. **Nor is any rival's primitive** — the same circularity dissolves non-domination,
+   capability, and self-ownership alike (paper 6). This does **not** rescue FDK (it is
+   still reducible and non-distinctive); it *demotes the indictment*: non-foundationalism
+   is the field's universal condition, not FDK's peculiar flaw. The rivals are not *more
+   foundational* than FDK — only better developed, and (Pettit) stronger on verdicts.
 
 **Therefore:** FDK is, on present evidence, **not a new philosophical paradigm and not
 yet a distinct moral theory.** It is best and honestly described as a *precise,
@@ -74,6 +80,18 @@ that Nozick, Sen, *and* Pettit each get wrong or cannot reach, and that RC gets 
 *without* importing welfare, capability, autonomy, or domination. None of these papers —
 nor a forward case bank, five dossiers, and a reverse test — has produced it. Finding it
 is the entire remaining philosophical task.
+
+And one question is bigger than FDK and survives the whole demolition (paper 6, §5):
+**is there a structural criterion — for domination, consent, dependence, exit — that
+neither bottoms out in subjective preference (defeated by the contented slave) nor
+imports a perfectionist theory of the good (paternalism)?** Pettit's *secured
+exit/contestation* and FDK's *preserved exit right* are very plausibly the **same
+structural marker** reached by two routes — which is weak positive evidence that
+**exit-structure** is the most promising candidate for a preference-independent,
+non-perfectionist criterion of freedom. That junction — owned by no one, shared by
+Pettit, Sen, and Nozick — is the live frontier the negative program uncovered. FDK's
+honest legacy is to have walked the dead-end roads carefully enough to report they are
+closed, and to have pointed, on the way out, at the one that is open.
 
 *Theory: نظریه آزادی (Theory of Freedom), Mohammad Ali Jannat Khah Doust (CC BY 4.0).
 Engineering: Ali Pourrahim. Every verdict here is offered to be refuted; the challenge in
