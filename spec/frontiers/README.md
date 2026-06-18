@@ -14,6 +14,15 @@
 These are research notes, not verdicts. "Irreducible" is a conjecture to be argued down or
 conceded — but the burden has shifted: it is no longer obvious any of the three is fixable.
 
+**The "so what?" instrument:** these notes hunt for where FDK *fails*. The companion
+[`RIVAL_DISCRIMINATION.md`](RIVAL_DISCRIMINATION.md) runs the harder commercial-of-ideas
+test — *does FDK ever say anything Rothbard / Nozick / Hayek / Rawls / Sen / Ostrom do not?*
+On the decisive cases its provisional answer is stark: most clean FDK verdicts **equal
+Nozick/Rothbard** (redundant), every *original* verdict is either **refuted** (animals,
+Ostromian commons) or a **collapse** (non-identity, adaptive preference), and the **one**
+candidate genuine distinction is the **preserved-exit/revocation-right** condition on consent
+— which is the single thesis worth testing next.
+
 ## The three candidate fatal findings
 
 | Frontier | Deepest finding | Why it may be **irreducible** |
