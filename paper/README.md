@@ -23,6 +23,8 @@
 | 4 | [`steelman_pettit.md`](steelman_pettit.md) | Assume Pettit is right — can FDK survive? | Not as a rival; only as an operationalised shadow of non-domination |
 | 5 | [`consent_not_foundational.md`](consent_not_foundational.md) | Is *consent itself* foundational? | **No** — consent presupposes autonomy, competence, domination, capability; it is a node, not a root |
 | 6 | [`is_any_primitive.md`](is_any_primitive.md) | Then is *non-domination* (or capability, or rights) foundational? | **No** — the same scalpel dissolves them all; the field is a web with no floor. Relocates the question and exposes the one live frontier |
+| 7 | [`iteration_secured_exit.md`](iteration_secured_exit.md) | Push the survivor: make exit *modal/secured* — does it claim the third horn? | Clears the contented slave (preference-independent, non-perfectionist) but **by becoming Pettit's exit-dimension**. The horn exists only as a *measurement* (D), not a normative theory (N). FDK's true niche: the **instrument** for layer D |
+| 8 | [`red_team_the_verdict.md`](red_team_the_verdict.md) | Is the *negative verdict* itself sound? | **Mostly — but less certain than stated.** The foundationalism kills (5,6) prove too much and are downgraded to context; "RC ⊆ Pettit" is earned only on the contented case; "no fourth route" is *none-found*, not proven; **one live crack remains** (the act-locus vs relation-locus for authored-but-autonomous structures) |
 
 Plus the executed program ([`../spec/frontiers/program/`](../spec/frontiers/program/)):
 five enemy kill-dossiers, the theorem ledger, and a 61-case bank (0 fourth routes in
@@ -49,6 +51,17 @@ Five independent attacks, by different routes, reach the same place:
    still reducible and non-distinctive); it *demotes the indictment*: non-foundationalism
    is the field's universal condition, not FDK's peculiar flaw. The rivals are not *more
    foundational* than FDK — only better developed, and (Pettit) stronger on verdicts.
+
+**A caveat on confidence (paper 8, the self-red-team).** These six attacks are *not*
+equally strong. The **verdict-divergence** arguments (papers 2–4: reducible, no
+independent column, doesn't out-survive Pettit) are robust and carry the conclusion. The
+**foundationalism** arguments (papers 5–6: consent/the rivals aren't primitive) **prove
+too much** — by their bar *no* concept is foundational — so they are context, not
+indictment, and the verdict does not rest on them. "No fourth route" should be read as
+*none found under serious search* (burden shifted hard, not discharged), and **one live
+crack remains**: the act-locus may catch wrongs of authored-but-autonomous structures
+(protocols, institutions that dominate no one *now*) that the relation-locus cannot — the
+place a first genuine FDK win, if any, would come from.
 
 **Therefore:** FDK is, on present evidence, **not a new philosophical paradigm and not
 yet a distinct moral theory.** It is best and honestly described as a *precise,
