@@ -25,7 +25,7 @@ dependencies = []
 dev = ["pytest>=8", "pytest-cov>=5", "hypothesis>=6", "ruff==0.15.17", "mypy>=1.11"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/fdk_kernel", "src/fdk_research"]
+packages = ["src/fdk_kernel", "src/fdk_research", "src/fdk_runtime"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

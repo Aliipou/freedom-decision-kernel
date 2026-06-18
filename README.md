@@ -64,6 +64,15 @@ exactly at the three gaps above. On the 15-stage path from idea to paradigm, FDK
 around **stage 3–4 of 15**. *Internally consistent ≠ externally true*, and the author does
 not get to declare a paradigm — the critics and the next generation do.
 
+> **Two tracks — don't conflate them.** The paragraph above is the **research**
+> track. Separately, FDK ships a **product** track: a fail-closed *policy/consent
+> engine for AI agents* (`Planner → fdk_runtime.PolicyEngine → AuthGate → execute`)
+> that returns ALLOW / DENY / DEFER. It is **usable today for in-frame agent
+> actions** (competent, living, consenting principals — most SaaS / agentic /
+> enterprise tool calls) and deliberately does **not** depend on the open frontiers
+> above. See **[`PRODUCTION_READINESS.md`](PRODUCTION_READINESS.md)** and
+> [`examples/policy_engine_quickstart.py`](examples/policy_engine_quickstart.py).
+
 ---
 
 ## Contents
