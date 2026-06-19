@@ -105,6 +105,11 @@ from fdk_research.independent_bench import (
     uncontested_cases,
 )
 from fdk_research.justice import JusticeScore, justice_score, rank_by_justice
+from fdk_research.lockin import (
+    Dependency,
+    LockinProfile,
+    lockin_risk,
+)
 from fdk_research.necessity import harm, least_harmful_among_permissible
 from fdk_research.ontology import (
     Claim,
@@ -280,6 +285,11 @@ __all__ = [
     # reify the latent variable; see paper/predictive_test.md + paper/h2_abc.md)
     "ReversibilityProfile",
     "reversibility",
+    # lock-in risk scorer (Reversibility Intelligence — the industrial reframe;
+    # apparatus to validate vs existing dependency tools, see POSITIONING.md)
+    "Dependency",
+    "LockinProfile",
+    "lockin_risk",
     # compass measurement (advisory)
     "dependency_index",
     "exit_options",
