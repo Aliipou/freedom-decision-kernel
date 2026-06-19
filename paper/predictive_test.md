@@ -31,14 +31,30 @@ Draft for hostile review.*
 
 All three are right, and together they set the only bar that now matters.
 
-## 1. The corrected standard: incremental predictive validity
+## 1. The corrected standard: TWO stages, and the first is prior
 
-A variable earns independent status not by a 2×2 but by **predicting a real outcome better
-than the existing variables, after controlling for them.** Formally: regress an outcome X on
-the established predictors (switching-cost indices, concentration, path-dependence proxies,
-quasi-option value); add FDK-reversibility; does it buy a robust **ΔR² > 0**? If not, FDK is
-*absorbed* — a rename of variables already in use. If yes, it is a genuinely new instrument.
-Everything below serves this test.
+A variable earns independent status in **two** steps, not one — and conflating them (as an
+earlier draft did) hides the harder question:
+
+- **Stage 1 — discriminant validity (is "reversibility" even a separable construct?).**
+  Before asking whether FDK predicts anything, ask whether its index is *distinct* from the
+  measures it is suspected of renaming. Regress the FDK index *on* switching costs, exit
+  options, quasi-option value, and dependency concentration: `FDK = f(existing) + ε`. If R²
+  is near 1, FDK-reversibility **is** those variables in a trench coat — "reversibility" was
+  a *linguistic umbrella*, not a construct, and Stage 2 is moot. Only the **residual ε** —
+  the part of FDK *not* explained by the existing indices — is a candidate new variable.
+  This is the step the director flagged and the earlier draft skipped.
+- **Stage 2 — incremental predictive validity (does the separable part predict?).** *If* a
+  non-trivial residual survives Stage 1, regress a real outcome X on the established
+  predictors plus FDK (or its residual): does it buy a robust **ΔR² > 0**? Absorbed if ≈ 0;
+  a genuinely new instrument only if > 0, replicated across domains, and not driven by mere
+  correlation with switching costs or exit options.
+
+This is exactly why the apparatus (`fdk_research/reversibility.py`) is **decomposed** into
+components (op-reversibility, exit-preservation, recovery, holder-alignment): Stage 1 needs
+to see whether those components collapse onto existing constructs or carry an independent
+factor. "FDK ≈ reversibility" must survive Stage 1 *before* Stage 2 is even meaningful, and
+neither has been run.
 
 ## 2. The novelty audit — is "reversibility" already measured? (mostly yes)
 
