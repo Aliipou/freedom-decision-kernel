@@ -222,7 +222,39 @@ market is *option value on AI-agent autonomy*, not a today-product — the `May 
 only bites hard once agents are autonomous enough that "authorized but shouldn't" becomes a
 frequent, expensive failure mode. That day may come; it has not arrived. So of the project's
 two surviving threads, **Lock-in Analytics is the near-term bet and `Can do ≠ May do` is the
-long-dated option** — and neither is a theory of freedom. That demonstration — a concrete
+long-dated option** — and neither is a theory of freedom.
+
+## 6. The clean separation — and the honest bet
+
+Three things were tangled together for most of this project and must be separated:
+
+| Layer | What | Status |
+|---|---|---|
+| **1. Theory** (نظریه آزادی) | a new normative axis of freedom/legitimacy | **collapsed** — no independence from Nozick/Pettit/Sen found |
+| **2. Decision framework** | a structured, computable way to score lock-in at decision time | **medium** — coherent, but its variables are known |
+| **3. Product** | an enterprise tool that makes lock-in visible and actionable | **the real opportunity** |
+
+The experiment showed Layer 1 and (probably) the *scientific* part of Layer 2 are
+recombinations of known variables. **The biggest *remaining* risk is therefore no longer
+philosophical — it is that `FDK Score = a UI around switching cost + portability +
+dependency concentration`.** That is a real risk. But the decisive observation is that **it
+may not matter for Layer 3**: SonarQube, Datadog, Snyk, and New Relic created *no* new
+science — they took existing variables, **aggregated, surfaced, and made them actionable**,
+and built billion-dollar markets. A successful tool does not require a new construct; it
+requires making an expensive, invisible problem *visible at the moment of decision*.
+
+So the honest bet, and the directive that follows: **stop spending time on freedom, consent,
+Pettit, Sen, Rawls — that contest is over.** Spend it on Cloud / Vendor / Platform lock-in,
+migration cost, digital sovereignty, and enterprise architecture, around one question:
+
+> **Does an FDK lock-in score lead to a better decision than a Gartner-style architecture
+> review?** (decision-value, Q-B) — and secondarily, does it predict migration pain better
+> than existing metrics? (Q-A)
+
+That question has industrial value whether or not anything underneath it is novel. The final
+read: *low* probability FDK matters as philosophy; *materially higher* probability that part
+of it becomes an Enterprise-Architecture / Cloud-Governance tool — and that second path was,
+in hindsight, the project's real opportunity from the start. That demonstration — a concrete
 agent incident where legitimacy-before-authorization prevents a harm OPA/Cedar/Zanzibar would
 allow — is the **product analogue of the ΔR² test**: the one thing that would move FDK from
 "another policy engine" to "a layer you actually need." It has not yet been shown, and until
