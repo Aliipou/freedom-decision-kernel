@@ -1,0 +1,11 @@
+{
+  "name": "example-app",
+  "stack": [
+    { "service": "Amazon DynamoDB", "weight": 0.25 },
+    { "service": "AWS Lambda", "weight": 0.20 },
+    { "service": "Amazon EventBridge", "weight": 0.15 },
+    { "service": "Amazon S3", "weight": 0.10 },
+    { "service": "PostgreSQL", "weight": 0.20 },
+    { "service": "Kubernetes", "weight": 0.10 }
+  ]
+}
