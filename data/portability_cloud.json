@@ -1,0 +1,316 @@
+{
+  "_provenance": "Seed knowledge base for FDK lock-in scoring. These are EXPERT-STYLE PRIOR ESTIMATES grounded in known technical facts (and web sources where cited), NOT measured empirical data. Confidence and source are marked per record. Intended to seed the knowledge base and exercise the apparatus end-to-end; the real validation is the migration-outcome ΔR² test, not these numbers.",
+  "schema": "name, category, switching_cost[0-1] (0=trivial to leave,1=ruinous), portability[0-1] (0=proprietary lock,1=open standard), alternatives (int count of viable substitutes), rationale, confidence(low|medium|high), source",
+  "records": [
+    {
+      "name": "Amazon DynamoDB",
+      "category": "aws-database",
+      "switching_cost": 0.85,
+      "portability": 0.2,
+      "alternatives": 2,
+      "rationale": "Proprietary NoSQL with no SQL-compatible drop-in. Data model (partition/sort keys, single-table design), API, streams, and IAM coupling are AWS-specific. ScyllaDB Alternator offers a DynamoDB-compatible API as the main escape hatch, and Cassandra is a partial conceptual analog, but application access patterns are typically rewritten on migration.",
+      "confidence": "high",
+      "source": "https://www.scylladb.com/alternator/ ; vendor docs + estimate"
+    },
+    {
+      "name": "AWS Lambda",
+      "category": "aws-compute",
+      "switching_cost": 0.7,
+      "portability": 0.3,
+      "alternatives": 4,
+      "rationale": "Proprietary event/runtime and invocation model, tight IAM/EventBridge/API-Gateway coupling. Handler code is often small, but triggers, packaging, and event shapes are AWS-specific. Knative, OpenFaaS, GCP Cloud Run functions, and Azure Functions exist but require re-wiring the event plane. Container-packaged Lambdas improve portability somewhat.",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "Amazon S3",
+      "category": "aws-storage",
+      "switching_cost": 0.45,
+      "portability": 0.7,
+      "alternatives": 6,
+      "rationale": "The S3 API has become a de-facto industry standard implemented by MinIO, Ceph RGW, GCS (interop), Backblaze B2, Cloudflare R2, and Wasabi. API portability is high; switching cost is driven mainly by data egress fees and volume, plus proprietary features (S3 Select, lifecycle, event notifications, Glacier tiers).",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "Amazon EventBridge",
+      "category": "aws-messaging",
+      "switching_cost": 0.65,
+      "portability": 0.2,
+      "alternatives": 3,
+      "rationale": "Proprietary event bus with AWS-specific event schema, rules/patterns, and partner-source integrations. No open standard equivalent; CloudEvents-based buses (Knative Eventing, NATS) require redesigning routing logic and event schemas.",
+      "confidence": "medium",
+      "source": "estimate"
+    },
+    {
+      "name": "Amazon Cognito",
+      "category": "aws-identity",
+      "switching_cost": 0.75,
+      "portability": 0.25,
+      "alternatives": 5,
+      "rationale": "Speaks OAuth2/OIDC at the edge, but user-pool data model, triggers, and token customization are proprietary. Password hashes are not exportable in a portable form, forcing password-reset migrations. Auth0, Keycloak, Okta, Azure AD B2C, and Firebase Auth are alternatives but migration disrupts users.",
+      "confidence": "medium",
+      "source": "estimate"
+    },
+    {
+      "name": "AWS Step Functions",
+      "category": "aws-orchestration",
+      "switching_cost": 0.8,
+      "portability": 0.15,
+      "alternatives": 4,
+      "rationale": "Amazon States Language and service integrations are unique to AWS; cannot orchestrate outside AWS. Migrating means rewriting orchestration. Portable alternatives (Kestra YAML, Temporal, Argo Workflows, Netflix Conductor) exist but use entirely different definitions and execution semantics.",
+      "confidence": "high",
+      "source": "https://kestra.io/vs/aws-step-functions ; vendor docs + estimate"
+    },
+    {
+      "name": "Amazon API Gateway",
+      "category": "aws-networking",
+      "switching_cost": 0.6,
+      "portability": 0.35,
+      "alternatives": 6,
+      "rationale": "Routes/methods map loosely to OpenAPI, but authorizers, request/response mapping templates (VTL), usage plans, and Lambda/IAM integrations are proprietary. Kong, Envoy/Gateway API, NGINX, Apigee, and Azure API Management are substitutes but the integration glue is rewritten.",
+      "confidence": "medium",
+      "source": "estimate"
+    },
+    {
+      "name": "Amazon Aurora",
+      "category": "aws-database",
+      "switching_cost": 0.5,
+      "portability": 0.6,
+      "alternatives": 5,
+      "rationale": "Wire-compatible with PostgreSQL and MySQL, so application SQL and drivers largely port. Lock-in comes from Aurora-specific features (storage autoscaling, fast clones, Global Database, Serverless v2, Babelfish) and operational tuning. Plain Postgres/MySQL anywhere is the exit path, accepting performance/feature changes.",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "Amazon SQS",
+      "category": "aws-messaging",
+      "switching_cost": 0.45,
+      "portability": 0.4,
+      "alternatives": 6,
+      "rationale": "Simple queue semantics make application logic easy to re-point, but the API is proprietary (no AMQP/JMS standard wire protocol) and FIFO/visibility-timeout/DLQ behaviors differ from alternatives. RabbitMQ, ActiveMQ, NATS, Redis Streams, GCP Pub/Sub, and Azure Service Bus can substitute with adapter code.",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "Amazon Kinesis Data Streams",
+      "category": "aws-streaming",
+      "switching_cost": 0.65,
+      "portability": 0.35,
+      "alternatives": 3,
+      "rationale": "Conceptually close to Kafka (shards vs partitions) but uses a proprietary API and KCL/enhanced-fan-out model. Apache Kafka, Amazon MSK, Pulsar, and GCP Pub/Sub are alternatives; migration is eased by Kafka-like semantics but requires rewriting producers/consumers and checkpointing.",
+      "confidence": "medium",
+      "source": "estimate"
+    },
+    {
+      "name": "Amazon RDS for PostgreSQL",
+      "category": "aws-database",
+      "switching_cost": 0.3,
+      "portability": 0.85,
+      "alternatives": 8,
+      "rationale": "Managed stock PostgreSQL using the open Postgres wire protocol and SQL. Application code is fully portable; lock-in is operational (snapshots, parameter groups, IAM auth, monitoring). pg_dump/logical replication enable migration to any Postgres host. Switching cost is mostly data-volume and downtime, not API rewrites.",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "Azure Functions",
+      "category": "azure-compute",
+      "switching_cost": 0.7,
+      "portability": 0.3,
+      "alternatives": 4,
+      "rationale": "Proprietary triggers/bindings model and host runtime tie functions to Azure event sources. The Functions runtime is open-source and runs in containers/KEDA, improving portability somewhat, but production bindings (Service Bus, Event Grid, Cosmos triggers) are Azure-specific. Knative, OpenFaaS, AWS Lambda, GCP functions are alternatives.",
+      "confidence": "medium",
+      "source": "estimate"
+    },
+    {
+      "name": "Azure Cosmos DB",
+      "category": "azure-database",
+      "switching_cost": 0.75,
+      "portability": 0.35,
+      "alternatives": 4,
+      "rationale": "Portability is bimodal: the MongoDB and Cassandra wire-protocol APIs let you re-point existing drivers/tools (cqlsh) elsewhere with modest effort, but the native Core (SQL) API is proprietary and hard to replace, with Azure-specific partitioning, RU pricing, and global-distribution semantics. Score reflects typical Core-API usage.",
+      "confidence": "high",
+      "source": "https://learn.microsoft.com/en-us/azure/cosmos-db/faq ; vendor docs + estimate"
+    },
+    {
+      "name": "Azure Service Bus",
+      "category": "azure-messaging",
+      "switching_cost": 0.55,
+      "portability": 0.45,
+      "alternatives": 5,
+      "rationale": "Supports the open AMQP 1.0 protocol, which aids portability, but sessions, dead-lettering, topics/subscriptions filters, and the SDK abstractions are Azure-flavored. RabbitMQ, ActiveMQ Artemis, AWS SQS/SNS, and Kafka can substitute; AMQP support lowers the rewrite cost versus fully proprietary buses.",
+      "confidence": "medium",
+      "source": "estimate"
+    },
+    {
+      "name": "Azure AD B2C",
+      "category": "azure-identity",
+      "switching_cost": 0.75,
+      "portability": 0.3,
+      "alternatives": 5,
+      "rationale": "Standards-based OIDC/OAuth2/SAML at the protocol edge, but custom policies (Identity Experience Framework XML), user-flow config, and directory data are proprietary and non-trivial to export. Keycloak, Auth0, Okta, Cognito, and Entra External ID are alternatives; password and policy migration is the main pain.",
+      "confidence": "medium",
+      "source": "estimate"
+    },
+    {
+      "name": "Google BigQuery",
+      "category": "gcp-analytics",
+      "switching_cost": 0.7,
+      "portability": 0.35,
+      "alternatives": 5,
+      "rationale": "Standard-SQL dialect aids query portability, but the serverless storage/compute separation, slots pricing, BI Engine, ML (BQML), and streaming inserts are GCP-specific. Snowflake, Databricks/Spark, AWS Redshift/Athena, and ClickHouse are alternatives; SQL ports partially but data movement and feature parity drive cost.",
+      "confidence": "medium",
+      "source": "estimate"
+    },
+    {
+      "name": "Google Cloud Pub/Sub",
+      "category": "gcp-messaging",
+      "switching_cost": 0.55,
+      "portability": 0.35,
+      "alternatives": 5,
+      "rationale": "Proprietary API with at-least-once/exactly-once and global topic semantics; no open wire-protocol standard. The Pub/Sub Lite and Kafka-compatible offerings ease some Kafka migration. Kafka, Pulsar, NATS, AWS SNS/SQS, and Azure Service Bus substitute with adapter rewrites.",
+      "confidence": "medium",
+      "source": "estimate"
+    },
+    {
+      "name": "Google Cloud Run",
+      "category": "gcp-compute",
+      "switching_cost": 0.35,
+      "portability": 0.75,
+      "alternatives": 5,
+      "rationale": "Runs standard OCI containers and is built on the open Knative API, so the workload itself is highly portable; lock-in is limited to ingress, IAM, and revision/traffic-splitting config. Any Knative/Kubernetes cluster, AWS App Runner/Fargate, or Azure Container Apps can host the same image.",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "Google Cloud Firestore",
+      "category": "gcp-database",
+      "switching_cost": 0.8,
+      "portability": 0.2,
+      "alternatives": 3,
+      "rationale": "Proprietary document model with real-time listeners, offline SDKs, and security rules tightly bound to GCP/Firebase. No open wire-protocol equivalent; export is via proprietary dumps. MongoDB, DynamoDB, and Couchbase are conceptual alternatives but require full data-model and client rewrites.",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "PostgreSQL",
+      "category": "open-database",
+      "switching_cost": 0.15,
+      "portability": 0.95,
+      "alternatives": 12,
+      "rationale": "Open-source, open SQL standard with a documented wire protocol and dozens of managed hosts (RDS, Aurora, Cloud SQL, Azure, Supabase, Neon, Crunchy, self-host). Application code is fully portable; switching cost is essentially data migration and downtime, not lock-in. The canonical high-portability baseline.",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "Kubernetes",
+      "category": "open-orchestration",
+      "switching_cost": 0.25,
+      "portability": 0.9,
+      "alternatives": 10,
+      "rationale": "CNCF open standard with a conformance program; the same manifests/Helm charts run on EKS, GKE, AKS, OpenShift, Rancher, and bare metal. Residual lock-in is in cloud-specific add-ons (load balancers, CSI/CNI drivers, IAM integration), not the core API. Strong portability baseline.",
+      "confidence": "high",
+      "source": "https://www.cncf.io/certification/software-conformance/ ; estimate"
+    },
+    {
+      "name": "Redis OSS",
+      "category": "open-cache",
+      "switching_cost": 0.2,
+      "portability": 0.9,
+      "alternatives": 9,
+      "rationale": "Ubiquitous open protocol (RESP) with many compatible servers and forks (Valkey, KeyDB, DragonflyDB) and managed hosts (ElastiCache, Memorystore, Azure Cache, Redis Cloud). Re-pointing is trivial; only proprietary modules or Enterprise features add friction. Licensing shifts spurred drop-in forks, preserving portability.",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "Apache Kafka",
+      "category": "open-streaming",
+      "switching_cost": 0.4,
+      "portability": 0.8,
+      "alternatives": 7,
+      "rationale": "De-facto open streaming protocol with broad ecosystem; the Kafka API is implemented by Confluent, MSK, Redpanda, Aiven, WarpStream, and Azure Event Hubs (Kafka endpoint). Application producers/consumers port across them. Switching cost is operational (partitions, offsets, schema registry, connectors), not API rewrites.",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "MinIO (S3-compatible)",
+      "category": "open-storage",
+      "switching_cost": 0.2,
+      "portability": 0.9,
+      "alternatives": 8,
+      "rationale": "Open-source object store implementing the de-facto S3 API; any S3 SDK works unchanged. Interchangeable with AWS S3, Ceph RGW, R2, Backblaze B2, Wasabi, and GCS interop. Near-zero application lock-in; switching cost is just data movement and any non-standard extension features.",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "Terraform / OpenTofu",
+      "category": "open-iac",
+      "switching_cost": 0.35,
+      "portability": 0.8,
+      "alternatives": 6,
+      "rationale": "HCL and the provider model are widely adopted; OpenTofu is an open-source, drop-in fork preserving portability after the BSL license change. Lock-in is to provider-specific resource schemas (the underlying clouds), not to the tool. Pulumi, Crossplane, CloudFormation, and CDK are alternatives requiring config rewrites.",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "OpenTelemetry",
+      "category": "open-observability",
+      "switching_cost": 0.2,
+      "portability": 0.9,
+      "alternatives": 8,
+      "rationale": "CNCF vendor-neutral standard for traces/metrics/logs with the OTLP wire protocol; instrumentation stays put while you swap backends (Jaeger, Tempo, Prometheus, Datadog, Honeycomb, New Relic, Grafana Cloud). Explicitly designed to eliminate observability lock-in. Strong portability baseline.",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "Docker / OCI Containers",
+      "category": "open-packaging",
+      "switching_cost": 0.1,
+      "portability": 0.95,
+      "alternatives": 10,
+      "rationale": "OCI image and runtime specifications are an open standard; the same image runs on any compliant runtime (containerd, CRI-O, Podman) and registry (Docker Hub, ECR, GCR, GHCR, Harbor). Effectively the universal portable packaging unit; near-zero lock-in. The strongest portability baseline in this set.",
+      "confidence": "high",
+      "source": "https://opencontainers.org/ ; estimate"
+    },
+    {
+      "name": "Amazon SNS",
+      "category": "aws-messaging",
+      "switching_cost": 0.5,
+      "portability": 0.35,
+      "alternatives": 5,
+      "rationale": "Proprietary pub/sub with AWS-specific fan-out to SQS/Lambda/HTTP/mobile push and message filtering. No open wire standard. GCP Pub/Sub, Azure Service Bus topics, Kafka, NATS, and RabbitMQ exchanges substitute but subscription topology and filter policies are rewritten.",
+      "confidence": "medium",
+      "source": "estimate"
+    },
+    {
+      "name": "Amazon ElastiCache",
+      "category": "aws-cache",
+      "switching_cost": 0.3,
+      "portability": 0.75,
+      "alternatives": 7,
+      "rationale": "Managed Redis/Valkey and Memcached using their open protocols, so client code ports easily. Lock-in is operational (cluster mode, parameter groups, failover, AWS networking), not API. Any Redis/Valkey/Memcached host (Memorystore, Azure Cache, Redis Cloud, self-host) is a viable target.",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "AWS Fargate",
+      "category": "aws-compute",
+      "switching_cost": 0.4,
+      "portability": 0.7,
+      "alternatives": 5,
+      "rationale": "Runs standard OCI containers, so the workload image is portable; lock-in is to ECS/EKS task definitions, IAM roles, and AWS networking rather than the container itself. GCP Cloud Run, Azure Container Apps, Knative, and plain Kubernetes are straightforward targets for the same image.",
+      "confidence": "high",
+      "source": "estimate"
+    },
+    {
+      "name": "Azure Event Hubs",
+      "category": "azure-streaming",
+      "switching_cost": 0.45,
+      "portability": 0.55,
+      "alternatives": 5,
+      "rationale": "Exposes a Kafka-compatible endpoint alongside its native API, so Kafka clients can migrate to/from Apache Kafka, Confluent, MSK, or Redpanda with connection changes. Native AMQP/SDK features and capture/partition semantics are Azure-specific, but the Kafka surface materially lowers switching cost versus a fully proprietary stream.",
+      "confidence": "medium",
+      "source": "estimate"
+    }
+  ]
+}

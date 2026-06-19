@@ -1,0 +1,316 @@
+{
+  "_provenance": "Seed knowledge base for FDK lock-in scoring — EXPERT-STYLE PRIOR ESTIMATES grounded in known technical facts (web-cited where possible), NOT measured data. The real validation is the migration-outcome ΔR² test. Scoring convention: switching_cost and portability are inversely related but not strictly complementary (portability captures technical replaceability; switching_cost captures total cost-to-exit including data gravity, contracts, retraining, and process rebuild). alternatives = approximate count of credible drop-in or near-drop-in substitutes.",
+  "schema": "name, category, switching_cost[0-1], portability[0-1], alternatives(int), rationale, confidence(low|medium|high), source",
+  "records": [
+    {
+      "name": "OpenAI API (Chat Completions + Assistants/Responses)",
+      "category": "ai_api",
+      "switching_cost": 0.55,
+      "portability": 0.55,
+      "alternatives": 6,
+      "rationale": "Chat Completions is a de-facto standard and broadly portable, but proprietary extensions (function-calling JSON-string args, Assistants API which OpenAI is sunsetting mid-2026 in favor of MCP, structured outputs, fine-tunes, file_search) raise exit cost. Tokenizer (tiktoken) and prompt nuances differ. Large competitive market of substitutes keeps switching_cost moderate, not high.",
+      "confidence": "high",
+      "source": "web: eesel.ai OpenAI-vs-Anthropic 2025 guide; awesomeagents.ai openai-to-anthropic migration; OpenAI Assistants deprecation toward MCP (estimate-adjusted)"
+    },
+    {
+      "name": "Anthropic Claude API",
+      "category": "ai_api",
+      "switching_cost": 0.5,
+      "portability": 0.6,
+      "alternatives": 6,
+      "rationale": "Content-block/tool-use schema, system-message concatenation behavior, prompt caching economics, and required max_tokens create migration friction in both directions. MCP (Anthropic-originated, now cross-vendor) lowers tool-layer lock-in. Strong competitive market; mostly portable at the chat layer.",
+      "confidence": "high",
+      "source": "web: eesel.ai 2025 guide; awesomeagents.ai migration notes; MCP cross-adoption (estimate-adjusted)"
+    },
+    {
+      "name": "Google Gemini API",
+      "category": "ai_api",
+      "switching_cost": 0.55,
+      "portability": 0.55,
+      "alternatives": 6,
+      "rationale": "Distinct request schema and safety/grounding features; parsed-object tool args differ from OpenAI's JSON-string. Deep pull when combined with Vertex AI / Google Cloud data gravity. Standalone chat use is fairly portable; embedded-in-GCP use is stickier.",
+      "confidence": "medium",
+      "source": "web: digitalapplied function-calling guide (OpenAI/Anthropic/Google); estimate"
+    },
+    {
+      "name": "AWS Bedrock",
+      "category": "ai_api",
+      "switching_cost": 0.6,
+      "portability": 0.5,
+      "alternatives": 4,
+      "rationale": "Unified API over multiple model vendors reduces single-model lock-in, but couples you to AWS IAM, VPC, Knowledge Bases, Guardrails, and Agents-for-Bedrock. Data gravity within AWS and proprietary agent/guardrail config raise exit cost above a bare model API.",
+      "confidence": "medium",
+      "source": "estimate (vendor docs: AWS Bedrock Agents/Knowledge Bases/Guardrails)"
+    },
+    {
+      "name": "Azure OpenAI Service",
+      "category": "ai_api",
+      "switching_cost": 0.5,
+      "portability": 0.6,
+      "alternatives": 6,
+      "rationale": "API is OpenAI-compatible (high model-layer portability), but bound to Azure deployments, content filters, AAD auth, and regional capacity. Compatibility means apps can fall back to OpenAI directly; the lock-in is mostly Azure platform/data-residency, not the model interface.",
+      "confidence": "medium",
+      "source": "estimate (Azure OpenAI docs; OpenAI API compatibility)"
+    },
+    {
+      "name": "Cohere API",
+      "category": "ai_api",
+      "switching_cost": 0.45,
+      "portability": 0.6,
+      "alternatives": 6,
+      "rationale": "Strong rerank/embed niche with a proprietary API surface, but smaller surface area and a competitive embeddings/rerank market mean moderate switching cost. Rerank endpoint is somewhat distinctive and would need re-tuning on swap.",
+      "confidence": "low",
+      "source": "estimate"
+    },
+    {
+      "name": "Hugging Face Inference Endpoints",
+      "category": "ai_api",
+      "switching_cost": 0.35,
+      "portability": 0.75,
+      "alternatives": 8,
+      "rationale": "Serves mostly open-weights models behind a managed endpoint; the weights and tokenizers are portable to self-hosted vLLM/TGI/Ollama or other managed hosts. Lock-in is operational (autoscaling, endpoint config), not model-format, so portability is high.",
+      "confidence": "medium",
+      "source": "estimate (HF Inference + open-weights portability)"
+    },
+    {
+      "name": "Open-weights models via vLLM",
+      "category": "ai_api",
+      "switching_cost": 0.2,
+      "portability": 0.9,
+      "alternatives": 10,
+      "rationale": "Self-hosted open-weights (Llama, Mistral, Qwen, etc.) on vLLM expose an OpenAI-compatible server. Weights, tokenizer, and serving stack are all under your control and movable across any GPU host. Near-baseline portability; switching cost is mostly ops/hardware, not vendor.",
+      "confidence": "high",
+      "source": "web/known: vLLM OpenAI-compatible server; open-weights portability (high-confidence prior)"
+    },
+    {
+      "name": "Ollama (local open-weights)",
+      "category": "ai_api",
+      "switching_cost": 0.15,
+      "portability": 0.92,
+      "alternatives": 10,
+      "rationale": "Local runtime for open-weights with an OpenAI-compatible endpoint. Models are downloadable GGUF artifacts; no vendor account or data egress. Essentially a portable baseline for local/edge inference.",
+      "confidence": "high",
+      "source": "known: Ollama OpenAI-compatible API; open-weights (high-confidence prior)"
+    },
+    {
+      "name": "OpenAI-compatible API shim (LiteLLM-style)",
+      "category": "portable_baseline",
+      "switching_cost": 0.1,
+      "portability": 0.95,
+      "alternatives": 12,
+      "rationale": "Routing layer that normalizes many providers behind the OpenAI schema. Designed explicitly to make provider swaps a config change. Represents the portable baseline against which proprietary AI APIs should be scored.",
+      "confidence": "high",
+      "source": "known: LiteLLM/OpenAI-compatible proxy pattern (high-confidence prior)"
+    },
+    {
+      "name": "Snowflake",
+      "category": "data_platform",
+      "switching_cost": 0.85,
+      "portability": 0.3,
+      "alternatives": 4,
+      "rationale": "Heavy data gravity: storage in Snowflake's proprietary compressed columnar format, VARIANT semi-structured handling, proprietary Data Sharing/Snowpark, and egress fees on exit. Migration requires COPY INTO to Parquet, SQL-dialect rewrites, and re-platforming sharing. Iceberg support softens lock-in but ecosystem depth keeps exit cost high.",
+      "confidence": "high",
+      "source": "web: winwire/sparity/bluent Snowflake-to-Databricks migration blueprints; snowflake.com proprietary columnar format"
+    },
+    {
+      "name": "Databricks",
+      "category": "data_platform",
+      "switching_cost": 0.75,
+      "portability": 0.45,
+      "alternatives": 4,
+      "rationale": "Stores in open Delta Lake/Parquet on customer-owned cloud storage (better data portability than Snowflake), but lock-in lives in Unity Catalog, notebooks, MLflow, Delta Live Tables, job orchestration, and team workflow gravity. Open formats lower the floor; ecosystem depth keeps switching costly.",
+      "confidence": "high",
+      "source": "web: dataforest/keebo Databricks-vs-Snowflake; Delta Lake open-format on customer storage"
+    },
+    {
+      "name": "Google BigQuery",
+      "category": "data_platform",
+      "switching_cost": 0.75,
+      "portability": 0.35,
+      "alternatives": 4,
+      "rationale": "Serverless warehouse with proprietary storage, distinctive SQL dialect (Standard SQL + BQ functions), and tight GCP/IAM coupling. BigLake/Iceberg export eases data movement, but scripts, scheduled queries, and GCP data gravity make full exit expensive.",
+      "confidence": "medium",
+      "source": "estimate (BigQuery storage + GCP gravity; BigLake/Iceberg export)"
+    },
+    {
+      "name": "Amazon Redshift",
+      "category": "data_platform",
+      "switching_cost": 0.7,
+      "portability": 0.4,
+      "alternatives": 5,
+      "rationale": "Postgres-derived SQL aids portability of queries, but proprietary storage, distribution/sort keys, Spectrum, and deep AWS integration create gravity. UNLOAD to S3/Parquet is a clean export path, lowering data lock-in relative to Snowflake.",
+      "confidence": "medium",
+      "source": "estimate (Redshift UNLOAD/Parquet; Postgres-dialect lineage)"
+    },
+    {
+      "name": "Fivetran",
+      "category": "data_platform",
+      "switching_cost": 0.55,
+      "portability": 0.55,
+      "alternatives": 6,
+      "rationale": "Managed ELT connectors with proprietary connector config and normalization schemas. Pipelines must be rebuilt on a new tool (Airbyte, Meltano, native), but the data itself lands in your warehouse — so lock-in is the connector/transform layer, not the data. Competitive market of substitutes.",
+      "confidence": "medium",
+      "source": "estimate (Fivetran vs Airbyte/Meltano connector ecosystem)"
+    },
+    {
+      "name": "dbt (dbt Core)",
+      "category": "data_platform",
+      "switching_cost": 0.4,
+      "portability": 0.7,
+      "alternatives": 4,
+      "rationale": "dbt Core is open-source; models are version-controlled SQL/Jinja you own. Portable across warehouses via adapters. Lock-in is mostly the dbt paradigm and (for dbt Cloud) the managed scheduler/metadata, not the artifacts. Moderate-low switching cost.",
+      "confidence": "medium",
+      "source": "estimate (dbt Core OSS, adapter model)"
+    },
+    {
+      "name": "Apache Airflow (OSS)",
+      "category": "data_platform",
+      "switching_cost": 0.35,
+      "portability": 0.75,
+      "alternatives": 6,
+      "rationale": "Open-source orchestrator; DAGs are Python you own and can run on any host or managed Airflow (MWAA, Composer, Astronomer). Lock-in is the Airflow operator paradigm, not a vendor. High portability baseline for orchestration.",
+      "confidence": "high",
+      "source": "known: Apache Airflow OSS (high-confidence prior)"
+    },
+    {
+      "name": "Pinecone",
+      "category": "vector_ml_infra",
+      "switching_cost": 0.5,
+      "portability": 0.55,
+      "alternatives": 8,
+      "rationale": "Closed-source managed vector DB with a proprietary API. Migration requires re-embedding unless original vectors were stored, plus index/metadata rebuild. But many credible OSS/managed substitutes exist and framework abstraction (LangChain/LlamaIndex) makes the store a near-config swap. Moderate, not high.",
+      "confidence": "high",
+      "source": "web: redis.io/apify Pinecone-alternatives; myscale LangChain-vs-Pinecone abstraction"
+    },
+    {
+      "name": "Weaviate (OSS)",
+      "category": "vector_ml_infra",
+      "switching_cost": 0.3,
+      "portability": 0.8,
+      "alternatives": 8,
+      "rationale": "Open-source vector DB you can self-host; data and schema are exportable and the engine is portable across infra. Lock-in is limited to Weaviate-specific modules/GraphQL API. Open core gives high portability versus managed-only stores.",
+      "confidence": "high",
+      "source": "web: medium vector-DB comparison (OpenSearch/Qdrant/Weaviate/Milvus/Chroma/pgvector); OSS portability"
+    },
+    {
+      "name": "Qdrant / Milvus / Chroma (OSS vector DBs)",
+      "category": "portable_baseline",
+      "switching_cost": 0.25,
+      "portability": 0.85,
+      "alternatives": 8,
+      "rationale": "Open-source, self-hostable vector stores natively supported by LangChain/LlamaIndex; swapping one for another is often a two-line change if business logic isn't coupled to store-specific APIs. Portable baseline for vector search.",
+      "confidence": "high",
+      "source": "web: redis.io top OSS vector DBs; myscale abstraction-layer note"
+    },
+    {
+      "name": "pgvector (Postgres extension)",
+      "category": "portable_baseline",
+      "switching_cost": 0.2,
+      "portability": 0.88,
+      "alternatives": 8,
+      "rationale": "Vectors live in your own Postgres; no separate vendor, standard SQL access, trivial backup/restore/move. Among the most portable vector options — lock-in is just Postgres itself, which is ubiquitous.",
+      "confidence": "high",
+      "source": "web: medium vector-DB comparison incl. pgvector (high-confidence prior)"
+    },
+    {
+      "name": "LangChain (framework)",
+      "category": "vector_ml_infra",
+      "switching_cost": 0.45,
+      "portability": 0.6,
+      "alternatives": 5,
+      "rationale": "Open-source and a portability ENABLER for the layers below it (model/vector swaps become config), but tightly coupling business logic to LangChain abstractions creates its own framework lock-in. Net moderate: it reduces downstream lock-in while adding framework lock-in.",
+      "confidence": "medium",
+      "source": "web: myscale LangChain-vs-Pinecone; general framework-coupling caution"
+    },
+    {
+      "name": "Proprietary managed agent framework (e.g. vendor-hosted Assistants/Agents)",
+      "category": "vector_ml_infra",
+      "switching_cost": 0.75,
+      "portability": 0.3,
+      "alternatives": 3,
+      "rationale": "Closed agent runtimes (tool registry, memory, state, orchestration) with no portable export bind agent logic to one vendor. OpenAI's Assistants deprecation toward MCP shows the risk of building on proprietary agent surfaces. MCP adoption is the mitigation; pure-proprietary frameworks score high lock-in.",
+      "confidence": "medium",
+      "source": "web: OpenAI Assistants→MCP sunset; estimate"
+    },
+    {
+      "name": "Salesforce",
+      "category": "saas",
+      "switching_cost": 0.95,
+      "portability": 0.15,
+      "alternatives": 4,
+      "rationale": "Among the highest enterprise lock-in: proprietary data model + Apex/Flow process logic, AppExchange integrations, and embedded workflows. Enterprises with 10+ integrations show 40% lower churn; data migration is a top barrier and routinely over-budget. Exit means rebuilding both data and business process.",
+      "confidence": "high",
+      "source": "web: dashdevs/getmonetizely vendor-lock-in; Gartner/IDC stats cited (integration churn, migration over-budget)"
+    },
+    {
+      "name": "SAP (S/4HANA / ERP)",
+      "category": "saas",
+      "switching_cost": 0.97,
+      "portability": 0.1,
+      "alternatives": 3,
+      "rationale": "ERP is the deepest operational lock-in class: core finance/supply-chain/HR processes encoded in ABAP customizations and proprietary data structures, multi-year contracts, and enormous reimplementation risk. Migrations are multi-year, high-cost, high-failure-risk programs.",
+      "confidence": "high",
+      "source": "estimate (well-established ERP lock-in; very few full replacements)"
+    },
+    {
+      "name": "Workday",
+      "category": "saas",
+      "switching_cost": 0.85,
+      "portability": 0.2,
+      "alternatives": 4,
+      "rationale": "HCM/financials SaaS with a proprietary object model, configured business processes, and integrations embedded into payroll/HR operations. Switching disrupts mission-critical, compliance-sensitive workflows; high process and data lock-in.",
+      "confidence": "medium",
+      "source": "estimate (HCM SaaS process lock-in)"
+    },
+    {
+      "name": "ServiceNow",
+      "category": "saas",
+      "switching_cost": 0.85,
+      "portability": 0.2,
+      "alternatives": 4,
+      "rationale": "Platform lock-in via low-code apps, workflows, CMDB, and Now-platform scripting. Organizations build extensive custom apps and integrations on the platform; exporting data is feasible but reproducing the process/automation layer elsewhere is the dominant cost.",
+      "confidence": "medium",
+      "source": "estimate (ServiceNow platform/process lock-in)"
+    },
+    {
+      "name": "Stripe",
+      "category": "saas",
+      "switching_cost": 0.5,
+      "portability": 0.5,
+      "alternatives": 6,
+      "rationale": "Payments API is well-documented and card data is portable under PCI rules (Stripe supports migration of tokenized card data to/from competitors), but webhooks, Billing/subscriptions logic, saved payment methods, and integration depth raise switching cost. Competitive market (Adyen, Braintree, etc.).",
+      "confidence": "medium",
+      "source": "estimate (Stripe PCI data-migration support; subscription/integration depth)"
+    },
+    {
+      "name": "Auth0 / Okta",
+      "category": "saas",
+      "switching_cost": 0.65,
+      "portability": 0.4,
+      "alternatives": 6,
+      "rationale": "Identity is sticky: user stores, hashed-password export limits, custom Rules/Actions, SSO/SAML/OIDC app configs, and MFA enrollment all must be re-established. Standards (OIDC/SAML/SCIM) aid portability, but re-enrollment and integration rewiring make exit nontrivial. Several credible IdP substitutes.",
+      "confidence": "medium",
+      "source": "estimate (IdP migration: password-hash export limits, OIDC/SAML standards)"
+    },
+    {
+      "name": "Twilio",
+      "category": "saas",
+      "switching_cost": 0.55,
+      "portability": 0.5,
+      "alternatives": 6,
+      "rationale": "Messaging/voice API with portable phone numbers (regulated number portability) but proprietary Studio flows, Messaging Services, sender-ID/10DLC registrations, and webhook logic to rebuild. Competitive CPaaS market (Vonage, MessageBird, AWS SNS/Pinpoint) keeps cost moderate.",
+      "confidence": "medium",
+      "source": "estimate (CPaaS number portability + proprietary flow/registration rebuild)"
+    },
+    {
+      "name": "OpenTelemetry",
+      "category": "portable_baseline",
+      "switching_cost": 0.15,
+      "portability": 0.9,
+      "alternatives": 10,
+      "rationale": "Vendor-neutral observability standard (CNCF). Instrumentation is portable across any OTLP-compatible backend; swapping observability vendors is a collector/exporter config change, not a re-instrumentation. Portable baseline for telemetry — the anti-lock-in reference.",
+      "confidence": "high",
+      "source": "known: OpenTelemetry CNCF vendor-neutral standard (high-confidence prior)"
+    }
+  ]
+}
