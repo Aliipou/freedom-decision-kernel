@@ -110,6 +110,7 @@ from fdk_research.lockin import (
     LockinProfile,
     lockin_risk,
     marginal_lockin,
+    report,
 )
 from fdk_research.necessity import harm, least_harmful_among_permissible
 from fdk_research.ontology import (
@@ -292,6 +293,7 @@ __all__ = [
     "LockinProfile",
     "lockin_risk",
     "marginal_lockin",
+    "report",
     # compass measurement (advisory)
     "dependency_index",
     "exit_options",

@@ -130,3 +130,50 @@ def marginal_lockin(portfolio: list[Dependency], decision: Dependency) -> float:
     before = lockin_risk(portfolio).lockin_risk
     after = lockin_risk([*portfolio, decision]).lockin_risk
     return after - before
+
+
+def _concentration_band(hhi: float) -> str:
+    if hhi < 0.15:
+        return "diffuse"
+    if hhi < 0.25:
+        return "moderate"
+    return "concentrated"
+
+
+def report(dependencies: list[Dependency], top: int = 5) -> str:
+    """The product surface (the SonarQube move): turn the score into a readable,
+    *actionable* architecture lock-in report — overall risk + band, concentration,
+    the most-trapping dependencies with their marginal contribution, and concrete
+    recommendations. Value here is visibility + actionability of KNOWN variables, not
+    a new metric — which is exactly how dependency/observability tools create value."""
+    prof = lockin_risk(dependencies)
+    lines = [
+        "# Lock-in report",
+        "",
+        f"Vendor lock-in risk      : {prof.lockin_risk:.2f}  [{prof.band}]",
+        f"Dependency concentration : {prof.concentration:.2f} (HHI, "
+        f"{_concentration_band(prof.concentration)})",
+    ]
+    if not dependencies:
+        lines += ["", "No dependencies — nothing to be locked into."]
+        return "\n".join(lines)
+
+    ranked = sorted(dependencies, key=lambda d: 1.0 - d.escapability(), reverse=True)
+    lines += ["", f"Most locked-in (top {min(top, len(ranked))}):"]
+    for dep in ranked[:top]:
+        risk = 1.0 - dep.escapability()
+        marg = marginal_lockin([d for d in dependencies if d is not dep], dep)
+        flag = "  <-- no substitute (0 alternatives)" if dep.alternatives == 0 else ""
+        lines.append(f"  {risk:.2f} {_band(risk):<6} {dep.name}  (marginal {marg:+.2f}){flag}")
+
+    critical = [d for d in ranked if (1.0 - d.escapability()) >= _HIGH and d.alternatives == 0]
+    lines += ["", "Recommendations:"]
+    if critical:
+        lines.append(
+            "  - CRITICAL exit risk (high lock-in, no substitute): "
+            + ", ".join(d.name for d in critical) + "."
+        )
+        lines.append("    Add an abstraction / portability layer before deepening reliance.")
+    else:
+        lines.append("  - No critical single-source, high-lock-in dependencies.")
+    return "\n".join(lines)

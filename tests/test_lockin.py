@@ -7,7 +7,14 @@ from __future__ import annotations
 
 import pytest
 
-from fdk_research.lockin import Dependency, LockinProfile, lockin_risk, marginal_lockin
+from fdk_research.lockin import (
+    Dependency,
+    LockinProfile,
+    _concentration_band,
+    lockin_risk,
+    marginal_lockin,
+    report,
+)
 
 
 def test_open_standard_dependency_is_low_risk():
@@ -80,6 +87,36 @@ def test_out_of_range_fields_raise(field, value):
 def test_negative_alternatives_raises():
     with pytest.raises(ValueError, match="alternatives must be"):
         Dependency("d", alternatives=-1)
+
+
+@pytest.mark.parametrize("hhi,band", [(0.10, "diffuse"), (0.20, "moderate"), (0.40, "concentrated")])
+def test_concentration_band(hhi, band):
+    assert _concentration_band(hhi) == band
+
+
+def test_report_empty_portfolio():
+    text = report([])
+    assert "0.00" in text
+    assert "nothing to be locked into" in text
+
+
+def test_report_flags_critical_single_source_dependency():
+    deps = [
+        Dependency("postgres", switching_cost=0.2, portability=0.9, alternatives=5),
+        Dependency("vendor-x", switching_cost=0.95, portability=0.05, alternatives=0),
+    ]
+    text = report(deps)
+    assert "[HIGH]" in text or "[MEDIUM]" in text  # overall band present
+    assert "vendor-x" in text
+    assert "no substitute (0 alternatives)" in text
+    assert "CRITICAL exit risk" in text
+    assert "marginal +" in text
+
+
+def test_report_no_critical_dependencies():
+    deps = [Dependency("postgres", switching_cost=0.2, portability=0.9, alternatives=5)]
+    text = report(deps)
+    assert "No critical single-source" in text
 
 
 def test_marginal_lockin_is_higher_for_a_proprietary_choice():
