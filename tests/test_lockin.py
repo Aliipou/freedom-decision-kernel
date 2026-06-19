@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from fdk_research.lockin import Dependency, LockinProfile, lockin_risk
+from fdk_research.lockin import Dependency, LockinProfile, lockin_risk, marginal_lockin
 
 
 def test_open_standard_dependency_is_low_risk():
@@ -80,6 +80,19 @@ def test_out_of_range_fields_raise(field, value):
 def test_negative_alternatives_raises():
     with pytest.raises(ValueError, match="alternatives must be"):
         Dependency("d", alternatives=-1)
+
+
+def test_marginal_lockin_is_higher_for_a_proprietary_choice():
+    portfolio = [Dependency("postgres", switching_cost=0.2, portability=0.9, alternatives=5)]
+    proprietary = Dependency("dynamodb", switching_cost=0.9, portability=0.1, alternatives=0)
+    portable = Dependency("redis-oss", switching_cost=0.2, portability=0.9, alternatives=4)
+    assert marginal_lockin(portfolio, proprietary) > marginal_lockin(portfolio, portable)
+
+
+def test_marginal_lockin_into_empty_portfolio_is_the_decisions_own_risk():
+    decision = Dependency("vendor-x", switching_cost=0.9, portability=0.1, alternatives=0)
+    delta = marginal_lockin([], decision)
+    assert delta == lockin_risk([decision]).lockin_risk
 
 
 if __name__ == "__main__":  # pragma: no cover

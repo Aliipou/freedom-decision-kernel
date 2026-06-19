@@ -60,6 +60,77 @@ be built** — precisely because industry rewards *making risk visible*, not *no
 The candidate category is **"Reversibility Intelligence / Lock-in Analytics,"** and it is
 a more defensible home than either "theory of freedom" or "yet another policy engine."
 
+## 1c. The CTO question — "why FDK, not Gartner / Well-Architected / TOGAF / FinOps?"
+
+The market is not empty, and the honest audit is against incumbents, not philosophers. The
+useful axes are **granularity** (whole-system vs single-decision) and **which variable** the
+tool actually measures:
+
+| Incumbent | Granularity | Variable measured | Form |
+|---|---|---|---|
+| **AWS Well-Architected** | system / workload | qualitative best-practice (+ vendor-conflicted: AWS won't tell you to leave AWS) | questionnaire |
+| **TOGAF risk analysis** | enterprise | risk = impact × likelihood | heat map, process |
+| **Gartner vendor-lock-in models** | system / vendor | maturity, advisory | analyst framework |
+| **FinOps** | system / spend | **cost** (≠ exit cost) | dashboards |
+| **Technical-debt metrics** (Sonar…) | code | maintainability of *your* code (≠ vendor exit) | static analysis |
+| **Dependency risk scoring** (Snyk, OSSF) | package | **security / vulnerability** (≠ switching cost) | scanners |
+| **Cloud-exit-strategy / DORA** | system / regulatory | exit *readiness* (closest!) | checklists, guidance |
+| **Resilience / chaos eng.** | system | **recovery from failure** (≠ reversibility of a commitment) | fault injection |
+
+Two findings fall out, and they define whether a product exists:
+
+1. **Most incumbents measure a *different variable*** (cost, security, code quality, recovery)
+   and are *qualitative* (questionnaires, heat maps, maturity models). The genuinely
+   overlapping one — quantitative *exit cost* — is thinly instrumented, and the closest
+   (cloud-exit/DORA) is regulatory checklists, not a score.
+2. **All of them are essentially system-level.** The cell that looks empty is **decision-level,
+   quantitative, composable** exit cost: *"adopting DynamoDB adds Δ=0.14 to portfolio lock-in"*
+   — which is exactly what `marginal_lockin()` computes. That is the one candidate gap, and
+   the whole industrial bet rides on it being real.
+
+**The honest catch (where the real work and risk live):** the differentiator is **not the
+arithmetic** — any of these vendors could compute a marginal score in a weekend. It is the
+**maintained per-service portability/switching-cost knowledge base** (how locked-in is *this*
+API, *this* contract clause, *this* managed service, updated as the market moves). That data
+asset, not the formula, is the moat — and building/maintaining it is the actual company. If
+that database does not exist or cannot be kept current and credible, the score is `garbage in,
+garbage out` and FDK is "a clever repackaging of known concepts," exactly as feared.
+
+## Probability, honestly bounded
+
+| Claim | Probability |
+|---|---|
+| New philosophical theory | ~5% |
+| Independent scientific index | ~20% |
+| Useful industrial tool | ~60% |
+| Sellable SaaS product | ~50% |
+| Category-defining technology | <10% |
+
+**As philosophy: nearly closed. As a governance engine: medium. As decision-level Lock-in
+Analytics / Reversibility Intelligence: the first path that genuinely merits serious
+industrial diligence** — conditioned on (a) the decision-level gap surviving a real study of
+Well-Architected / TOGAF / Gartner / cloud-exit literature, and (b) someone building the
+portability knowledge base that makes the score trustworthy.
+
+### The one experiment that flips the story (the industrial ΔR²)
+
+The whole bet reduces to a single, concrete, run-able test — the industrial twin of the
+science track's incremental-validity question:
+
+> Take real migration episodes and regress an outcome (**migration cost**, **migration
+> duration**, **migration failure**, **vendor-lock-in incidents**) on the existing metrics
+> (switching costs, FinOps spend, dependency/architectural risk, quasi-option value); then
+> add the FDK lock-in score.
+>
+> `Existing metrics: R² = 0.42` → `Existing + FDK score: R² = 0.61` ⇒ FDK is a **new risk-
+> analytics measurement** (not philosophy, not legitimacy). `ΔR² ≈ 0` ⇒ it is a clever
+> repackaging of switching costs / option value, and the venture is dead.
+
+Investor read, by pitch: **"FDK as Freedom Theory" ≤ 5%** · **"FDK as Policy Engine" 10–20%**
+(saturated) · **"FDK as a Reversibility Intelligence platform" 40–60% *if real migration data
+can be collected*.** The bet is several times stronger as the third than as either of the
+others — and it lives or dies on data, not argument.
+
 ## 2. The competitive landscape — does FDK solve anything OPA/Cedar/Zanzibar/ABAC don't?
 
 This is the question that decides whether FDK is a category or a feature. Honest reading of
@@ -141,11 +212,17 @@ pattern:
 
 > **Put a Legitimacy layer before Authorization** — judge whether an action *should* be
 > permitted (consent over boundaries), separately from and prior to whether the actor *is*
-> authorized.
+> authorized. In one line: **`Can do?` ≠ `May do?`** Every agent framework today optimises
+> the first; almost none asks the second.
 
 That pattern is industrially stronger than any philosophical claim, and it is the thing worth
 carrying forward — *if* it can be shown to catch real failures (an authorized-but-illegitimate
-agent action) that a pure authorization stack waves through. That demonstration — a concrete
+agent action) that a pure authorization stack waves through. **Honest timing caveat:** its
+market is *option value on AI-agent autonomy*, not a today-product — the `May do?` question
+only bites hard once agents are autonomous enough that "authorized but shouldn't" becomes a
+frequent, expensive failure mode. That day may come; it has not arrived. So of the project's
+two surviving threads, **Lock-in Analytics is the near-term bet and `Can do ≠ May do` is the
+long-dated option** — and neither is a theory of freedom. That demonstration — a concrete
 agent incident where legitimacy-before-authorization prevents a harm OPA/Cedar/Zanzibar would
 allow — is the **product analogue of the ΔR² test**: the one thing that would move FDK from
 "another policy engine" to "a layer you actually need." It has not yet been shown, and until

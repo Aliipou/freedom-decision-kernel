@@ -111,3 +111,22 @@ def lockin_risk(dependencies: list[Dependency]) -> LockinProfile:
         band=_band(risk),
         per_dependency=per,
     )
+
+
+def marginal_lockin(portfolio: list[Dependency], decision: Dependency) -> float:
+    """The candidate differentiator: lock-in scored at the level of a SINGLE
+    decision, not the whole system. Returns how much adopting `decision` *raises*
+    the portfolio's lock-in risk — *"this specific choice (use DynamoDB) adds Δ
+    lock-in"* — which the system-level assessment frameworks (AWS Well-Architected,
+    TOGAF, Gartner) do not give. Positive = the decision increases lock-in; ~0 or
+    negative = a portable choice that does not (or a diversifying one that lowers
+    concentration risk).
+
+    NOTE (the moat is the data, not this arithmetic): the marginal score is only as
+    good as the per-service `switching_cost` / `portability` / `alternatives`
+    estimates fed in. A maintained portability knowledge base — not this function —
+    is the real product and the real work.
+    """
+    before = lockin_risk(portfolio).lockin_risk
+    after = lockin_risk([*portfolio, decision]).lockin_risk
+    return after - before
