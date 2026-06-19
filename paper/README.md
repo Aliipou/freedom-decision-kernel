@@ -1,5 +1,14 @@
 # FDK — the critical papers (read these before the code)
 
+> **One-sentence verdict.** Across these papers FDK was reduced from *"a new theory of
+> freedom, consent, and legitimacy"* to *"an empirical hypothesis about measuring
+> structural lock-in / reversibility risk"* — and even that is unproven (it must still pass
+> Stage 1 discriminant validity and Stage 2 incremental prediction against Hirschman, Arrow,
+> Pettit, and the lock-in literature). Neither victory nor defeat: a smaller, more precise
+> claim. **The project's real achievement was subtraction — the honest removal of claims
+> larger than the evidence.** Until the two empirical stages are run, the null stands: *FDK
+> is not a demonstrated independent contribution.*
+
 > If you are a hostile referee deciding whether FDK is a philosophical contribution,
 > do not start with the README, the tests, or the Lean proofs. Those establish only
 > that the system is *consistent given its axiom* — they are silent on whether the
