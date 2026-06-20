@@ -1,10 +1,38 @@
-# Freedom Decision Kernel (FDK)
+# Freedom Decision Kernel (FDK) — a completed research artifact
 
-> **Status (2026-06-20): the *theory* file is closed.** FDK did not survive its own attacks as a
-> new theory of freedom — see [`STATUS.md`](STATUS.md) for the final disposition,
-> [`paper/README.md`](paper/README.md) for the published negative result, and
-> [`ENGINEERING.md`](ENGINEERING.md) for what the repository actually demonstrates. The live
-> threads are **AuthGate** and a frozen **lock-in analytics** tool (`lockin-scan`), not the theory.
+> **What this repository is (2026-06-20).** A **completed research artifact and engineering
+> showcase**, not a live theory. It records a full research cycle — *hypothesis → formal
+> specification → implementation → adversarial red-team → falsification → revision (green team)* —
+> run to its honest conclusion. Read it for the **process and the engineering**, not for a theory
+> of freedom: that hypothesis was **falsified under current evidence** (see below). Most readers
+> should start at **[`ENGINEERING.md`](ENGINEERING.md)** (what it demonstrates),
+> **[`paper/SYMPOSIUM.md`](paper/SYMPOSIUM.md)** (the red-team/green-team adjudication), and
+> **[`STATUS.md`](STATUS.md)** (final disposition).
+
+## Outcome, in three honest claims (interesting ≠ correct ≠ useful)
+
+| Thread | Verdict |
+|---|---|
+| **FDK as a novel, independent theory of freedom / legitimacy** | **falsified under current evidence** — robust under its own strongest defense (`paper/`); *interesting, but not correct* |
+| **Lock-in analytics** (`lockin-scan`, `fdk_research.lockin`) | **open, unproven** — *may be correct; usefulness untested*; one cheap discriminant test from a verdict |
+| **Purpose-bound information-flow control for agents** | **open, unproven** — *may be useful even if not a new idea*; pursued in the AuthGate repo |
+
+"Falsified under current evidence" means *no reason to continue given today's evidence* — **not**
+"false forever." New data, arguments, or technology could reopen any of these.
+
+## What the artifact demonstrates (the actual value)
+
+A deterministic, frozen, four-checker-verified kernel (Python property tests · **Lean 4** ·
+**TLA+/TLC** · **Rust** parity) under a mechanically-enforced architectural boundary; a fail-closed
+product layer; an installable CLI (`lockin-scan`) with a CI gate; and — rarest — a research process
+that **attacked its own thesis to falsification and then caught its own red-teams overclaiming**
+(the green team found two premature closures; `paper/SYMPOSIUM.md`). See
+[`ENGINEERING.md`](ENGINEERING.md).
+
+---
+
+<details>
+<summary>Original framing (the hypothesis that was tested — kept for the record)</summary>
 
 **A Formal Legitimacy Calculus** — the legitimacy counterpart to the *utility
 calculus* (reward / preference / score) that today's AI optimization runs on.
@@ -19,6 +47,11 @@ Freedom Decision Kernel rejects it first. The two layers answer different
 questions, in order: **legitimacy, then authority.** AuthGate proves *possession*
 of a capability; the FDK proves its *provenance* — that it traces, through an
 unbroken chain of valid consent, back to a legitimate owner.
+
+*This original claim was tested and falsified under current evidence; it is preserved above the
+fold only as the hypothesis the rest of the repository evaluates.*
+
+</details>
 
 This kernel is **not** a fork or replacement of AuthGate; AuthGate stays as the
 enforcement engine downstream. This is the missing layer *above* it.
