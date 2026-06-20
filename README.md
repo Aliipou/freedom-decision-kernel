@@ -4,16 +4,19 @@
 > showcase**, not a live theory. It records a full research cycle — *hypothesis → formal
 > specification → implementation → adversarial red-team → falsification → revision (green team)* —
 > run to its honest conclusion. Read it for the **process and the engineering**, not for a theory
-> of freedom: that hypothesis was **falsified under current evidence** (see below). Most readers
-> should start at **[`ENGINEERING.md`](ENGINEERING.md)** (what it demonstrates),
-> **[`paper/SYMPOSIUM.md`](paper/SYMPOSIUM.md)** (the red-team/green-team adjudication), and
-> **[`STATUS.md`](STATUS.md)** (final disposition).
+> of freedom. The precise claim (see below) is *"FDK **has not demonstrated independence from
+> existing theories** under current evidence"* — **not** "FDK is proven false." In normative theory
+> full falsification is rarely possible; what extensive analysis showed is a *failure to establish
+> independence* from Nozick / Pettit / Sen. Practically: don't spend more time on it; epistemically:
+> it is undetermined, not refuted. Start at **[`ENGINEERING.md`](ENGINEERING.md)** (what it
+> demonstrates), **[`paper/SYMPOSIUM.md`](paper/SYMPOSIUM.md)** (the red-team/green-team
+> adjudication), and **[`STATUS.md`](STATUS.md)** (final disposition).
 
 ## Outcome, in three honest claims (interesting ≠ correct ≠ useful)
 
 | Thread | Verdict |
 |---|---|
-| **FDK as a novel, independent theory of freedom / legitimacy** | **falsified under current evidence** — robust under its own strongest defense (`paper/`); *interesting, but not correct* |
+| **FDK as a novel, independent theory of freedom / legitimacy** | **has not demonstrated independence from existing theories under current evidence** — robust under its own strongest defense (`paper/`); *interesting, but its independence is unproven* (not "proven false" — in normative theory full falsification is rarely possible; the honest claim is that extensive analysis did not establish independence from Nozick/Pettit/Sen) |
 | **Lock-in analytics** (`lockin-scan`, `fdk_research.lockin`) | **open, unproven** — *may be correct; usefulness untested*; one cheap discriminant test from a verdict |
 | **Purpose-bound information-flow control for agents** | **open, unproven** — *may be useful even if not a new idea*; pursued in the AuthGate repo |
 
