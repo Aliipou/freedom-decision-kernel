@@ -1,5 +1,11 @@
 # Freedom Decision Kernel (FDK)
 
+> **Status (2026-06-20): the *theory* file is closed.** FDK did not survive its own attacks as a
+> new theory of freedom — see [`STATUS.md`](STATUS.md) for the final disposition,
+> [`paper/README.md`](paper/README.md) for the published negative result, and
+> [`ENGINEERING.md`](ENGINEERING.md) for what the repository actually demonstrates. The live
+> threads are **AuthGate** and a frozen **lock-in analytics** tool (`lockin-scan`), not the theory.
+
 **A Formal Legitimacy Calculus** — the legitimacy counterpart to the *utility
 calculus* (reward / preference / score) that today's AI optimization runs on.
 It answers "May this action legitimately happen?" strictly before "Does the agent
