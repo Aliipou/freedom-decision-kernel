@@ -13,6 +13,7 @@ cryptography and mutates no state here — it composes decisions, nothing else.
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
 from enum import IntEnum
 from itertools import product
@@ -48,7 +49,7 @@ class Composition:
     decision: Decision
 
 
-def decide(authgate: Decision, fdk_ceilings=()) -> Composition:
+def decide(authgate: Decision, fdk_ceilings: Iterable[Decision] = ()) -> Composition:
     fc = tuple(fdk_ceilings)
     return Composition(authgate, fc, compose(authgate, *fc))
 

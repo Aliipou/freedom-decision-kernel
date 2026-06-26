@@ -25,16 +25,16 @@ class Authority:
     rights: frozenset[str]
 
     @classmethod
-    def of(cls, *rights: str) -> "Authority":
+    def of(cls, *rights: str) -> Authority:
         return cls(frozenset(rights))
 
-    def __le__(self, other: "Authority") -> bool:  # ⊑ : "grants no more than"
+    def __le__(self, other: Authority) -> bool:  # ⊑ : "grants no more than"
         return self.rights <= other.rights
 
-    def meet(self, other: "Authority") -> "Authority":   # ⊓ : greatest lower bound
+    def meet(self, other: Authority) -> Authority:   # ⊓ : greatest lower bound
         return Authority(self.rights & other.rights)
 
-    def join(self, other: "Authority") -> "Authority":   # ⊔ : least upper bound
+    def join(self, other: Authority) -> Authority:   # ⊔ : least upper bound
         return Authority(self.rights | other.rights)
 
 
