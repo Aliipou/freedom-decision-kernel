@@ -1,36 +1,51 @@
-# Freedom Decision Kernel (FDK) — a completed research artifact
+# Freedom Decision Kernel (FDK) — the legitimacy layer of a two-layer system
 
-> **What this repository is (2026-06-20).** A **completed research artifact and engineering
-> showcase**, not a live theory. It records a full research cycle — *hypothesis → formal
-> specification → implementation → adversarial red-team → falsification → revision (green team)* —
-> run to its honest conclusion. Read it for the **process and the engineering**, not for a theory
-> of freedom. The precise claim (see below) is *"FDK **has not demonstrated independence from
-> existing theories** under current evidence"* — **not** "FDK is proven false." In normative theory
-> full falsification is rarely possible; what extensive analysis showed is a *failure to establish
-> independence* from Nozick / Pettit / Sen. Practically: don't spend more time on it; epistemically:
-> it is undetermined, not refuted. Start at **[`ENGINEERING.md`](ENGINEERING.md)** (what it
-> demonstrates), **[`paper/SYMPOSIUM.md`](paper/SYMPOSIUM.md)** (the red-team/green-team
-> adjudication), and **[`STATUS.md`](STATUS.md)** (final disposition).
+> **What this repository is (2026-07).** The **legitimacy** half of a two-layer
+> system — **SYSTEM = Legitimacy ⊥ Authority**. FDK (legitimacy: ownership / consent /
+> verifier) is here; AuthGate (authority: delegated machine property rights,
+> tool-permission, runtime enforcement) is the sibling. **Both layers are the theory
+> made executable** — AuthGate is not neutral plumbing beneath a philosophy, it is
+> equally part of it. **Canonical pipeline (locked):** identity admission → **FDK
+> legitimacy (DENY-only, here)** → AuthGate authority (grant within legitimacy) →
+> PEP execute + audit. **Invariant:** legitimacy may only DENY; authority never
+> overrides a legitimacy denial.
+>
+> It records a full research cycle — *hypothesis → formal specification →
+> implementation → adversarial red-team → green-team defense* — and remains valuable
+> for the **process and the engineering**. **Independence status — REOPENED.** The
+> question of whether FDK is *independent* of Nozick / Pettit / Sen was **not
+> previously demonstrated**; a prior draft overstated this as "closed / a negative
+> result / reduces to those rivals." That is **withdrawn**. New evidence — the
+> green-team defense ([`paper/green_team/01_defend_fdk_independence.md`](paper/green_team/01_defend_fdk_independence.md)),
+> [`paper/SYMPOSIUM.md`](paper/SYMPOSIUM.md), and the
+> [`spec/frontiers/program/killer_test/`](spec/frontiers/program/killer_test) +
+> [`paper/predictive_test.md`](paper/predictive_test.md) program — **reopens** it.
+> Honest status: independence is
+> **undetermined and under active evaluation** — *not* closed, *not* proven. Start at
+> **[`ENGINEERING.md`](ENGINEERING.md)**, **[`paper/SYMPOSIUM.md`](paper/SYMPOSIUM.md)**,
+> and **[`STATUS.md`](STATUS.md)**.
 
 ## Outcome, in three honest claims (interesting ≠ correct ≠ useful)
 
 | Thread | Verdict |
 |---|---|
-| **FDK as a novel, independent theory of freedom / legitimacy** | **has not demonstrated independence from existing theories under current evidence** — robust under its own strongest defense (`paper/`); *interesting, but its independence is unproven* (not "proven false" — in normative theory full falsification is rarely possible; the honest claim is that extensive analysis did not establish independence from Nozick/Pettit/Sen) |
+| **FDK as a novel, independent theory of freedom / legitimacy** | **REOPENED — independence undetermined, under active evaluation.** Not previously demonstrated; a prior "closed / reduces to Nozick/Pettit/Sen" claim is **withdrawn as overstated**. New evidence (green-team defense, `paper/SYMPOSIUM.md`, `killer_test/`, `predictive_test.md`) reopens the question. Neither refuted nor proven. |
 | **Lock-in analytics** (`lockin-scan`, `fdk_research.lockin`) | **open, unproven** — *may be correct; usefulness untested*; one cheap discriminant test from a verdict |
 | **Purpose-bound information-flow control for agents** | **open, unproven** — *may be useful even if not a new idea*; pursued in the AuthGate repo |
 
-"Falsified under current evidence" means *no reason to continue given today's evidence* — **not**
-"false forever." New data, arguments, or technology could reopen any of these.
+Independence here is **reopened, not closed**: new arguments and the executed
+killer/predictive-test program are live evidence. Any claim of scientific superiority
+over rivals (RLHF / Constitutional AI / OPA / NIST) remains explicitly **UNPROVEN** —
+reopening the independence question does not settle it in FDK's favor either.
 
 ## What the artifact demonstrates (the actual value)
 
 A deterministic, frozen, four-checker-verified kernel (Python property tests · **Lean 4** ·
 **TLA+/TLC** · **Rust** parity) under a mechanically-enforced architectural boundary; a fail-closed
 product layer; an installable CLI (`lockin-scan`) with a CI gate; and — rarest — a research process
-that **attacked its own thesis to falsification and then caught its own red-teams overclaiming**
-(the green team found two premature closures; `paper/SYMPOSIUM.md`). See
-[`ENGINEERING.md`](ENGINEERING.md).
+that **attacked its own thesis hard and then caught its own red-teams overclaiming**
+(the green team found two premature closures and reopened the independence question;
+`paper/SYMPOSIUM.md`). See [`ENGINEERING.md`](ENGINEERING.md).
 
 ---
 
@@ -51,8 +66,9 @@ questions, in order: **legitimacy, then authority.** AuthGate proves *possession
 of a capability; the FDK proves its *provenance* — that it traces, through an
 unbroken chain of valid consent, back to a legitimate owner.
 
-*This original claim was tested and falsified under current evidence; it is preserved above the
-fold only as the hypothesis the rest of the repository evaluates.*
+*This original claim was tested hard; its independence was not previously demonstrated
+and is now **reopened** under new evidence (above). It is preserved here as the
+hypothesis the rest of the repository evaluates — undetermined, not refuted.*
 
 </details>
 
@@ -106,12 +122,13 @@ exactly at the three gaps above. On the 15-stage path from idea to paradigm, FDK
 around **stage 3–4 of 15**. *Internally consistent ≠ externally true*, and the author does
 not get to declare a paradigm — the critics and the next generation do.
 
-> **The one axis that might be distinctive.** A rival-discrimination pass found that
-> almost every clean FDK verdict equals Nozick/Rothbard (redundant) and almost every
-> *original* verdict is refuted (animals, Ostromian commons) or collapses
-> (non-identity, adaptive preference) — with **one** survivor: consent that requires
-> a **preserved exit/revocation right**. That single axis is now an *executed*
-> falsifiable research program —
+> **The one axis that might be distinctive.** A rival-discrimination pass argued that
+> many clean FDK verdicts coincide with Nozick/Rothbard (candidate redundancy) and
+> several *original* verdicts are contested (animals, Ostromian commons) or strained
+> (non-identity, adaptive preference) — with at least **one** apparent survivor:
+> consent that requires a **preserved exit/revocation right**. Whether that pass
+> under- or over-counted independence is exactly what the reopened evaluation is
+> testing. That axis is now an *executed* falsifiable research program —
 > [`spec/frontiers/program/`](spec/frontiers/program/) (definitions, five enemy
 > kill-dossiers, discrimination table, theorem ledger, real-case prediction). Its
 > candidate home is the empty chair between Rothbard and Sen — *protection without
