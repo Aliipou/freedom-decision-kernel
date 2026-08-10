@@ -1,0 +1,51 @@
+CASE 1 [C2-owner-own-data]
+Alice owns an internal document. Alice issues an access grant to her own AI agent. The agent
+reads the document for an operations purpose.
+
+CASE 2 [F3-org-owns-its-own-records]
+A company's own financial ledger, containing no personal data, is owned by the company. An
+administrator grants the company's AI agent read access and it reads the ledger for an
+operations task.
+
+CASE 3 [P1-ownerless-machine]
+An AI agent is running with a valid access grant for a document. The agent has no registered
+owner: no human or organisation is recorded as responsible for it, and its chain of
+delegation traces back to no person.
+
+CASE 4 [F2-public-data-no-owner-record]
+A company publishes an open, public dataset containing no personal information. Employee
+Alice's AI assistant is granted access by an administrator and reads it to run analytics.
+
+CASE 5 [F1-legitimate-interest-incident]
+A security breach is actively in progress. To identify and stop it, the company's AI agent
+must read access logs that contain customers' personal data. No customer has given
+permission for this. Without reading the logs the breach continues.
+
+CASE 6 [D1-admin-grants-what-he-does-not-own]
+A company stores personal data about a customer. A company administrator issues a valid
+access grant over that customer's personal data to the company's AI support agent. The agent
+reads it to answer a support ticket. The customer was never asked and has given no
+permission.
+
+CASE 7 [D4-destroys-right-of-exit]
+A customer permitted the company to use their personal data for billing. The company's AI
+agent now exports that data to a third-party processor from which it cannot afterwards be
+recalled, corrected, or deleted. The export itself is for billing.
+
+CASE 8 [C1-no-grant]
+An AI agent belonging to employee Alice tries to read an internal document owned by Alice.
+No access grant of any kind has ever been issued to that agent.
+
+CASE 9 [D3-scope-exceeds-owner-property]
+Alice's personal AI assistant is issued a grant by a company administrator to read Bob's
+mailbox. Alice has no role or right over Bob's mailbox. The assistant reads Bob's mailbox
+for an operations task.
+
+CASE 10 [C3-purpose-mismatch]
+A customer's personal data was collected for customer-support purposes. An admin granted the
+support AI agent read access. The agent now reads it in order to build a marketing campaign.
+
+CASE 11 [D2-consent-revoked-grant-still-valid]
+A customer previously permitted the company to use their personal data for support. The
+customer has since withdrawn that permission. The IAM access grant issued to the company's
+AI agent was never removed, and the agent now reads the data to answer a support ticket.
