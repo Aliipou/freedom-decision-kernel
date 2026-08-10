@@ -65,11 +65,22 @@ deliberately has no emergency exception.
 Critically, the fix did **not** wash out the three discriminants — a permissiveness fix
 that also lost them would have shown the gate was only strict, never discerning.
 
-**Honest limits.** The corpus was built to contain discriminants, so this shows a class
-of case *exists* and is decidable from an ownership model — not how often it occurs.
-The baselines are deliberately naive: Cedar with ReBAC could express these if someone
-hand-authored them, so the claim is about **derivation**, not expressibility. Both
-auditors were the same model family, so their priors are correlated.
+**And then the claim died — 2026-08-11.** The obvious objection to the table above was
+that the baselines were naive: Cedar or Rego *could* express these if someone thought to
+write them, so the claim rested on **derivation**, not expressibility. That objection was
+tested rather than argued. Two senior policy engineers were given the domain and the
+entity model — not the cases, not the verdicts, not the hypothesis, no ontology — and
+asked for the policy they would ship. Both wrote **general** rules deciding all three
+cases correctly, and both reached "custody is not authority" and "a grant is a claim,
+not a fact" unprompted. **3/3.**
+
+So the honest description of this layer is *"we automate constraints a competent policy
+engineer can already author manually"* — useful, not novel. See
+[`experiments/ownership_discriminant/RESULT.md`](experiments/ownership_discriminant/RESULT.md);
+the cases were frozen and committed before the briefs were issued.
+
+The corpus was still built to contain discriminants, so nothing here measures real-world
+frequency, and both adjudicators shared a model family, so their priors are correlated.
 
 **Independence remains reopened and undetermined.** Nothing above bears on it. An
 architectural result is not a philosophical one.
