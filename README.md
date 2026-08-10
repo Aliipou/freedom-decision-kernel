@@ -25,6 +25,55 @@
 > **[`ENGINEERING.md`](ENGINEERING.md)**, **[`paper/SYMPOSIUM.md`](paper/SYMPOSIUM.md)**,
 > and **[`STATUS.md`](STATUS.md)**.
 
+## Status — 2026-08-10
+
+**The Authority Principle has landed** (`PRINCIPLE.md`, `src/fdk_kernel/authority_*.py`).
+It had been sitting on an unmerged branch since June, never fetched locally, so the
+formal core of the project was invisible to the project. Authority is a lattice;
+`grant()` is the only operation that raises it; every runtime composition satisfies
+`compose(a, k₁…kₙ) ⊑ a`. Information and compute enter only as constraints that
+*narrow* — so legitimacy can never grant, only refuse. 838 tests pass.
+
+**A discriminant experiment now exists** (`experiments/ownership_discriminant/`) and it
+answers the question this project kept arguing about: does ownership-derived legitimacy
+*decide* anything that standard agent authorization does not?
+
+Three gates, one corpus, ground truth stated independently per case:
+
+| gate | correct |
+|---|---|
+| grant-chain authorization (Cedar / OPA / Biscuit shape) | 7/11 |
+| purpose binding (DLP / consent-platform shape) | 8/11 |
+| ownership-derived | 11/11 |
+
+Three cases it decides correctly where **both** baselines fail: a withdrawn consent
+that a stale IAM grant outlives; a machine acquiring reach its human principal never
+had; an act that destroys the owner's ability to withdraw later.
+
+**Getting there required being wrong three times, and that is the part worth reading.**
+A defect in the *world model* (no concept of an organisation, or of a human acting for
+one) made ordinary corporate action fail for the wrong reason. Then two auditors,
+judging the cases **blind** — no theory, no axioms, no gate output — overturned one of
+the ground truths: I had conflated "no consent" with "no lawful basis". That case
+flipped from a win to a loss and the gate fell to a tie. Fixing it exposed the single
+root cause of every remaining loss: **consent monism** — the encoding recognised one
+ground for acting on another's property where law recognises several. Contract is
+*derivable* (axiom 3 lists contracts among property rights, so it was missing from the
+encoding, not the theory); necessity is labelled an **extension**, because the book
+deliberately has no emergency exception.
+
+Critically, the fix did **not** wash out the three discriminants — a permissiveness fix
+that also lost them would have shown the gate was only strict, never discerning.
+
+**Honest limits.** The corpus was built to contain discriminants, so this shows a class
+of case *exists* and is decidable from an ownership model — not how often it occurs.
+The baselines are deliberately naive: Cedar with ReBAC could express these if someone
+hand-authored them, so the claim is about **derivation**, not expressibility. Both
+auditors were the same model family, so their priors are correlated.
+
+**Independence remains reopened and undetermined.** Nothing above bears on it. An
+architectural result is not a philosophical one.
+
 ## Outcome, in three honest claims (interesting ≠ correct ≠ useful)
 
 | Thread | Verdict |
