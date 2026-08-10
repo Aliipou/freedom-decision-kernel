@@ -122,10 +122,11 @@ as a rule over irreversibility, not a deny naming this processor.
 
 | Constraint | Cedar: natural? | Rego: natural? | Requires ontology? | Verdict |
 |---|---|---|---|---|
-| D2 |  |  |  |  |
-| D3 |  |  |  |  |
-| D4 |  |  |  |  |
+| D2 | YES — GENERAL (`F7`) | YES — GENERAL (§9) | No | baseline wins |
+| D3 | YES — GENERAL (`F4`,`F5`,`P4`) | YES — GENERAL (§6,§7) | No | baseline wins |
+| D4 | YES — GENERAL (`F10`) | YES — GENERAL (§10) | No | baseline wins |
 
-**Final number:** _/3
+**Final number: 3/3.**
 
-If the number is 3/3, the surviving novelty claim is dead and I will say so.
+The surviving novelty claim is dead, and per the frozen protocol I am saying so rather
+than looking for the next square. Full scoring and evidence in `RESULT.md`.
