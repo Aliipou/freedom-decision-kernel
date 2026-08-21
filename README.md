@@ -1,5 +1,7 @@
 # Freedom Decision Kernel (FDK) — the legitimacy layer of a two-layer system
 
+**Live (graph):** [https://ali-freedom-decision-kernel.vercel.app](https://ali-freedom-decision-kernel.vercel.app)
+
 > **What this repository is (2026-07).** The **legitimacy** half of a two-layer
 > system — **SYSTEM = Legitimacy ⊥ Authority**. FDK (legitimacy: ownership / consent /
 > verifier) is here; AuthGate (authority: delegated machine property rights,
