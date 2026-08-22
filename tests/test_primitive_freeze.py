@@ -30,8 +30,9 @@ FROZEN_EXPORTS = {
     "InvalidConflict", "InvalidConsent", "InvalidContract", "InvalidDecisionInput",
     "InvalidEntity", "InvalidObligation", "InvalidOwnershipGraph", "InvalidResource",
     "Op", "OwnershipGraph", "Resource", "Rights", "ScoredAction", "allowed_forbidden",
-    "build_audit_context", "check_legitimacy", "has_top_tie", "needs_guidance",
-    "screen_legitimacy", "to_authority_requests",
+    "build_audit_context", "check_legitimacy", "evaluate", "evaluate_legitimacy",
+    "has_top_tie", "needs_guidance", "screen_legitimacy", "to_authority_requests",
+    "validate_artifact", "VerdictArtifact", "artifact_semantics", "EPISTEMIC_STATUS",
 }
 
 # The legitimacy predicate's signature. `_seen` is the internal cycle guard.

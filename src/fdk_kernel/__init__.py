@@ -25,6 +25,13 @@ from fdk_kernel.authgate_bridge import (
     Rights,
     to_authority_requests,
 )
+from fdk_kernel.verdict_artifact import (
+    EPISTEMIC_STATUS,
+    VerdictArtifact,
+    artifact_semantics,
+    evaluate_legitimacy,
+    validate_artifact,
+)
 from fdk_kernel.errors import (
     FDKError,
     InvalidCandidateAction,
@@ -44,7 +51,7 @@ from fdk_kernel.guidance import (
     has_top_tie,
     needs_guidance,
 )
-from fdk_kernel.kernel import allowed_forbidden, check_legitimacy, screen_legitimacy
+from fdk_kernel.kernel import allowed_forbidden, check_legitimacy, evaluate, screen_legitimacy
 from fdk_kernel.model import (
     AgentType,
     BoundaryKind,
@@ -76,8 +83,15 @@ __all__ = [
     "Decision",
     # legitimacy gate
     "check_legitimacy",
+    "evaluate",
     "screen_legitimacy",
     "allowed_forbidden",
+    # M1 verdict artifact
+    "VerdictArtifact",
+    "evaluate_legitimacy",
+    "artifact_semantics",
+    "validate_artifact",
+    "EPISTEMIC_STATUS",
     # hard-defer trigger
     "needs_guidance",
     "has_top_tie",
