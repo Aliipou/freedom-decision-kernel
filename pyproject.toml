@@ -33,7 +33,7 @@ packages = ["src/fdk_kernel", "src/fdk_research", "src/fdk_runtime"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
-addopts = "-q"
+addopts = "-q --basetemp=.pytest-basetemp"
 
 [tool.ruff]
 line-length = 100
