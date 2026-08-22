@@ -1,9 +1,8 @@
 # FDK as an Industrial Governance Engine — Honest Positioning
 
-> **Canonical ecosystem positioning:** See the root [`POSITIONING.md`](../POSITIONING.md).
-> This document remains authoritative only for **FDK project-specific** scope,
-> industrial framing, and implementation context. For ecosystem-level identity and
-> claims, the root `POSITIONING.md` takes precedence.
+> **Canonical ecosystem positioning:** [`contracts-spec/POSITIONING.md`](https://github.com/Aliipou/contracts-spec/blob/feat/composition-contract-and-adr/POSITIONING.md)
+> (local: `../contracts-spec/POSITIONING.md`). This document is authoritative only for
+> **FDK project-specific** scope and implementation context.
 
 > The philosophy verdict is in (`paper/README.md`): FDK is not a new theory of freedom.
 > This document asks the *separate, and more favourable, industrial question*: what, if

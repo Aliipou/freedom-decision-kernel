@@ -117,6 +117,8 @@ def test_presentation_fields_do_not_change_semantics():
         constitutional_basis=base.constitutional_basis,
         violations=base.violations,
         evaluation_context=base.evaluation_context,
+        accepted_inputs=base.accepted_inputs,
+        action_ref=base.action_ref,
         epistemic_status=base.epistemic_status,
     )
     assert artifact_semantics(clone) == sem
