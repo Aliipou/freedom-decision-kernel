@@ -10,20 +10,19 @@
 > PEP execute + audit. **Invariant:** legitimacy may only DENY; authority never
 > overrides a legitimacy denial.
 >
-> It records a full research cycle — *hypothesis → formal specification →
-> implementation → adversarial red-team → green-team defense* — and remains valuable
-> for the **process and the engineering**. **Independence status — REOPENED.** The
-> question of whether FDK is *independent* of Nozick / Pettit / Sen was **not
-> previously demonstrated**; a prior draft overstated this as "closed / a negative
-> result / reduces to those rivals." That is **withdrawn**. New evidence — the
-> green-team defense ([`paper/green_team/01_defend_fdk_independence.md`](paper/green_team/01_defend_fdk_independence.md)),
-> [`paper/SYMPOSIUM.md`](paper/SYMPOSIUM.md), and the
-> [`spec/frontiers/program/killer_test/`](spec/frontiers/program/killer_test) +
-> [`paper/predictive_test.md`](paper/predictive_test.md) program — **reopens** it.
-> Honest status: independence is
-> **undetermined and under active evaluation** — *not* closed, *not* proven. Start at
-> **[`ENGINEERING.md`](ENGINEERING.md)**, **[`paper/SYMPOSIUM.md`](paper/SYMPOSIUM.md)**,
-> and **[`STATUS.md`](STATUS.md)**.
+> **Constitution (book + philosopher edition):**  
+> [Aliipou/freedom-theory](https://github.com/Aliipou/freedom-theory) — books,
+> A1–A7, fair justification, and the sixteen-chapter path for philosophers of
+> AI and morals. Start at
+> [`JUSTIFICATION.md`](https://github.com/Aliipou/freedom-theory/blob/main/JUSTIFICATION.md)
+> or [`for-philosophers/`](https://github.com/Aliipou/freedom-theory/tree/main/for-philosophers).
+> FDK is the correct legitimacy kernel of that constitution. `paper/` and the
+> lock-in “H2” files are an other-agent overlay (a contest against
+> Nozick/Pettit/Sen). They are not the verdict of the theory. See
+> [`CLAUDE_CORPUS.md`](https://github.com/Aliipou/freedom-theory/blob/main/CLAUDE_CORPUS.md).
+>
+> Start at **[`ENGINEERING.md`](ENGINEERING.md)** for the artifact, and at the
+> justification above for *why* the gate exists.
 
 ## Status — 2026-08-10
 
@@ -89,14 +88,10 @@ architectural result is not a philosophical one.
 
 | Thread | Verdict |
 |---|---|
-| **FDK as a novel, independent theory of freedom / legitimacy** | **REOPENED — independence undetermined, under active evaluation.** Not previously demonstrated; a prior "closed / reduces to Nozick/Pettit/Sen" claim is **withdrawn as overstated**. New evidence (green-team defense, `paper/SYMPOSIUM.md`, `killer_test/`, `predictive_test.md`) reopens the question. Neither refuted nor proven. |
-| **Lock-in analytics** (`lockin-scan`, `fdk_research.lockin`) | **open, unproven** — *may be correct; usefulness untested*; one cheap discriminant test from a verdict |
-| **Purpose-bound information-flow control for agents** | **open, unproven** — *may be useful even if not a new idea*; pursued in the AuthGate repo |
-
-Independence here is **reopened, not closed**: new arguments and the executed
-killer/predictive-test program are live evidence. Any claim of scientific superiority
-over rivals (RLHF / Constitutional AI / OPA / NIST) remains explicitly **UNPROVEN** —
-reopening the independence question does not settle it in FDK's favor either.
+| **FDK as the book’s legitimacy gate (A1–A7)** | **This is the product.** Constitution: [freedom-theory](https://github.com/Aliipou/freedom-theory). |
+| **“Fourth liberty theory vs Nozick/Pettit/Sen”** | Wrong exam. Overlay archive in `paper/`. Not the justification. |
+| **Lock-in analytics** | Optional research. Not a replacement for the gate. |
+| **Purpose-bound IFC** | Open engineering question in AuthGate. |
 
 ## What the artifact demonstrates (the actual value)
 

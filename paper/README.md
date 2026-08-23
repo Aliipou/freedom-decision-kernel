@@ -1,13 +1,17 @@
-# FDK — the critical papers (read these before the code)
+# FDK — critical papers (overlay, not the official justification)
 
-> **One-sentence verdict.** Across these papers FDK was reduced from *"a new theory of
-> freedom, consent, and legitimacy"* to *"an empirical hypothesis about measuring
-> structural lock-in / reversibility risk"* — and even that is unproven (it must still pass
-> Stage 1 discriminant validity and Stage 2 incremental prediction against Hirschman, Arrow,
-> Pettit, and the lock-in literature). Neither victory nor defeat: a smaller, more precise
-> claim. **The project's real achievement was subtraction — the honest removal of claims
-> larger than the evidence.** Until the two empirical stages are run, the null stands: *FDK
-> is not a demonstrated independent contribution.*
+> **Not the verdict of the theory.** These papers are a later Western-liberty
+> contest (Nozick / Pettit / Sen) and a lock-in reframe. Keep them as a
+> research archive. The official justification is
+> [`freedom-theory`](https://github.com/Aliipou/freedom-theory) —
+> [`JUSTIFICATION.md`](https://github.com/Aliipou/freedom-theory/blob/main/JUSTIFICATION.md)
+> and [`for-philosophers/`](https://github.com/Aliipou/freedom-theory/tree/main/for-philosophers).
+> FDK remains the legitimacy gate for A1–A7.
+
+> **What this folder claimed.** Across these papers FDK was reduced from a
+> theory of freedom to an unproven lock-in / reversibility index. That is
+> this overlay’s conclusion. It is not the book’s, and it is not the
+> project’s justification.
 
 > If you are a hostile referee deciding whether FDK is a philosophical contribution,
 > do not start with the README, the tests, or the Lean proofs. Those establish only
