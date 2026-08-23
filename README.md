@@ -54,6 +54,12 @@ that **attacked its own thesis hard and then caught its own red-teams overclaimi
 <details>
 <summary>Original framing (the hypothesis that was tested — kept for the record)</summary>
 
+**Constitution (book + philosopher edition):**
+[Aliipou/freedom-theory](https://github.com/Aliipou/freedom-theory) —
+[`JUSTIFICATION.md`](https://github.com/Aliipou/freedom-theory/blob/main/JUSTIFICATION.md)
+and [`for-philosophers/`](https://github.com/Aliipou/freedom-theory/tree/main/for-philosophers).
+This repo is the **legitimacy gate** (`evaluate()`). It is not the book.
+
 **A Formal Legitimacy Calculus** — the legitimacy counterpart to the *utility
 calculus* (reward / preference / score) that today's AI optimization runs on.
 It answers "May this action legitimately happen?" strictly before "Does the agent
