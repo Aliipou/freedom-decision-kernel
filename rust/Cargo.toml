@@ -1,0 +1,12 @@
+[package]
+name = "fdk_kernel"
+version = "1.0.0"
+edition = "2021"
+description = "Parity port of the FROZEN FDK v1.0 legitimacy gate (Rust ≡ Python, tested not proved)."
+license = "CC-BY-4.0"
+
+[lib]
+name = "fdk_kernel"
+path = "src/lib.rs"
+
+[dependencies]
