@@ -192,8 +192,11 @@ not get to declare a paradigm — the critics and the next generation do.
 
 > **Two tracks — don't conflate them.** The paragraph above is the **research**
 > track. Separately, FDK ships a **product** track: a fail-closed *policy/consent
-> engine for AI agents* (`Planner → fdk_runtime.PolicyEngine → AuthGate → execute`)
-> that returns ALLOW / DENY / DEFER. It is **usable today for in-frame agent
+> engine for AI agents* (`Planner → fdk_runtime.PolicyEngine → AuthGate → execute`).
+> The gate is DENY-only on each candidate. If nothing is legitimate, the
+> **subject is unchanged**: do not ALLOW a lesser evil — DEFER to a human.
+> A separate opt-in policy may also DEFER an already-legitimate irreversible
+> act. It is **usable today for in-frame agent
 > actions** (competent, living, consenting principals — most SaaS / agentic /
 > enterprise tool calls) and deliberately does **not** depend on the open frontiers
 > above. See **[`PRODUCTION_READINESS.md`](PRODUCTION_READINESS.md)** and
@@ -221,18 +224,30 @@ not get to declare a paradigm — the critics and the next generation do.
 
 ```
 Goal → Planner(research) → [candidates] → fdk_kernel → fdk_research → AuthGate → Tool/IO
-                                          legitimacy   rank/necessity   authority
-                                          ALLOW/DENY/  compass          capability
-                                          DEFER
+                                          per-action    empty set /     authority
+                                          ALLOW/DENY    conflict →
+                                          (no mint)     DEFER to human
+                                                        (theory; not a
+                                                         third evaluate()
+                                                         return)
 ```
 
 The package is split to keep the trusted core uncontaminated by experiment:
 
 - **`src/fdk_kernel/`** — the **deterministic, fully-testable, non-semantic**
-  legitimacy surface. Pure functions over plain data. Returns ALLOW/DENY/DEFER
-  only. Modules: `model.py` (all value types), `kernel.py` (the gate:
-  `check_legitimacy`, `screen_legitimacy`), `errors.py` (typed `FDKError`
-  hierarchy), `audit.py` (`AuditContext`), `guidance.py` (hard-defer trigger),
+  legitimacy surface. Pure functions over plain data. On **one** candidate,
+  `evaluate` / `check_legitimacy` is two-valued (permissible or not;
+  `evaluate_legitimacy` writes ALLOW or DENY). That is the DENY-only floor:
+  the gate **cannot mint** a permission. The theory's DEFER is unchanged:
+  if the legitimate **set** is empty or a conflict of valid claims is
+  unresolved, the system must **not** pick a lesser evil — it hands back
+  (`needs_guidance`, research conflict). That is the same subject as the
+  book; it is not a third return value of `evaluate()`. Optional
+  `fdk_runtime` defer-on-a-*legitimate*-action is a product extra on top,
+  not a substitute for empty-set DEFER. Modules: `model.py` (all value
+  types), `kernel.py` (the gate: `evaluate`, `check_legitimacy`,
+  `screen_legitimacy`), `errors.py` (typed `FDKError` hierarchy),
+  `audit.py` (`AuditContext`), `guidance.py` (hard-defer trigger),
   `authgate_bridge.py` (legitimacy → authority seam, no cryptography).
 
 - **`src/fdk_research/`** — the **experimental** layer: optimization, ranking,
@@ -274,10 +289,16 @@ valid_consent ⟺ informed ∧ voluntary ∧ specific ∧ revocable
               ∧ competent ∧ ¬coerced ∧ ¬deceived
 ```
 
-The kernel returns **ALLOW / DENY / DEFER** — never a score. DEFER is the
-theory-mandated corrigible behavior when the legitimate set is empty or a
-conflict between valid claims is unresolved: the kernel hands the question back
-to the human owner rather than guessing.
+The gate on one action returns **ALLOW or DENY** (`evaluate` → `(bool,
+violations)`) — never a score, never a minted exception. **DEFER is not
+dropped.** It is the theory's rule for the *set*: empty legitimate set or
+unresolved conflict → clarify ownership, then hand back to a human. The
+system must not synthesize a lesser-evil ALLOW. That hand-back is
+`screen_legitimacy` empty + `needs_guidance` / research conflict — the
+same subject as the book. What `evaluate()` does not do is return a third
+enum; measuring it as trichotomous is measuring a comment, not the
+function. An opt-in runtime policy that DEFERS a *already-legitimate*
+irreversible act is extra confirmation, not the empty-set rule.
 
 `FreedomDelta` (the Mahdavi compass) is the *research-layer* primitive —
 optimization over the already-legitimate set. It is **categorically not** the
@@ -489,7 +510,7 @@ director's 10-phase program against the repo's actual state.
 | 5 | FreedomBench at scale (10k+ historical + 10k+ AI-governance) | PARTIAL |
 | 6 | Compare with rivals on FreedomBench ("where the science begins") | PARTIAL |
 | 7 | Formal provability — Lean/TLA+/Coq | PARTIAL |
-| 8 | Build the FDK kernel — deterministic ALLOW/DENY/DEFER | DONE |
+| 8 | Build the FDK kernel — deterministic ALLOW/DENY gate (`evaluate`); DEFER is overlay | DONE |
 | 9 | Freedom optimizer — Mahdavi compass over the legitimate set | DONE |
 | 10 | Agent civilization — millions of scenarios, FDK vs rivals | NOT-STARTED |
 

@@ -5,7 +5,7 @@
 >
 > | Track | Claim | Status |
 > |---|---|---|
-> | **Product** (this doc) | A fail-closed *legitimacy/consent policy engine* that sits between an agent planner and AuthGate and returns ALLOW / DENY / DEFER. | **Usable now for in-frame agent actions.** |
+> | **Product** (this doc) | A fail-closed *legitimacy/consent policy engine* between planner and AuthGate. Per candidate: ALLOW/DENY (`evaluate`). If the legitimate **set** is empty: DEFER to a human — **never** lesser-evil ALLOW (the book's rule). Optional extra: DEFER an already-legitimate irreversible act. | **Usable now for in-frame agent actions.** |
 > | **Philosophy** ([`spec/RESEARCH_AGENDA.md`](spec/RESEARCH_AGENDA.md)) | A new paradigm of legitimacy rivalling Rawls / Hayek / Nozick / Ostrom. | **Early-stage; "consistent but incomplete."** Four open frontiers. |
 >
 > A policy engine for SaaS / agentic / enterprise actions does **not** need the
@@ -30,8 +30,11 @@ Planner / LLM ── proposes a candidate action ──┐
    │                            └─ audit sink        (your log / SIEM, optional)
    │                                           │
    │                          ALLOW ───────────┤
-   │                          DEFER ──► human  │
    │                          DENY  ──► blocked │
+   │                          DEFER ──► human   │  empty legitimate set
+   │                                            │  (theory: no lesser evil)
+   │                                            │  or opt-in confirm on an
+   │                                            │  already-legitimate act
    ▼                                           ▼
  (execute only on ALLOW)                  AuthGate enforces (capabilities, signatures)
 ```
@@ -45,9 +48,9 @@ FDK rejects it before AuthGate is consulted.
 
 | Verdict | Meaning | Executor action |
 |---|---|---|
-| `ALLOW` | Legitimate (and authorized, if an authority oracle is wired). | Proceed. |
-| `DENY`  | Illegitimate, unauthorized, **or any error** (fail-closed). | Block. |
-| `DEFER` | Legitimate but flagged for a human (e.g. irreversible op). | Ask a human. |
+| `ALLOW` | This candidate is legitimate (and authorized, if an authority oracle is wired). | Proceed. |
+| `DENY`  | This candidate is illegitimate, unauthorized, **or any error** (fail-closed). | Block. |
+| `DEFER` | **Empty legitimate set / unresolved conflict** (theory: do not pick a lesser evil) **or** an opt-in human confirm on an already-legitimate irreversible act. Not a third return of `evaluate()` on one action. | Ask a human. |
 
 Branch only on `decision.allowed` (true **only** for `ALLOW`). Every decision is
 a serializable `PolicyDecision` (`to_dict()` / `to_json()`) carrying the verdict,

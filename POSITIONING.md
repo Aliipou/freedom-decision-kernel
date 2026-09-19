@@ -4,12 +4,13 @@
 > (local: `../contracts-spec/POSITIONING.md`). This document is authoritative only for
 > **FDK project-specific** scope and implementation context.
 
-> The philosophy verdict is in (`paper/README.md`): FDK is not a new theory of freedom.
-> This document asks the *separate, and more favourable, industrial question*: what, if
-> anything, is FDK as **software** — and it holds itself to the same brutal standard. The
-> right pitch is not "a new theory of freedom" but **"a deterministic, consent-aware
-> legitimacy layer for agent governance."** Whether that is a *product* or merely *a policy
-> pack for an existing engine* is decided by two questions, answered below.
+> **Justification:** `freedom-theory` → `JUSTIFICATION.md`. FDK is the
+> legitimacy gate for that constitution (A1–A7), not a lock-in product that
+> replaced the theory. `paper/` is an overlay archive.
+>
+> Industrial sentence: a deterministic, consent-aware **legitimacy** layer
+> before authorization. That split is the software. Lock-in scoring, if used,
+> is research — not the pitch.
 
 ## 1. What was actually built (the architecture is real)
 

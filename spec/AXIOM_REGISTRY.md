@@ -150,7 +150,7 @@ them by name.
 - **Verbatim** (THEORY.md:157–165; book:38226–38245): *"Contradiction is not an engine of truth. Contradiction is a signal for guided clarification. if_conflict_then_clarify_ownership(C) :- conflict(C), unclear_ownership(C). if_conflict_then_request_guidance(C) :- conflict(C), ownership_clarification_insufficient(C)."*
 - **Plain language**: When no legitimate option exists, do not pick a lesser evil — defer to a human for guidance.
 - **Enforced by**: the `Decision.needs_guidance` / `guidance_reason` signal (`model.py:210–211`), produced by the research orchestrator and demonstrated at `bench:334–345` (lifeboat triage → DEFER). The kernel's own contribution is to return an *empty legitimate set* (`screen_legitimacy`, `kernel.py:134–156`) rather than a forced choice.
-- **Status**: PARTIAL (the DEFER signal exists at the decision layer; the kernel itself only supplies the empty-legitimate-set precondition).
+- **Status**: PARTIAL (the DEFER signal exists at the decision/runtime layer; the kernel itself only supplies the empty-legitimate-set / DENY precondition — `evaluate()` has no DEFER verdict).
 
 ### C7 — Guidance / self-update validity
 - **Verbatim** (THEORY.md:182–205; book:38176–38221): `valid_human_guidance`, `invalid_human_guidance`, `valid_self_update`.

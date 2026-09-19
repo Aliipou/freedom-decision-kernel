@@ -1,5 +1,9 @@
 # Symposium — the red team vs the green team, adjudicated (the dialectic of the whole arc)
 
+> **Overlay, not the official justification.** This file proceeds by thesis →
+> antithesis → synthesis. The book rejects dialectic as a method. Official
+> justification: `freedom-theory` → `JUSTIFICATION.md`.
+
 > The project was built by attack (red team: 12 critical papers, the lock-in experiment, three
 > AuthGate kill-tests). It was then **defended** by a green team (4 agents, `paper/green_team/`,
 > `GREEN_TEAM_authgate.md`) whose only job was to *overturn* each kill and so detect **premature
