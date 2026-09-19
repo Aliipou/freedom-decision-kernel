@@ -22,8 +22,33 @@ and **proves** the safety theorems of that model with `simp` / `decide`:
 | `some_action_is_legitimate` | non-vacuity: a consenting, flag-free action is legitimate |
 | `proportionate_defense_is_legitimate` | proportionate self-defense IS legitimate (the asymmetry does real work) |
 
+### Structured ownership + consent model (de-abstracting the consent boolean)
+
+The eight theorems above run over a model that collapses the whole consent/ownership
+path into a single `validConsent` boolean — the exact part the formal-methods critique
+says is hidden. `Fdk.lean` now also carries a **structured** model: a finite ownership
+`Graph` (`humanOwns` / `machineOwner` / `delegated`), explicit `uses` / `affects` /
+`consents` lists, and a `legitimateFull` predicate that mirrors the TLA+ `Legitimate`
+(`spec/fdk.tla`) — `HasOwner` (A4) + `ResourceAuthorized` (A3/A7, owner-bound) +
+`HasValidConsent` (A2/A6, consent on every affected human except the excused aggressor)
++ effective-forbidden-empty. The consent/ownership obligations are proved *directly*,
+reaching inside the boolean the original model abstracted away:
+
+| Theorem | Statement |
+|---|---|
+| `no_action_on_nonconsenting_person` (TF1) | an affected human (not the excused aggressor) with no valid consent on record ⇒ not `legitimateFull` (the de-abstracted T2) |
+| `unowned_resource_use_denied` (TF2) | a human using a resource it does not own ⇒ not `legitimateFull` |
+| `machine_undelegated_denied` (TF3) | a machine using an *undelegated* resource ⇒ not `legitimateFull` (owner-bound A3/A7) |
+| `welfare_independence_full` (TF6) | equal structural inputs (graph, actor, uses, affects, consents, aggressor, core flags) ⇒ identical `legitimateFull` verdict |
+| `consenting_owner_action_is_legitimate` | non-vacuity: a consenting owner using its own resource IS `legitimateFull` |
+| `machine_undelegated_denied_concrete` | a `decide`-checked instance of TF3 on a concrete graph |
+
+This closes part of the "the Lean model abstracts consent into one boolean" objection:
+the consent and ownership structure is now explicit, and the denials are proved over it.
+
 No `sorry`, no `axiom`, no mathlib — pure Lean 4 core, so `lake build` is fast and the
-proofs are fully checked by the Lean kernel.
+proofs are fully checked by the Lean kernel (`#print axioms` shows only the standard
+`propext` / `Classical.choice` / `Quot.sound`, and the `decide` theorems depend on none).
 
 ## Honest scope (what this does and does NOT establish)
 
