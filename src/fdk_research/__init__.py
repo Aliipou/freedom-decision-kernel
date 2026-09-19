@@ -21,6 +21,14 @@ from fdk_research.aggregation import (
     gap_forms,
     representable_forms,
 )
+from fdk_research.ai_governance import (
+    AgentFacts,
+    AgentStatus,
+    GovernanceAssessment,
+    assess_agent_governance,
+    gap_statuses,
+    representable_statuses,
+)
 from fdk_research.benchmark import (
     BenchmarkReport,
     ProblemClass,
@@ -213,6 +221,13 @@ __all__ = [
     "assess_aggregation",
     "representable_forms",
     "gap_forms",
+    # AI governance / non-human agents (advisory; FDK 2.0 Layer 8) — never a verdict
+    "AgentStatus",
+    "AgentFacts",
+    "GovernanceAssessment",
+    "assess_agent_governance",
+    "representable_statuses",
+    "gap_statuses",
     # compass measurement (advisory)
     "dependency_index",
     "exit_options",
